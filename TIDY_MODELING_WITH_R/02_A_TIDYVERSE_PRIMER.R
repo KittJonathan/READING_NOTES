@@ -50,3 +50,43 @@ compute_log_ratio <- function(mpg, wt, log_base = exp(1)) {
 }
 
 purrr::map(head(mtcars$mpg, 3), sqrt)
+
+purrr::map_dbl(head(mtcars$mpg, 3), sqrt)
+
+log_ratios <- purrr::map2_dbl(mtcars$mpg, mtcars$wt, compute_log_ratio)
+head(log_ratios)
+
+# 2.2 EXAMPLES OF TIDYVERSE SYNTAX ----------------------------------------
+
+data.frame(`variable 1` = 1:2, two = 3:4)
+
+df <- data.frame(`variable 1` = 1:2,
+                 two = 3:4,
+                 check.names = FALSE)
+df
+
+tbbl <- tibble::tibble(`variable 1` = 1:2,
+               two = 3:4)
+tbbl
+
+df$tw
+tbbl$tw
+
+df[, "two"]
+tbbl[, "two"]
+
+url <- "https://data.cityofchicago.org/api/views/5neh-572f/rows.csv?accessType=DOWNLOAD&bom=true&format=true"
+
+all_stations <- 
+  # Step 1: Read in the data
+  readr::read_csv(url) |> 
+  # Step 2: filter columns and rename stationname
+  dplyr::select(station = stationname, date, rides) |> 
+  # Step 3: convert the character date field to a date encoding,
+  # and put the data in units of 1K rides
+  dplyr::mutate(date = lubridate::mdy(date),
+                rides = rides / 1000) |> 
+  # Step 4: summarize the multiple records using the maximum
+  dplyr::group_by(station) |> 
+  dplyr::summarise(rides = max(rides),
+                   .groups = "drop")
