@@ -1,0 +1,6 @@
+# TIDY MODELING WITH R
+# MODELING BASICS
+# 4. THE AMES HOUSING DATA
+# https://www.tmwr.org/ames
+# 2024-05-06
+
