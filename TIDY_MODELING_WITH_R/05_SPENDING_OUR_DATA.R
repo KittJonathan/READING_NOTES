@@ -10,27 +10,54 @@ library(modeldata)
 library(tidymodels)
 tidymodels_prefer()
 
-# 4.1 EXPLORING FEATURES OF HOMES IN AMES ---------------------------------
+# 5.1 COMMON METHODS FOR SPLITTING DATA -----------------------------------
 
 data(ames)
-dim(ames)
+ames <- ames |> mutate(Sale_Price = log10(Sale_Price))
 
-ggplot(ames, aes(x = Sale_Price)) +
-  geom_histogram(bins = 50, col = "white")
+# Set the random number stream using `set.seed()` so that the 
+# results can be reproduced later.
+set.seed(501)
 
-ggplot(ames, aes(x = Sale_Price)) +
-  geom_histogram(bins = 50, col = "white") +
-  scale_x_log10()
+# Save the split information for a 80/20 split of the data
+ames_split <- initial_split(ames, prop = 0.80)
+ames_split
 
-ames <- ames |> 
-  mutate(Sale_Price = log10(Sale_Price))
+ames_train <- training(ames_split)
+ames_test <- testing(ames_split)
 
-ggplot(ames, aes(x = Longitude, y = Latitude)) +
-  geom_point(aes(col = Neighborhood)) +
-  theme(legend.position = "bottom")
+dim(ames_train)
+dim(ames_test)
 
-# 4.2 CHAPTER SUMMARY -----------------------------------------------------
+# Stratified sampling
+set.seed(502)
+ames_split <- initial_split(ames, prop = 0.80, strata = Sale_Price)
+ames_train <- training(ames_split)
+ames_test <- testing(ames_split)
+
+dim(ames_train)
+
+# 5.2 WHAT ABOUT A VALIDATION SET? ----------------------------------------
+
+set.seed(52)
+
+# To put 60% into training, 20% in validation, and 20% in testing:
+
+ames_val_split <- initial_validation_split(ames, prop = c(0.6, 0.2))
+
+ames_val_split
+
+ames_train <- training(ames_val_split)
+ames_test <- testing(ames_val_split)
+ames_val <- validation(ames_val_split)
+
+# 5.5 CHAPTER SUMMARY -----------------------------------------------------
 
 library(tidymodels)
 data(ames)
 ames <- ames |> mutate(Sale_Price = log10(Sale_Price))
+
+set.seed(502)
+ames_split <- initial_split(ames, prop = 0.80, strata = Sale_Price)
+ames_train <- training(ames_split)
+ames_test  <-  testing(ames_split)
