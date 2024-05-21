@@ -75,3 +75,40 @@ lm(rank(mydata_wide$y) ~ 1 + rank(mydata_wide$x)) |>
 # ONE MEAN ----------------------------------------------------------------
 
 # https://steverxd.github.io/Stat_tests/one-mean.html
+
+t.test(mydata_wide$y, mu = 0, alternative = "two.sided")
+
+lm_fit <- lm(mydata_wide$y ~ 1)
+
+lm_fit |> 
+  summary() |> 
+  print(digits = 5)
+confint(lm_fit)
+
+# Testing a null hypothesis other than zero
+t.test(mydata_wide$y, mu = 0.1, alternative = "two.sided")
+lm((mydata_wide$y - 0.1) ~ 1) |> 
+  summary() |> 
+  print(digits = 5)
+
+# Wilcoxon signed-rank
+wilcox.test(mydata_wide$y)
+lm(signed_rank(mydata_wide$y) ~ 1) |> 
+  summary() |> 
+  print(digits = 8)
+
+# PAIRED SAMPLES
+t.test(mydata_wide$y2, mydata_wide$y, paired = TRUE, mu = 0, alternative = "two.sided")
+lm2 <- lm((mydata_wide$y2 - mydata_wide$y) ~ 1)
+lm2 |> 
+  summary() |> 
+  print(digits = 8)
+confint(lm2)
+
+# Wilcoxon matched pairs
+wilcox.test(mydata_wide$y2, mydata_wide$y, paired = TRUE, mu = 0, alternative = "two.sided")
+lm3 <- lm(signed_rank(mydata_wide$y2 - mydata_wide$y) ~ 1)
+lm3 |> summary() |> print(digits = 8)
+t.test(signed_rank(mydata_wide$y2 - mydata_wide$y), mu = 0, alternative = "two.sided")
+
+# TWO MEANS (INDEPENDENT SAMPLES) -----------------------------------------
