@@ -58,3 +58,17 @@ df |>
   arrange(GRE) |> 
   mutate(f_cumul = cumsum(f),
          f_cumul_pct = round(100 * f_cumul / max(f_cumul)))
+
+# PROGRESS CHECK 2.8
+
+ratings <- tibble(rating = c("PG", "G", "R", "NC-17", "PG", "PG-13", "PG", "NC-17",
+                             "PG", "R", "R", "PG", "PG-13", "PG", "PG","G",
+                             "G", "PG", "R", "PG-13"))
+
+ratings |> 
+  summarise(n = n(), .by = rating) |> 
+  mutate(rating = fct(rating, levels = c("NC-17", "R", "PG-13", "PG", "G"))) |> 
+  arrange(rating) |> 
+  mutate(rel_freq_pct = 100 * n / sum(n)) |> 
+  arrange(rev(rating)) |> 
+  mutate(cumul_f = cumsum(rel_freq_pct))
