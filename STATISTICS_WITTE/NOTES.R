@@ -143,3 +143,194 @@ df |>
 df
 
 # REVIEW QUESTION 2.16
+
+meditators <- c(3.25, 3.56, 3.57, 2.95, 3.56, 3.45, 3.10, 2.58, 3.30,
+                2.25, 3.33, 2.45, 3.30, 3.78, 3.00, 2.75, 2.95, 3.43,
+                2.75, 2.25, 3.75, 3.56, 3.75, 3.35, 3.09, 3.56, 3.47)
+
+non_meditators <- c(3.67, 2.50, 3.50, 2.80, 2.83, 3.25, 2.90, 2.34, 3.59,
+                    3.79, 2.75, 2.67, 2.65, 3.10, 2.76, 2.10, 3.20, 3.00,
+                    3.00, 1.90, 2.90, 2.58, 3.37, 2.86, 2.66, 2.37, 3.08)
+summary(meditators)
+summary(non_meditators)
+
+boundaries_low <- seq(1.75, 3.75, 0.25)
+boundaries_high <- seq(2, 4, 0.25)
+
+paste(boundaries_low, boundaries_high, sep = "-")
+
+freq_med <- data.frame(
+  table(
+    cut(x = meditators,
+        breaks = seq(1.75, 4, 0.25),
+        labels = paste(boundaries_low, boundaries_high, sep = "-"),
+        right = FALSE))) |> 
+  tibble() |> 
+  select(class = Var1, freq_med = Freq)
+
+freq_nonmed <- data.frame(
+  table(
+    cut(x = non_meditators,
+        breaks = seq(1.75, 4, 0.25),
+        labels = paste(boundaries_low, boundaries_high, sep = "-"),
+        right = FALSE))) |> 
+  tibble() |> 
+  select(class = Var1, freq_nonmed = Freq)
+
+freq_tbl <- left_join(freq_med, freq_nonmed)
+
+
+freq_tbl
+
+non_meditators[non_meditators < 2]
+
+ggplot(freq_tbl) +
+  geom_col(aes(x = class, y = freq_med),
+           col = "lightblue", fill = "lightblue", alpha = 0.5,
+           width = 1) +
+  geom_col(aes(x = class, y = freq_nonmed),
+           col = "lightgreen", fill = "lightgreen", alpha = 0.5,
+           width = 1)
+
+# REVIEW QUESTION 2.17
+
+ages_low <- seq(65, 0, -5)
+ages_high <- c("above", seq(64, 4, -5))
+
+df <- tibble(
+  AGE = paste(ages_low, ages_high, sep = "-"),
+  SMALL_TOWN_F = c(105, 53, 45, 40, 44, 38, 31, 27, 25, 20, 20, 19, 17, 16),
+  US_POP_PCT = c(13, 5, 6, 7, 7, 7, 7, 6, 7, 7, 7, 7, 7, 7)
+)
+
+df |> 
+  mutate(SMALL_TOWN_PCT = 100 * SMALL_TOWN_F / sum(SMALL_TOWN_F)) |> 
+  rowid_to_column() |> 
+  ggplot() +
+  geom_line(aes(x = rowid, y = SMALL_TOWN_PCT), col = "red", linewidth = 1) +
+  geom_line(aes(x = rowid, y = US_POP_PCT), col = "blue", linewidth = 1)
+
+# REVIEW QUESTION 2.18
+
+df <- tibble(
+  FIELD = c("Business", "Social sciences", "Education", "Health sciences", "Psychology",
+            "Engineering", "Life sciences", "Fine arts",
+            "Communications", "Computer sciences", "English"),
+  MALES = c(190, 90.6, 21.8, 24.9, 25.4, 81.3, 39.5, 37.2, 33.5, 39.8, 17),
+  FEMALES = c(176.7, 87.9, 84, 138.6, 83.6, 17.3, 56.3, 58.6, 55.2, 8.6, 36.8)
+)
+
+df |> 
+  mutate(M_PCT = 100 * MALES / sum(MALES),
+         F_PCT = 100 * FEMALES / sum(FEMALES)) |> 
+  select(FIELD, M_PCT, F_PCT) |> 
+  pivot_longer(cols = -FIELD, names_to = "SEX", values_to = "PCT") |> 
+  mutate(SEX = case_when(SEX == "M_PCT" ~ "MALE",
+                         .default = "FEMALE")) |> 
+  ggplot() +
+  geom_col(aes(x = FIELD, y = PCT, fill = SEX), position = "dodge")
+
+# DESCRIBING DATA WITH AVERAGES -------------------------------------------
+
+# PROGRESS CHECK 3.1
+ages <- c(60, 63, 45, 63, 65, 70, 55, 63, 60, 65, 63)
+names(sort(-table(ages)))[1]
+
+# PROGRESS CHECK 3.2
+mpg <- c(26.3, 28.7, 27.4, 26.6, 27.4, 26.9)
+names(sort(-table(mpg)))[1]
+
+# PROGRESS CHECK 3.3
+ages <- c(60, 63, 45, 63, 65, 70, 55, 63, 60, 63, 65)
+ages_sorted <- sort(ages)
+val <- (length(ages_sorted) + 1) / 2
+ages_sorted[val]
+median(ages)
+
+# PROGRESS CHECK 3.4
+miles <- c(26.3, 28.7, 27.4, 26.6, 27.4, 26.9)
+miles_sorted <- sort(miles)
+val <- (length(miles_sorted) + 1) / 2
+miles_median <- (miles_sorted[floor(val)] + miles_sorted[ceiling(val)]) / 2
+median(miles)
+
+# PROGRESS CHECK 3.5
+ages <- c(60, 63, 45, 63, 65, 70, 55, 63, 60, 63, 65)
+sum(ages) / length(ages)
+mean(ages)
+
+# PROGRESS CHECK 3.6
+miles <- c(26.3, 28.7, 27.4, 26.6, 27.4, 26.9)
+sum(miles) / length(miles)
+mean(miles)
+
+# PROGRESS CHECK 3.8
+locations <- c("DB", "C", "O", "DB", "DB", "SP", "SP", "C",
+               "C", "LH", "C", "DB", "LH", "DB", "DB", "O",
+               "DB", "O", "LH", "DB")
+names(sort(-table(locations)))[1]
+table(locations)
+
+# REVIEW QUESTION 3.9
+scores <- c(1, 3, 4, 1, 0, 2, 5, 8, 0, 2, 3, 4, 7, 11, 0, 2, 3, 3)
+table(scores)
+names(sort(-table(scores)))[1]  # 3
+
+scores_sorted <- sort(scores)
+val <- (length(scores_sorted) + 1) / 2
+
+scores_median <- (scores_sorted[floor(val)] + scores_sorted[ceiling(val)]) / 2  # 3
+median(scores)
+
+scores_mean <- sum(scores) / length(scores)  # 3.278
+mean(scores)
+
+# REVIEW QUESTION 3.10
+errors <- c(2, 17, 5, 3, 28, 7, 5, 8, 5, 6, 2, 12, 10, 4, 3)
+
+names(sort(table(errors), decreasing = TRUE)[1])  # mode = 5
+
+errors_sorted <- sort(errors)
+val <- (length(errors) + 1) / 2
+errors_sorted[8]  # median = 5
+median(errors)
+
+sum(errors) / length(errors)  # mean = 7.8
+mean(errors)
+
+# REVIEW QUESTION 3.11
+mean(c(5, 5, 15))
+median(c(5, 5, 15))  # median
+
+mean(c(5, 10, 10))  # mean
+median(c(5, 10, 10))
+
+mean(c(3, 3, 10))
+median(c(3, 3, 10))  # median
+
+mean(c(1, 6, 11))  # mean or median
+median(c(1, 6, 11))
+
+# REVIEW QUESTION 3.14
+scores <- c(3, 6, 2, 0, 4)
+sum(scores - mean(scores))
+
+sum(scores - 5)
+
+# REVIEW QUESTION 3.15
+ratings <- tibble(rating = c("PG", "G", "R", "NC-17", "PG", "PG-13", "PG", "NC-17",
+                             "PG", "R", "R", "PG", "PG-13", "PG", "PG","G",
+                             "G", "PG", "R", "PG-13"))
+
+ratings |> 
+  summarise(n = n(), .by = rating) |> 
+  mutate(rating = fct(rating, levels = c("NC-17", "R", "PG-13", "PG", "G"))) |> 
+  mutate(pct = n / sum(n),
+         cumul_n = cumsum(n),
+         cumul_pct = cumsum(100 * cumul_n / sum(cumul_n)))
+
+# REVIEW QUESTION 3.18
+
+mean(c(1, 2, 10, 7))
+mean(c(2, 4, 1, 5, 7, 7, 9))
+mean(c(6, 9, 2, 7, 1, 2, 8))
