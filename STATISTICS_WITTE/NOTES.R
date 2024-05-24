@@ -72,3 +72,74 @@ ratings |>
   mutate(rel_freq_pct = 100 * n / sum(n)) |> 
   arrange(rev(rating)) |> 
   mutate(cumul_f = cumsum(rel_freq_pct))
+
+# PROGRESS CHECK 2.9
+
+df <- tibble(
+  INCOME = paste(seq(130000, 0, -10000),
+                 seq(139999, 9999, -10000), sep = "-"),
+  f = c(1, 0, 1, 3, 1, 5, 7, 10, 14, 23, 17, 10, 8, 3))
+
+df |> 
+  separate(col = INCOME, into = c("START", "END"), sep = "-") |> 
+  mutate(START = as.numeric(START),
+         END = as.numeric(END)) |> 
+  ggplot() +
+  geom_rect(aes(xmin = START, xmax = END, ymin = 0, ymax = f),
+            fill = "lightgrey", col = "darkgrey") +
+  geom_point(aes(x = START + (END - START) / 2, y = f)) +
+  geom_line(aes(x = START + (END - START) / 2, y = f))
+
+# PROGRESS CHECK 2.10
+
+scores <- c(120, 126, 108, 102, 98, 85, 141, 132, 118, 88, 123, 109,
+            117, 124, 137, 106, 99, 104, 78, 143, 111, 113, 96)
+
+stem(scores, scale = 2)
+
+# PROGRESS CHECK 2.12
+
+pop <- tibble(
+  Ethnicity = c("African American", "Asian American", "Hispanic", "White"),
+  f = c(37.7, 17.2, 50.5, 196.8)
+)
+
+ggplot(pop) +
+  geom_col(aes(x = Ethnicity, y = f))
+
+# REVIEW QUESTION 2.14
+nb_res <- c(1, 4, 2, 3, 3, 1, 6, 7, 4, 3, 3, 9, 2, 4, 2, 2, 3, 2, 3, 4,
+            4, 2, 3, 3, 5)
+data.frame(table(nb_res))
+
+# REVIEW QUESTION 2.15
+friends <- c(rep("400 - above", 2),
+             rep("350 - 359", 5),
+             rep("300 - 349", 12),
+             rep("250 - 299", 17),
+             rep("200 - 249", 23),
+             rep("150 - 199", 49),
+             rep("100 - 149", 27),
+             rep("50 - 99", 29),
+             rep("0 - 49", 36))
+
+friends <- fct_rev(fct_inorder(friends))
+
+df <- data.frame(table(friends))
+
+df |> 
+  ggplot(aes(x = friends, y = Freq)) +
+  geom_point()
+
+df |> 
+  mutate(RelFreq = Freq / sum(Freq),
+         RelFreqPct = 100 * RelFreq,
+         RelFreqPctCumul = cumsum(RelFreqPct))
+
+df |> 
+  ggplot(aes(x = friends, y = Freq)) +
+  geom_col(width = 1)
+
+df
+
+# REVIEW QUESTION 2.16
