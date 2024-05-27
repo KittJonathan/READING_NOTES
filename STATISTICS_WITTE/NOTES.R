@@ -1,6 +1,6 @@
 # STATISTICS
 # WITTE
-# 2024-05-22
+# 2024-05-27
 
 # PACKAGES ----------------------------------------------------------------
 
@@ -334,3 +334,97 @@ ratings |>
 mean(c(1, 2, 10, 7))
 mean(c(2, 4, 1, 5, 7, 7, 9))
 mean(c(6, 9, 2, 7, 1, 2, 8))
+
+# DESCRIBING VARIABILITY --------------------------------------------------
+
+# PROGRESS CHECK 4.4
+scores <- c(1, 3, 4, 4)
+n <- length(scores)
+sum_scores <- sum(scores)
+mean_scores <- sum(scores) / n
+score_to_mean <- scores - mean_scores
+scores_to_mean_sq <- score_to_mean ^ 2
+scores_to_mean_sq_sum <- sum(scores_to_mean_sq)
+var_scores <- scores_to_mean_sq_sum / (n-1)
+sd_scores <- sqrt(var_scores)
+
+# PROGRESS CHECK 4.5.a
+scores <- c(1, 3, 7, 2, 0, 4, 7, 3)
+scores_n <- length(scores)
+scores_sum <- sum(scores)
+scores_sum_sq <- scores_sum^2
+scores_sq_sum <- sum(scores^2)
+sum_of_squares <- scores_sq_sum - scores_sum_sq / scores_n
+scores_var <- sum_of_squares / scores_n
+scores_sd <- sqrt(scores_var)
+
+# PROGRESS CHECK 4.5.b
+scores <- c(10, 8, 5, 0, 1, 1, 7, 9, 2)
+scores_n <- length(scores)
+scores_sum <- sum(scores)
+scores_sum_sq <- scores_sum^2
+scores_sq_sum <- sum(scores^2)
+sum_of_squares <- scores_sq_sum - scores_sum_sq / (scores_n)
+scores_var <- sum_of_squares / (scores_n - 1)
+scores_sd <- sqrt(scores_var)
+
+# PROGRESS CHECK 4.6
+scores <- c(8, 5, 7, 1, 4, 0, 5, 7, 2, 9)
+n <- length(scores)
+sum_scores <- sum(scores)
+mean_scores <- sum(scores) / n
+score_to_mean <- scores - mean_scores
+scores_to_mean_sq <- score_to_mean ^ 2
+scores_to_mean_sq_sum <- sum(scores_to_mean_sq)
+var_scores <- scores_to_mean_sq_sum / (n-1)
+sd_scores <- sqrt(var_scores)
+
+# PROGRESS CHECK 4.8.a
+ages <- c(60, 63, 45, 63, 65, 70, 55, 63, 60, 65, 63)
+ages_sorted <- sort(ages)
+value <- (length(ages_sorted) + 1) / 4
+Q3 <- rev(ages_sorted)[value]
+Q1 <- ages_sorted[value]
+IQR <- Q3 - Q1
+IQR(ages, type = 1)
+
+# PROGRESS CHECK 4.8.b
+changes <- c(1, 3, 4, 1, 0, 2, 5, 8, 0, 2, 3, 4, 7, 11, 0, 2, 3, 4)
+changes_sorted <- sort(changes)
+value <- (length(changes_sorted) + 1) / 4  # 4.75 -> 5
+Q3 <- rev(changes_sorted)[5]
+Q1 <- changes_sorted[5]
+IQR <- Q3 - Q1
+IQR(changes, type = 1)
+
+# REVIEW QUESTION 4.14.a
+weights <- c(160, 193, 226, 157, 180, 205, 165, 168, 169, 160, 163, 172, 151, 157,
+             133, 245, 170, 152, 160, 220, 190, 170, 160, 180, 158, 170, 166, 206,
+             150, 152, 150, 225, 145, 152, 172, 165, 190, 156, 135, 185, 159, 175,
+             158, 179, 190, 165, 152, 156, 154, 165, 157, 156, 135)
+
+weights_n <- length(weights)
+weights_sum <- sum(weights)
+weights_mean <- weights_sum / weights_n
+sum_sq <- sum((weights - weights_mean)^2)
+weights_var <- sum_sq / (weights_n - 1)
+weights_sd <- sqrt(weights_var)
+weights_sd == sd(weights)
+
+# REVIEW QUESTION 4.14.b
+tibble(weight = weights) |> 
+  filter(weight >= weights_mean - weights_sd &  weight <= weights_mean + weights_sd) |> 
+  count() |> 
+  mutate(pct = 100 * n / 53)
+  
+169.51 - 23.33
+169.51 + 23.33
+
+tibble(weight = weights) |> 
+  filter(weight <= weights_mean - 2*weights_sd | weight >= weights_mean + 2*weights_sd) |> 
+  count() |> 
+  mutate(pct = 100 * n / 53)
+
+# NORMAL DISTRIBUTIONS AND STANDARD (Z) SCORES ----------------------------
+
+
