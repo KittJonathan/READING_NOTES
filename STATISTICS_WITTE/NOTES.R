@@ -427,4 +427,132 @@ tibble(weight = weights) |>
 
 # NORMAL DISTRIBUTIONS AND STANDARD (Z) SCORES ----------------------------
 
+# PROGRESS CHECK 5.1
+(135-100)/15
+(470-500)/100
+(2100-2180)/50
+(69-69)/3
+(-3-0)/2
+
+# PROGRESS CHECK 5.2
+1-pnorm(1.80) 
+# 0.5-pnorm(-0.43)
+pnorm(0.43)-0.5
+1-pnorm(3)
+pnorm(1.65)-0.5
+# 0.5-pnorm(-1.96)
+pnorm(1.96)-0.5
+
+# PROGRESS CHECK 5.3
+pnorm(400, mean = 500, sd = 100)
+1-pnorm(650, mean = 500, sd = 100)
+pnorm(700, mean = 500, sd = 100)
+
+# PROGRESS CHECK 5.5
+1 - pnorm(570, mean = 500, sd = 100)
+pnorm(515, mean = 500, sd = 100)
+pnorm(540, mean = 500, sd = 100) - pnorm(520, mean = 500, sd = 100)
+pnorm(520, mean = 500, sd = 100) - pnorm(470, mean = 500, sd = 100)
+1 - pnorm(550, mean = 500, sd = 100)
+pnorm(400, mean = 500, sd = 100) + (1 - pnorm(600, mean = 500, sd = 100))
+pnorm(550, mean = 500, sd = 100) - pnorm(450, mean = 500, sd = 100)
+
+# PROGRESS CHECK 5.6
+qnorm(p = 0.01, mean = 1200, sd = 120)
+qnorm(p = 0.5, mean = 1200, sd = 120)
+qnorm(p = 0.95, mean = 1200, sd = 120)
+qnorm(p = 0.08, mean = 1200, sd = 120)
+
+# PROGRESS CHECK 5.7
+(53-50)/9
+(38-40)/10
+(45-30)/20
+(28-20)/20
+
+# PROGRESS CHECK 5.8
+(64-50)/9
+(64-40)/10
+(64-30)/20
+(64-20)/20
+
+# PROGRESS CHECK 5.9.a
+z <- (24-20)/5
+50 + 10*z
+100 + 15*z
+500 + 100*z
+
+# PROGRESS CHECK 5.9.b
+z <- (37-42)/3
+50 + 10*z
+100 + 15*z
+500 + 100*z
+
+# REVIEW QUESTION 5.11
+1 - pnorm(q = 125, mean = 100, sd = 15)
+pnorm(q = 82, mean = 100, sd = 15)
+pnorm(q = 109, mean = 100, sd = 15) - pnorm(q = 91, mean = 100, sd = 15)
+pnorm(q = 60, mean = 100, sd = 15) + (1 - pnorm(q = 140, mean = 100, sd = 15))
+
+# REVIEW QUESTION 5.12
+pnorm(q = 960, mean = 1200, sd = 120)
+1 - pnorm(q = 1500, mean = 1200, sd = 120)
+pnorm(q = 1250, mean = 1200, sd = 120) - pnorm(q = 1150, mean = 1200, sd = 120)
+pnorm(q = 1400, mean = 1200, sd = 120) - pnorm(q = 1300, mean = 1200, sd = 120)
+
+# REVIEW QUESTION 5.13
+qnorm(p = 0.98, mean = 100, sd = 15)
+qnorm(p = 0.10, mean = 100, sd = 15)
+qnorm(p = 0.60, mean = 100, sd = 15)
+c(qnorm(p = 0.025, mean = 100, sd = 15), qnorm(p = 0.975, mean = 100, sd = 15))
+c(qnorm(p = 0.005, mean = 100, sd = 15), qnorm(p = 0.995, mean = 100, sd = 15))
+
+# REVIEW QUESTION 5.14
+qnorm(p = 0.5, mean = 1200, sd = 120)
+qnorm(p = 0.25, mean = 1200, sd = 120)
+qnorm(p = 0.01, mean = 1200, sd = 120)
+c(qnorm(p = 0.05, mean = 1200, sd = 120), qnorm(p = 0.95, mean = 1200, sd = 120))
+
+# REVIEW QUESTION 5.15
+qnorm(p = 0.05, mean = 83, sd = 20)
+1 - pnorm(q = 48, mean = 83, sd = 20)
+pnorm(q = 61, mean = 83, sd = 20)
+c(qnorm(p = 0.01, mean = 83, sd = 20), qnorm(p = 0.99, mean = 83, sd = 20))
+pnorm(q = 72, mean = 83, sd = 20) - pnorm(q = 24, mean = 83, sd = 20)
+c(qnorm(p = 0.025, mean = 83, sd = 20), qnorm(p = 0.975, mean = 83, sd = 20))
+pnorm(q = 96, mean = 83, sd = 20) - pnorm(q = 48, mean = 83, sd = 20)
+qnorm(p = 0.8, mean = 83, sd = 20)
+c(qnorm(p = 0.03, mean = 83, sd = 20), qnorm(p = 0.97, mean = 83, sd = 20))
+1 - pnorm(q = 61, mean = 83, sd = 20)
+
+# REVIEW QUESTION 5.16
+1 - pnorm(q = 3.5, mean = 3.20, sd = 0.30)
+pnorm(q = 2.5, mean = 3.20, sd = 0.30)
+1 - pnorm(q = 3.75, mean = 3.20, sd = 0.30)
+qnorm(p = 0.9, mean = 3.2, sd = 0.3)
+
+# REVIEW QUESTION 5.17.a
+z <- (34-41)/5
+50 + 10*z
+100 + 15*z
+500 + 100*z
+
+# REVIEW QUESTION 5.17.b
+z <- (880-700)/120
+50 + 10*z
+100 + 15*z
+500 + 100*z
+
+# REVIEW QUESTION 5.17.c
+z <- (-3-12)/10
+50 + 10*z
+100 + 15*z
+500 + 100*z
+
+# REVIEW QUESTION 5.18
+# a. mean exceeds median
+(25-28)/4
+(30-28)/4
+
+# 6. DESCRIBING RELATIONSHIPS : CORRELATION -------------------------------
+
 
