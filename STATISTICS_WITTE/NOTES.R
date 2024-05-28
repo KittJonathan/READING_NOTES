@@ -555,4 +555,12 @@ z <- (-3-12)/10
 
 # 6. DESCRIBING RELATIONSHIPS : CORRELATION -------------------------------
 
+cards <- tibble(
+  name = c("Doris", "Steve", "Mike", "Andrea", "John"),
+  sent = c(13, 9, 7, 5, 1),
+  received = c(14, 18, 12, 10, 6)
+  )
+
+ggplot(cards) +
+  geom_point(aes(x = sent, y = received))
 
