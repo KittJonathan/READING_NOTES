@@ -615,4 +615,26 @@ cor(df$X, df$Y)
 
 # 7. REGRESSION -----------------------------------------------------------
 
+cards <- tibble(
+  name = c("Doris", "Steve", "Mike", "Andrea", "John"),
+  sent = c(13, 9, 7, 5, 1),
+  received = c(14, 18, 12, 10, 6)
+  )
 
+slope <- (cor(cards$sent, cards$received)) * sqrt(rMR::sumsq(cards$received) / rMR::sumsq(cards$sent))
+intercept <- mean(cards$received) - slope * mean(cards$sent)
+fit <- lm(received ~ sent, data = cards)
+test <- data.frame(sent = c(0, 4, 8, 10, 12, 20, 30))
+predict(fit, newdata = cards$sent)
+
+summary(fit)
+
+StErrEst <- sqrt((rMR::sumsq(cards$received) * (1 - 0.8^2)) / 3)
+
+# PROGRESS CHECK 7.3
+df <- tibble(
+  X = c(0, 4, 8, 10, 12, 20, 30),
+  Ypred = c(6.4, 9.6, 12.8, 14.4, 16, 22.4, 30.4)
+  )
+
+sqrt(50 * (1 - 0.3^2) / (35 - 2))
