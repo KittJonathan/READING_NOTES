@@ -564,3 +564,55 @@ cards <- tibble(
 ggplot(cards) +
   geom_point(aes(x = sent, y = received))
 
+# PROGRESS CHECK 6.5
+df <- tibble(
+  COUPLE = LETTERS[1:6],
+  X = c(1, 3, 2, 3, 1, 2),
+  Y = c(2, 4, 3, 2, 0, 3)
+  )
+
+cor(df$X, df$Y)
+
+SSx <- rMR::sumsq(df$X)
+SSy <- rMR::sumsq(df$Y)
+SPxy <- sum((as.vector(scale(df$X)) * sd(df$X)) * (as.vector(scale(df$Y)) * sd(df$Y)))
+SPxy / sqrt(SSx * SSy)
+
+cards <- tibble(
+  name = c("Doris", "Steve", "Mike", "Andrea", "John"),
+  sent = c(13, 9, 7, 5, 1),
+  received = c(14, 18, 12, 10, 6)
+  )
+
+cor(cards$sent, cards$received)
+
+# REVIEW QUESTION 6.7
+df <- tibble(
+  X = c(64, 40, 30, 71, 55, 31, 61, 42, 57),
+  Y = c(66, 79, 98, 65, 76, 83, 68, 80, 72)
+  )
+ggplot(df, aes(X, Y)) + geom_point()
+
+SS_X <- sum((df$X - mean(df$X))^2)  # rMR::sumsq(df$X)
+SS_Y <- sum((df$Y - mean(df$Y))^2)  # rMR::sumsq(df$Y)
+SP_XY <- sum((df$X - mean(df$X)) * (df$Y - mean(df$Y)))
+r_coeff <- SP_XY / sqrt(SS_X * SS_Y)
+cor(df$X, df$Y)
+
+# REVIEW QUESTION 6.8
+df <- tibble(
+  X = c(2, 4, 5, 3, 1, 7, 2),
+  Y = c(8, 6, 2, 3, 4, 1, 4)
+)
+ggplot(df, aes(X, Y)) + geom_point()
+
+SS_X <- sum((df$X - mean(df$X))^2)  # rMR::sumsq(df$X)
+SS_Y <- sum((df$Y - mean(df$Y))^2)  # rMR::sumsq(df$Y)
+SP_XY <- sum((df$X - mean(df$X)) * (df$Y - mean(df$Y)))
+r_coeff <- SP_XY / sqrt(SS_X * SS_Y)
+cor(df$X, df$Y)
+
+
+# 7. REGRESSION -----------------------------------------------------------
+
+
