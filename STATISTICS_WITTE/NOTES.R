@@ -613,7 +613,7 @@ r_coeff <- SP_XY / sqrt(SS_X * SS_Y)
 cor(df$X, df$Y)
 
 
-# 7. REGRESSION -----------------------------------------------------------
+# REGRESSION --------------------------------------------------------------
 
 cards <- tibble(
   name = c("Doris", "Steve", "Mike", "Andrea", "John"),
