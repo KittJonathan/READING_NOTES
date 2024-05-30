@@ -553,7 +553,7 @@ z <- (-3-12)/10
 (25-28)/4
 (30-28)/4
 
-# 6. DESCRIBING RELATIONSHIPS : CORRELATION -------------------------------
+# DESCRIBING RELATIONSHIPS : CORRELATION ----------------------------------
 
 cards <- tibble(
   name = c("Doris", "Steve", "Mike", "Andrea", "John"),
