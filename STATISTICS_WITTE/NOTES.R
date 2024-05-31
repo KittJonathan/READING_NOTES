@@ -638,3 +638,30 @@ df <- tibble(
   )
 
 sqrt(50 * (1 - 0.3^2) / (35 - 2))
+
+# PROGRESS CHECK 7.4
+100*0.3^2
+100 - (100*0.3^2)
+0.5^2 / 0.27^2
+
+# REVIEW QUESTION 7.7
+b <- -0.80 * sqrt(70/35)
+a <- 60 - (b * 5)
+# Y' = -1.13x + 65.66
+sqrt((70 * (1 - (-0.80^2))) / (50 - 2))
+- 1.13*8 + 65.66
+- 1.13*0 + 65.66
+
+# REVIEW QUESTION 7.8
+df <- tibble(drivers = c(5, 5, 2, 2, 3, 1, 2),
+             cars = c(4, 3, 2, 2, 2, 1, 2))
+ggplot(df, aes(drivers, cars)) + geom_point()
+cor_coeff <- cor(x = df$drivers, y = df$cars)
+SS_X <- rMR::sumsq(df$drivers)
+SS_Y <- rMR::sumsq(df$cars)
+b <- cor_coeff * sqrt(SS_Y / SS_X)
+a <- mean(df$cars) - b * mean(df$drivers)
+# Y' = 0.56x + 0.69
+sqrt((SS_Y * (1 - cor_coeff^2)) / 5)
+0.56*2 + 0.69
+0.56*5 + 0.69
