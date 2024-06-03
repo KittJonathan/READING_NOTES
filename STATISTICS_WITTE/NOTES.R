@@ -675,3 +675,10 @@ tidyr::crossing(var1 = scores, var2 = scores) |>
   ggplot(aes(x = mean)) +
   geom_histogram()
 
+# INTRODUCTION TO HYPOTHESIS TESTING: THE z TEST --------------------------
+
+# PROGRESS CHECK 10.1
+(566-560)/(30/sqrt(36))
+(24-25)/(4/sqrt(64))
+(82-75)/(14/sqrt(49))
+(136-146)/(15/sqrt(25))
