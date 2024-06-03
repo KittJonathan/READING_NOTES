@@ -665,3 +665,7 @@ a <- mean(df$cars) - b * mean(df$drivers)
 sqrt((SS_Y * (1 - cor_coeff^2)) / 5)
 0.56*2 + 0.69
 0.56*5 + 0.69
+
+# SAMPLING DISTRIBUTION OF THE MEAN ---------------------------------------
+
+
