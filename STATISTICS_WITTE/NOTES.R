@@ -668,4 +668,10 @@ sqrt((SS_Y * (1 - cor_coeff^2)) / 5)
 
 # SAMPLING DISTRIBUTION OF THE MEAN ---------------------------------------
 
+scores <- seq(2, 10, 2)
+
+tidyr::crossing(var1 = scores, var2 = scores) |> 
+  mutate(mean = (var1 + var2) / 2) |> 
+  ggplot(aes(x = mean)) +
+  geom_histogram()
 
