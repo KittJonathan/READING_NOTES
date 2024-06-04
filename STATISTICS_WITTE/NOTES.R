@@ -682,3 +682,31 @@ tidyr::crossing(var1 = scores, var2 = scores) |>
 (24-25)/(4/sqrt(64))
 (82-75)/(14/sqrt(49))
 (136-146)/(15/sqrt(25))
+
+# PROGRESS CHECK 10.5
+z <- (80100 - 82500) / (6000 / sqrt(100))
+z
+
+# REVIEW QUESTION 10.6
+(12 - 15) / (9 / sqrt(25))
+(3600 - 3500) / (4000 / sqrt(100))
+(0.25 - 0.22) / (0.10 / sqrt(36))
+
+# REVIEW QUESTION 10.8
+(105 - 100) / (15 / sqrt(25))  # z = 1.67 retain H0
+
+# REVIEW QUESTION 10.9
+(22.2 - 21.75) / (3.1 / sqrt(30))  # z = 0.795 retain H0
+
+# REVIEW QUESTION 10.10
+(30 - 35) / (10 / sqrt(20))  # z = -2.24 reject H0
+
+# REVIEW QUESTION 10.11
+(385 - 400) / (53 / sqrt(48))  # z = -1.96 reject H0
+
+# REVIEW QUESTION 10.12
+(22.5 - 25) / (13 / sqrt(169))  # z = -2.5 reject H0
+
+# MORE ABOUT HYPOTHESIS TESTING -------------------------------------------
+
+
