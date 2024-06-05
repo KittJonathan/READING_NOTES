@@ -5,6 +5,7 @@
 # PACKAGES ----------------------------------------------------------------
 
 library(tidyverse)
+library(BSDA)
 
 # DESCRIBING DATA WITH TABLES AND GRAPHS ----------------------------------
 
