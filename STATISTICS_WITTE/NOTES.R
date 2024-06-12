@@ -725,4 +725,67 @@ z
 
 # T TEST FOR ONE SAMPLE ---------------------------------------------------
 
+# PROGRESS CHECK 13.2
+weights <- c(16, 15, 14, 15, 14, 15, 16, 14, 14, 14)
+n <- length(weights)
+sum_weights <- sum(weights)
+mean_weights <- sum_weights / n
+weights_sq <- weights^2
+sum_weights_sq <- sum(weights_sq)
+sum_of_squares <- sum_weights_sq - ((sum_weights^2) / n)
+rMR::sumsq(weights)
+standard_dev <- sqrt(sum_of_squares / (n - 1))
+sd(weights)
+est_sd_mean <- standard_dev / sqrt(n)
 
+# PROGRESS CHECK 13.3
+t_val <- (14.7 - 16) / 0.26
+t.test(weights, alternative = "less", mu = 16, conf.level = 0.95)
+
+# PROGRESS CHECK 13.4
+14.7 - 2.26 * 0.26
+14.7 + 2.26 * 0.26
+
+# REVIEW QUESTION 13.5
+duration <- c(21, 15, 12, 24, 20, 21, 13, 16)
+t_val <- (mean(duration) - 21) / (sd(duration) / sqrt(8))
+
+t.test(duration, alternative = "two.sided", mu = 21, conf.level = 0.95)
+
+# REVIEW QUESTION 13.6
+t_crit <- 2.447
+t_val <- (34.89 - 32) / (3.02 / sqrt(7))
+t_val > t_crit
+
+# REVIEW QUESTION 13.7
+temp <- c(1.15, 1.15, 1.01, 1.03, 1.15, 1.22, 1.03, 1.13, 1.21, 1.35)
+(mean(temp) - 0) / (sd(temp) / sqrt(10))
+t.test(temp, alternative = "greater", mu = 0, conf.level = 0.99)
+
+1.14 - 3.25 * (sd(temp)/sqrt(10))
+1.14 + 3.25 * (sd(temp)/sqrt(10))
+
+1.14 - 3.25 * 0.03
+1.14 + 3.25 * 0.03
+
+# REVIEW QUESTION 13.8
+# H0 : mean = 90
+# H1 : mean != 90
+(88 - 90) / (9 / sqrt(28))
+dream <- c(88, 78, 98, 68, 108, 58, 118, 88, 78, 98, 68, 108, 58, 118,
+           88, 78, 98, 68, 108, 58, 118, 88, 78, 98, 68, 108, 58, 118)
+# t_crit = 2.052
+t.test(dream, alternative = "two.sided", mu = 90, conf.level = 0.95)
+
+# T TEST FOR TWO INDEPENDENT SAMPLES --------------------------------------
+
+x1 <- c(12, 5, 11, 11, 9, 18)
+x2 <- c(7, 3, 4, 6, 3, 13)
+
+(rMR::sumsq(x1) + rMR::sumsq(x2)) / 10
+
+sqrt((16.2 / 6) + (16.2 / 6))
+
+t_val <- (mean(x1) - mean(x2)) / 2.32
+
+t.test(x = x1, y = x2)
