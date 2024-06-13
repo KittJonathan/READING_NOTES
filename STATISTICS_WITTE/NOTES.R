@@ -789,3 +789,27 @@ sqrt((16.2 / 6) + (16.2 / 6))
 t_val <- (mean(x1) - mean(x2)) / 2.32
 
 t.test(x = x1, y = x2)
+
+# PROGRESS CHECK 14.3
+task_difficult <- c(5, 20, 7, 23, 30, 24, 9, 8, 20, 12)
+task_easy <- c(13, 6, 6, 5, 3, 6, 10, 20, 9, 12)
+
+sum_squares_difficult <- rMR::sumsq(task_difficult)
+sum_squares_easy <- rMR::sumsq(task_easy)
+
+pooled_var <- (sum_squares_difficult + sum_squares_easy) / (10 + 10 - 2)
+
+st_err <- sqrt((pooled_var / 10) + (pooled_var / 10))
+
+t_val <- (mean(task_difficult) - mean(task_easy)) / st_err
+
+# t_crit = 2.101 -> reject H0
+
+t.test(x = task_difficult, y = task_easy, mu = 0, conf.level = 0.95)
+
+# PROGRESS CHECK 14.8
+d_val <- (15.8 - 9) / 7.06
+
+# T TEST FOR TWO RELATED SAMPLES (REPEATED MEASURES) ----------------------
+
+
