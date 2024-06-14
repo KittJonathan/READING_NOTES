@@ -810,6 +810,68 @@ t.test(x = task_difficult, y = task_easy, mu = 0, conf.level = 0.95)
 # PROGRESS CHECK 14.8
 d_val <- (15.8 - 9) / 7.06
 
+# REVIEW QUESTION 14.11
+x1 <- c(2, 5, 20, 15, 4, 10)
+x2 <- c(3, 8, 7, 10, 14, 0)
+
+sum_squares_x1 <- rMR::sumsq(x1)
+sum_squares_x2 <- rMR::sumsq(x2)
+
+pooled_var <- (sum_squares_x1 + sum_squares_x2) / (6 + 6 - 2)
+
+st_err <- sqrt((pooled_var / 6) + (pooled_var / 6))
+
+t_val <- (mean(x1) - mean(x2)) / st_err
+qt(p = 0.025, df = 10, lower.tail = FALSE)
+
+t.test(x1, x2, conf.level = 0.95)
+
+# REVIEW QUESTION 14.12
+t_val <- (110 - 108) / 1.80
+qt(p = 0.01, df = 68, lower.tail = FALSE)
+
+# REVIEW QUESTION 14.13
+t_val <- (86.2 - 81.6) / 1.5
+qt(p = 0.025, df = 38, lower.tail = FALSE)
+d_val <- (86.2 - 81.6) / 5
+
+# REVIEW QUESTION 14.14
+t_val <- (26.4 - 18.6) / 2.4
+qt(p = 0.05, df = 118, lower.tail = FALSE)
+(26.4 - 18.6) - (2.4*1.66)
+(26.4 - 18.6) + (2.4*1.66)
+d_val <- (26.4 - 18.6) / 13.15
+
+# REVIEW QUESTION 14.15
+t_val <- (3.19 - 2.90) / 0.20
+qt(p = 0.05, df = 52, lower.tail = FALSE)
+
 # T TEST FOR TWO RELATED SAMPLES (REPEATED MEASURES) ----------------------
 
+# PROGRESS CHECK 15.2
+x1 <- c(2, 5, 7, 0, 3, 7, 4, 5, 1, 3)
+x2 <- c(3, 4, 9, 3, 5, 7, 6, 8, 2, 5)
 
+D <- x1 - x2
+D_mean <- sum(D) / length(x1)
+
+D_sq <- D^2
+D_sum_sq <- sum(D^2) - (sum(D)^2 / length(x1))
+
+st_dev_D <- sqrt(D_sum_sq / (length(x1 - 1)))
+
+st_err_D_bar <- st_dev_D / sqrt(length(x1))
+
+t_val <- (D_mean - 0) / st_err_D_bar
+
+t_crit <- qt(p = 0.05, df = 9)
+
+t.test(x1, x2, paired = TRUE)
+
+# PROGRESS CHECK 15.3
+-1.5 - 2.262 * st_err_D_bar
+-1.5 + 2.262 * st_err_D_bar
+t.test(x1, x2, paired = TRUE)
+
+# PROGRESS CHECK 15.4
+cohen_d <- -1.5 / 1.27
