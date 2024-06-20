@@ -875,3 +875,123 @@ t.test(x1, x2, paired = TRUE)
 
 # PROGRESS CHECK 15.4
 cohen_d <- -1.5 / 1.27
+
+# PROGRESS CHECK 15.6
+t_val <- 0.43 / sqrt((1 - 0.43^2) / (27 - 2))
+t_crit <- qt(p = 0.025, df = 25, lower.tail = FALSE)
+
+# REVIEW QUESTION 15.7
+x1 <- c(4, 2.67, 3.65, 2.11, 3.21, 3.6, 2.8)
+x2 <- c(3.75, 2.74, 3.42, 1.67, 3, 3.25, 2.65)
+
+D <- x1 - x2
+D_mean <- sum(D) / length(x1)
+
+D_sq <- D^2
+D_sum_sq <- sum(D^2) - (sum(D)^2 / length(x1))
+
+st_dev_D <- sqrt(D_sum_sq / (length(x1 - 1)))
+
+st_err_D_bar <- st_dev_D / sqrt(length(x1))
+
+cohen_d <- D_mean / st_dev_D
+t_val <- (D_mean - 0) / st_err_D_bar
+
+t_crit <- qt(p = 0.01, df = 6, lower.tail = FALSE)
+
+t.test(x1, x2, paired = TRUE)
+
+# REVIEW QUESTION 15.8
+x1 <- c(28, 29, 31, 44, 35, 20, 50, 25)
+x2 <- c(26, 27, 32, 44, 35, 16, 47, 23)
+
+D <- x1 - x2
+D_mean <- sum(D) / length(x1)
+
+D_sq <- D^2
+D_sum_sq <- sum(D^2) - (sum(D)^2 / length(x1))
+
+st_dev_D <- sqrt(D_sum_sq / (length(x1 - 1)))
+
+st_err_D_bar <- st_dev_D / sqrt(length(x1))
+
+t_val <- (D_mean - 0) / st_err_D_bar
+
+t_crit <- qt(p = 0.05, df = 7, lower.tail = FALSE)
+
+t.test(x1, x2, paired = TRUE)
+
+cohen_d <- D_mean / st_dev_D
+
+# REVIEW QUESTION 15.9
+# x1 <- c(28, 29, 31, 44, 35, 20, 50, 25)
+# x2 <- c(26, 27, 32, 44, 35, 16, 47, 23)
+
+# D <- x1 - x2
+D_mean <- 2.12
+
+D_sq <- D^2
+D_sum_sq <- sum(D^2) - (sum(D)^2 / length(x1))
+
+st_dev_D <- sqrt(D_sum_sq / (length(x1 - 1)))
+
+st_err_D_bar <- 1.5
+
+t_val <- (D_mean - 0) / st_err_D_bar
+
+t_crit <- qt(p = 0.05, df = 29, lower.tail = FALSE)
+
+t.test(x1, x2, paired = TRUE)
+
+cohen_d <- D_mean / st_dev_D
+
+# REVIEW QUESTION 15.10
+# x1 <- c(28, 29, 31, 44, 35, 20, 50, 25)
+# x2 <- c(26, 27, 32, 44, 35, 16, 47, 23)
+
+# D <- x1 - x2
+D_mean <- 51.33
+
+# D_sq <- D^2
+# D_sum_sq <- sum(D^2) - (sum(D)^2 / length(x1))
+
+st_dev_D <- 66.33
+
+st_err_D_bar <- 66.33 / sqrt(12)
+
+t_crit <- qt(p = 0.05, df = 11, lower.tail = FALSE)
+
+t_val <- D_mean / st_err_D_bar
+
+D_mean - 2.2 * st_err_D_bar
+D_mean + 2.2 * st_err_D_bar
+
+cohen_d <- D_mean / st_dev_D
+
+# REVIEW QUESTION 15.13
+t_val <- -0.24 / sqrt((1 - (-0.24)^2) / (38 - 2))
+t_crit <- qt(p = 0.01, df = 36, lower.tail = TRUE)
+
+# REVIEW QUESTION 15.14
+D <- c(28, 53, 17, 37, 27, 27, 22, -25, -7, 0)
+D_mean <- mean(D)
+
+# D_sq <- D^2
+# D_sum_sq <- sum(D^2) - (sum(D)^2 / length(x1))
+
+st_dev_D <- sd(D)
+
+st_err_D_bar <- st_dev_D / sqrt(10)
+
+t_crit <- qt(p = 0.05, df = 9, lower.tail = FALSE)
+
+t_val <- D_mean / st_err_D_bar
+
+D_mean - 2.262 * st_err_D_bar
+D_mean + 2.262 * st_err_D_bar
+
+cohen_d <- D_mean / st_dev_D
+
+# ANALYSIS OF VARIANCE (ONE FACTOR) ---------------------------------------
+
+
