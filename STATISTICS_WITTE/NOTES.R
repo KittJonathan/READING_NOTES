@@ -5,7 +5,9 @@
 # PACKAGES ----------------------------------------------------------------
 
 library(tidyverse)
-library(BSDA)
+library(rMR)
+library(rstatix)
+library(tidymodels)
 
 # DESCRIBING DATA WITH TABLES AND GRAPHS ----------------------------------
 
@@ -994,4 +996,114 @@ cohen_d <- D_mean / st_dev_D
 
 # ANALYSIS OF VARIANCE (ONE FACTOR) ---------------------------------------
 
+#  Calculation of ss terms
+df <- tibble(
+  hrs0 = c(0, 4, 2),
+  hrs24 = c(3, 6, 6),
+  hrs48 = c(6, 8, 10)) |> 
+  pivot_longer(cols = everything(), names_to = "hrs_deprivation",
+               values_to = "score", names_prefix = "hrs") |> 
+  arrange(hrs_deprivation) |> 
+  mutate(hrs_deprivation = fct(hrs_deprivation))
 
+df
+
+group_totals <- df |> 
+  summarise(gp_total = sum(score), .by = hrs_deprivation)
+
+grand_total <- sum(df$score)
+
+ss_between <- sum(gp_totals$gp_total^2 / 3) - (grand_total^2 / 9)
+
+ss_within <- sum(df$score^2) - sum(group_totals$gp_total^2 / 3)
+
+ss_total <- sum(df$score^2) - (grand_total^2 / 9)
+
+ss_total == ss_between + ss_within
+
+mean_sq_between <- ss_between / (3 - 1)
+
+mean_sq_within <- ss_within / (9 - 3)
+
+f_ratio <- mean_sq_between / mean_sq_within
+
+# PROGRESS CHECK 16.3
+qf(p = 0.05, df1 = 1, df2 = 18, lower.tail = FALSE)
+qf(p = 0.01, df1 = 3, df2 = 56, lower.tail = FALSE)
+qf(p = 0.05, df1 = 2, df2 = 36, lower.tail = FALSE)
+qf(p = 0.05, df1 = 4, df2 = 95, lower.tail = FALSE)
+
+# PROGRESS CHECK 16.3
+qf(df1 = 2, df2 = 11, p = c(0.05, 0.01), lower.tail = FALSE)
+qf(df1 = 1, df2 = 13, p = c(0.05, 0.01), lower.tail = FALSE)
+qf(df1 = 3, df2 = 20, p = c(0.05, 0.01), lower.tail = FALSE)
+qf(df1 = 2, df2 = 29, p = c(0.05, 0.01), lower.tail = FALSE)
+
+# PROGRESS CHECK 16.5
+df <- tibble(
+  gp0 = c(1, 0, 0, 2, 3, 4, 2, 1),
+  gp1 = c(2, 1, 2, 4, 4, 6, 3, 3),
+  gp2 = c(4, 2, 3, 6, 7, 8, 5, 5),
+  gp3 = c(7, 1, 6, 9, 10, 12, 8, 7)) |> 
+  pivot_longer(cols = everything(), names_to = "nb_sessions",
+               values_to = "eye_contacts", names_prefix = "gp") |> 
+  arrange(nb_sessions) |> 
+  mutate(nb_sessions = fct(nb_sessions))
+
+df
+
+group_totals <- df |> 
+  summarise(gp_total = sum(eye_contacts), .by = nb_sessions)
+
+grand_total <- sum(df$eye_contacts)
+
+ss_between <- sum(group_totals$gp_total^2 / 8) - (grand_total^2 / 32)
+
+ss_within <- sum(df$eye_contacts^2) - sum(group_totals$gp_total^2 / 8)
+
+ss_total <- sum(df$eye_contacts^2) - (grand_total^2 / 32)
+
+ss_total == ss_between + ss_within
+
+mean_sq_between <- ss_between / (4 - 1)
+
+mean_sq_within <- ss_within / (32 - 4)
+
+f_ratio <- mean_sq_between / mean_sq_within
+
+f_crit <- qf(df1 = 3, df2 = 28, p = 0.05, lower.tail = FALSE)
+
+test <- rstatix::anova_test(data = df, formula = eye_contacts ~ nb_sessions)
+
+rstatix::anova_summary(test)
+
+df |> 
+  specify(eye_contacts ~ nb_sessions) |> 
+  hypothesize(null = "independence") |> 
+  calculate(stat = "F")
+
+test <- aov(eye_contacts ~ nb_sessions, df)
+rstatix::anova_summary(test, detailed = TRUE)
+
+# PROGRESS CHECK 16.6
+effect_size <- ss_between / ss_total
+
+TukeyHSD(x = test)
+
+# Tukey's HSD
+df <- tibble(
+  hrs0 = c(0, 4, 2),
+  hrs24 = c(3, 6, 6),
+  hrs48 = c(6, 8, 10)) |> 
+  pivot_longer(cols = everything(), names_to = "hrs_deprivation",
+               values_to = "score", names_prefix = "hrs") |> 
+  arrange(hrs_deprivation) |> 
+  mutate(hrs_deprivation = fct(hrs_deprivation))
+
+fit <- aov(score ~ hrs_deprivation, df)
+fit
+
+TukeyHSD(x = fit)
+
+fit |> 
+  tukey_hsd()
