@@ -1013,7 +1013,7 @@ group_totals <- df |>
 
 grand_total <- sum(df$score)
 
-ss_between <- sum(gp_totals$gp_total^2 / 3) - (grand_total^2 / 9)
+ss_between <- sum(group_totals$gp_total^2 / 3) - (grand_total^2 / 9)
 
 ss_within <- sum(df$score^2) - sum(group_totals$gp_total^2 / 3)
 
@@ -1100,6 +1100,29 @@ df <- tibble(
   arrange(hrs_deprivation) |> 
   mutate(hrs_deprivation = fct(hrs_deprivation))
 
+group_totals <- df |> 
+  summarise(gp_total = sum(score), .by = hrs_deprivation)
+
+grand_total <- sum(df$score)
+
+ss_between <- sum(group_totals$gp_total^2 / 3) - (grand_total^2 / 9)
+
+ss_within <- sum(df$score^2) - sum(group_totals$gp_total^2 / 3)
+
+ss_total <- sum(df$score^2) - (grand_total^2 / 9)
+
+ss_total == ss_between + ss_within
+
+mean_sq_between <- ss_between / (3 - 1)
+
+mean_sq_within <- ss_within / (9 - 3)
+
+f_ratio <- mean_sq_between / mean_sq_within
+
+q_val <- qtukey(p = 0.05, nmeans = 3, df = 6, lower.tail = FALSE)
+
+HSD <- q_val * sqrt(mean_sq_within / 3) 
+
 fit <- aov(score ~ hrs_deprivation, df)
 fit
 
@@ -1107,3 +1130,56 @@ TukeyHSD(x = fit)
 
 fit |> 
   tukey_hsd()
+
+#  Standardized effect size, Cohen's d
+d_val <- (8 - 2) / sqrt(mean_sq_within)
+
+# PROGRESS CHECK 16.7
+df <- tibble(
+  gp0 = c(1, 0, 0, 2, 3, 4, 2, 1),
+  gp1 = c(2, 1, 2, 4, 4, 6, 3, 3),
+  gp2 = c(4, 2, 3, 6, 7, 8, 5, 5),
+  gp3 = c(7, 1, 6, 9, 10, 12, 8, 7)) |> 
+  pivot_longer(cols = everything(), names_to = "nb_sessions",
+               values_to = "eye_contacts", names_prefix = "gp") |> 
+  arrange(nb_sessions) |> 
+  mutate(nb_sessions = fct(nb_sessions))
+
+df |> 
+  summarise(mean = mean(eye_contacts), .by = nb_sessions)
+
+group_totals <- df |> 
+  summarise(gp_total = sum(eye_contacts), .by = nb_sessions)
+
+grand_total <- sum(df$eye_contacts)
+
+ss_between <- sum(group_totals$gp_total^2 / 8) - (grand_total^2 / 32)
+
+ss_within <- sum(df$eye_contacts^2) - sum(group_totals$gp_total^2 / 8)
+
+ss_total <- sum(df$eye_contacts^2) - (grand_total^2 / 32)
+
+ss_total == ss_between + ss_within
+
+mean_sq_between <- ss_between / (4 - 1)
+
+mean_sq_within <- ss_within / (32 - 4)
+
+f_ratio <- mean_sq_between / mean_sq_within
+
+f_crit <- qf(df1 = 3, df2 = 28, p = 0.05, lower.tail = FALSE)
+
+fit <- aov(eye_contacts ~ nb_sessions, data = df)
+fit
+
+q_val <- qtukey(p = 0.05, nmeans = 4, df = 24, lower.tail = FALSE)
+
+HSD <- q_val * sqrt(mean_sq_within / 8) 
+
+TukeyHSD(x = fit)
+
+d_val_2_0 <- 3.375 / sqrt(mean_sq_within)
+d_val_3_0 <- 5.875 / sqrt(mean_sq_within)
+d_val_3_1 <- 4.375 / sqrt(mean_sq_within)
+
+# REVIEW QUESTTION 16.9
