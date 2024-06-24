@@ -1183,3 +1183,167 @@ d_val_3_0 <- 5.875 / sqrt(mean_sq_within)
 d_val_3_1 <- 4.375 / sqrt(mean_sq_within)
 
 # REVIEW QUESTTION 16.9
+df <- tibble(
+  hr0 = c(3, 5, 7),
+  hr24 = c(4, 8, 6),
+  hr48 = c(2, 4, 6)) |> 
+  pivot_longer(cols = everything(), names_to = "hrs_deprivation",
+               values_to = "score", names_prefix = "hr") |> 
+  arrange(hrs_deprivation) |> 
+  mutate(hrs_deprivation = fct(hrs_deprivation))
+
+fit <- aov(data = df, formula = score ~ hrs_deprivation)
+
+anova_summary(fit)
+
+# REVIEW QUESTTION 16.10
+df <- tibble(
+  group = c(rep(0, 5), rep(24, 3), rep(48, 4)),
+  score = c(1, 3, 6, 2, 1, 4, 7, 5, 7, 12, 10, 9)
+  )
+
+group_totals <- df |> 
+  summarise(gp_total = sum(score), .by = group)
+
+grand_total <- sum(df$score)
+
+ss_between <- (13^2 / 5) + (16^2 / 3) + (38^2 / 4) - (grand_total^2 / 12)
+
+ss_within <- sum(df$score^2) - ((13^2 / 5) + (16^2 / 3) + (38^2 / 4))
+
+ss_total <- sum(df$score^2) - (grand_total^2 / 12)
+
+ss_total == ss_between + ss_within
+
+mean_sq_between <- ss_between / (3 - 1)
+
+mean_sq_within <- ss_within / (12 - 3)
+
+f_ratio <- mean_sq_between / mean_sq_within
+
+f_crit <- qf(df1 = 2, df2 = 9, p = 0.05, lower.tail = FALSE)
+
+effect_size <- ss_between / ss_total
+
+q_val <- qtukey(p = 0.05, nmeans = 3, df = 9, lower.tail = FALSE)
+
+HSD <- q_val * sqrt(mean_sq_within / 4) 
+
+2.6 - 5.33 > HSD
+abs(2.6 - 9.5) > HSD
+9.5 - 5.33 > HSD
+
+d_val_48_0 <- (9.5 - 2.6) / sqrt(mean_sq_within)
+d_val_48_24 <- (9.5 - 5.33) / sqrt(mean_sq_within)
+
+# REVIEW QUESTTION 16.11
+df <- tibble(
+  group = c(rep(0, 5), rep(1, 5), rep(2, 5), rep(4, 5), rep(6, 5)),
+  score = c(1, 1, 3, 6, 4, 4, 3, 1, 7, 5, 6, 1, 2, 10, 7,
+            15, 6, 9, 17, 9, 20, 25, 10, 10, 9)) |> 
+  mutate(group = fct(group))
+
+group_totals <- df |> 
+  summarise(gp_total = sum(score), .by = group)
+
+grand_total <- sum(df$score)
+
+ss_between <- (15^2 / 5) + (20^2 / 5) + (26^2 / 5) + (56^2 / 5) + (74^2 / 5) - (grand_total^2 / 25)
+
+ss_within <- sum(df$score^2) - ((15^2 / 5) + (20^2 / 5) + (26^2 / 5) + (56^2 / 5) + (74^2 / 5))
+
+ss_total <- sum(df$score^2) - (grand_total^2 / 25)
+
+ss_total == ss_between + ss_within
+
+mean_sq_between <- ss_between / (5 - 1)
+
+mean_sq_within <- ss_within / (25 - 5)
+
+f_ratio <- mean_sq_between / mean_sq_within
+
+f_crit <- qf(df1 = 4, df2 = 20, p = 0.05, lower.tail = FALSE)
+
+effect_size <- ss_between / ss_total
+
+q_val <- qtukey(p = 0.05, nmeans = 5, df = 24, lower.tail = FALSE)
+
+HSD <- q_val * sqrt(mean_sq_within / 5) 
+
+4 - 3 > HSD
+5.2 - 3 > HSD
+11.2 - 3 > HSD
+14.8 - 3 > HSD  # T
+
+5.2 - 4 > HSD
+11.2 - 4 > HSD
+14.8 - 4 > HSD  # T
+
+11.2 - 5.2 > HSD
+14.8 - 5.2 > HSD  # T
+
+14.8 - 11.2 > HSD
+
+d_val_6_0 <- (14.8 - 3) / sqrt(mean_sq_within)
+d_val_6_1 <- (14.8 - 4) / sqrt(mean_sq_within)
+d_val_6_2 <- (14.8 - 5.2) / sqrt(mean_sq_within)
+
+fit <- aov(score ~ group, df)
+
+summary(fit)
+
+TukeyHSD(df)
+
+# REVIEW QUESTION 16.13
+df <- tibble(
+  group = c(rep("gp1", 8), rep("gp2", 6), rep("gp3", 9)),
+  score = c(3, 4, 0, -3, 5, 10, 3, 0,
+            -1, 8, 4, 2, 2, -3,
+            7, 1, 10, 0, 18, 12, 4, 6, 5)) |> 
+  mutate(group = fct(group))
+
+group_totals <- df |> 
+  summarise(gp_total = sum(score), .by = group)
+
+grand_total <- sum(df$score)
+
+ss_between <- (22^2 / 8) + (12^2 / 6) + (63^2 / 9) - (grand_total^2 / 23)
+
+ss_within <- sum(df$score^2) - ((22^2 / 8) + (12^2 / 6) + (63^2 / 9))
+
+ss_total <- sum(df$score^2) - (grand_total^2 / 23)
+
+ss_total == ss_between + ss_within
+
+mean_sq_between <- ss_between / (3 - 1)
+
+mean_sq_within <- ss_within / (23 - 3)
+
+f_ratio <- mean_sq_between / mean_sq_within
+
+f_crit <- qf(df1 = 2, df2 = 20, p = 0.05, lower.tail = FALSE)
+
+effect_size <- ss_between / ss_total
+
+q_val <- qtukey(p = 0.05, nmeans = 3, df = 20, lower.tail = FALSE)
+
+HSD <- q_val * sqrt(mean_sq_within / 20) 
+
+df |> 
+  summarise(mean_group = mean(score), .by = group)
+
+2.75 - 2 > HSD
+7 - 2.75 > HSD  # T
+7 - 2 > HSD  # T
+
+
+d_val_3_1 <- (7 - 2.75) / sqrt(mean_sq_within)
+d_val_3_2 <- (7 - 2) / sqrt(mean_sq_within)
+
+fit <- aov(score ~ group, df)
+
+summary(fit)
+
+TukeyHSD(df)
+
+# ANALYSIS OF VARIANCE (REPEATED MEASURES) --------------------------------
