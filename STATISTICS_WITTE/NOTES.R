@@ -1347,3 +1347,26 @@ summary(fit)
 TukeyHSD(df)
 
 # ANALYSIS OF VARIANCE (REPEATED MEASURES) --------------------------------
+
+df <- tribble(
+  ~ subject, ~ hrs0, ~ hrs24, ~ hrs48,
+  "A",         0,      3,       6,
+  "B",         4,      6,       8,
+  "C",         2,      6,       10) |> 
+  pivot_longer(cols = -subject,
+               names_to = "group",
+               values_to = "score",
+               names_prefix = "hrs") |> 
+  mutate(subject = fct(subject),
+         group = fct(group))
+
+df
+
+df |> 
+  summarise(group_mean = mean(score), .by = group)
+
+df |> 
+  summarise(subject_mean = mean(score), .by = subject)
+
+df |> 
+  summarise(grand_mean = mean(score))
