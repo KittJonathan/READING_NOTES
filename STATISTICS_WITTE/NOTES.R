@@ -1362,11 +1362,326 @@ df <- tribble(
 
 df
 
-df |> 
-  summarise(group_mean = mean(score), .by = group)
+group_totals <-  df |> 
+  summarise(group_total = sum(score), .by = group) |> 
+  pull(group_total)
+
+group_n <- df |> 
+  count(group) |> 
+  pull(n)
+
+rep_mes <- df |> 
+  count(subject) |> 
+  pull(n)
+
+total_n <- nrow(df)
+
+subject_totals <-  df |> 
+  summarise(subject_total = sum(score), .by = subject) |> 
+  pull(subject_total)
+
+grand_total <- sum(df$score)
+
+ss_between <- sum(group_totals^2 / group_n) - (grand_total^2 / total_n)
+ss_within <- sum(df$score^2) - sum(group_totals^2 / group_n)
+ss_subject <- sum(subject_totals^2 / rep_mes) - (grand_total^2 / total_n)
+ss_error <- ss_within - ss_subject
+ss_total <- sum(df$score^2) - (grand_total^2 / total_n)
+ss_total == ss_between + ss_subject + ss_error
+
+df_total <- total_n - 1
+df_between <- unique(rep_mes) - 1
+df_within <- unique(total_n) - unique(rep_mes)
+df_subject <- unique(group_n) - 1
+df_error <- df_within - df_subject
+df_total == df_between + df_subject + df_error
+
+ms_between <- ss_between / df_between
+ms_error <- ss_error / df_error
+
+f_ratio <- ms_between / ms_error
+
+df
+
+fit <- rstatix::anova_test(data = df, dv = score,
+                           wid = subject, within = group,
+                           effect.size = "pes")
+
+eta_sq <- ss_between / (ss_between + ss_error)
+
+rstatix::get_anova_table(fit)
+
+# PROGRESS CHECK 17.2
+df <- tribble(
+  ~ subject, ~ silence, ~white_noise, ~rock,
+  "A",       6,         4,            2,
+  "B",       11,        3,            0,
+  "C",       5,         4,            1,
+  "D",       7,         6,            2,
+  "E",       4,         6,            4,
+  "F",       10,        7,            5) |> 
+  pivot_longer(cols = -subject, names_to = "group", values_to = "score")
+
+df
+
+group_totals <-  df |> 
+  summarise(group_total = sum(score), .by = group) |> 
+  pull(group_total)
+
+group_n <- df |> 
+  count(group) |>
+  distinct(n) |> 
+  pull(n)
+
+rep_mes <- df |> 
+  count(subject) |> 
+  distinct(n) |> 
+  pull(n)
+
+total_n <- nrow(df)
+
+subject_totals <-  df |> 
+  summarise(subject_total = sum(score), .by = subject) |> 
+  pull(subject_total)
+
+grand_total <- sum(df$score)
+
+ss_between <- sum(group_totals^2 / group_n) - (grand_total^2 / total_n)
+ss_within <- sum(df$score^2) - sum(group_totals^2 / group_n)
+ss_subject <- sum(subject_totals^2 / rep_mes) - (grand_total^2 / total_n)
+ss_error <- ss_within - ss_subject
+ss_total <- sum(df$score^2) - (grand_total^2 / total_n)
+ss_total == ss_between + ss_subject + ss_error
+
+df_total <- total_n - 1
+df_between <- rep_mes - 1
+df_within <- total_n - rep_mes
+df_subject <- group_n - 1
+df_error <- df_within - df_subject
+df_total == df_between + df_subject + df_error
+
+ms_between <- ss_between / df_between
+ms_error <- ss_error / df_error
+
+
+f_ratio <- ms_between / ms_error
+
+f_crit <- qf(df1 = df_between, df2 = df_error, p = 0.05, lower.tail = FALSE)
+qf(df1 = df_between, df2 = df_error, p = 0.01, lower.tail = FALSE)
+
+
+fit <- rstatix::anova_test(data = df, dv = score,
+                           wid = subject, within = group, effect.size = "pes")
+
+rstatix::get_anova_table(fit)
+
+# PROGRESS CHECK 17.3
+eta_sq <- ss_between / (ss_between + ss_error)
+fit$ANOVA$pes
+eta_sq
+
+# PROGRESS CHECK 17.4
+q_val <- qtukey(p = 0.05, nmeans = rep_mes, df = df_error, lower.tail = FALSE)
+HSD <- q_val * sqrt(ms_error / group_n) 
+TukeyHSD(x = aov(score ~ subject + group, df), which = "group")
+tukey_hsd(x = aov(score ~ subject + group, df)) |> filter(term == "group")
+
+d_val <- 4.83 / sqrt(ms_error)
+
+# REVIEW QUESTION 17.5
+ss_within <- 8800
+ss_subject <- 5500
+ss_error <- ss_within - ss_subject
+ss_total <- 10000
+ss_between <- ss_total - ss_within
+
+df_between <- 4 - 1
+df_subject <- 12 - 1
+df_total <- 48 - 1
+df_within <- 48 - 4
+df_error <- df_within - df_subject
+
+ms_between <- ss_between / df_between
+ms_error <- ss_error / df_error
+
+f_ratio <- ms_between / ms_error
+f_crit <- qf(df1 = df_between, df2 = df_error, p = 0.05, lower.tail = FALSE)
+
+# REVIEW QUESTION 17.6
+df <- tribble(
+  ~ subject, ~ zero, ~one, ~two, ~three,
+  "A",       1,      2,    4,    7,
+  "B",       0,      1,    2,    6,
+  "C",       0,      2,    3,    6,
+  "D",       2,      4,    6,    7,
+  "E",       3,      4,    7,    9, 
+  "F",       4,      6,    8,    10,
+  "G",       2,      3,    5,    8,
+  "H",       1,      3,    5,    7) |> 
+  pivot_longer(cols = -subject, names_to = "group", values_to = "score")
+
+group_totals <-  df |> 
+  summarise(group_total = sum(score), .by = group) |> 
+  pull(group_total)
+
+group_n <- df |> 
+  count(group) |>
+  distinct(n) |> 
+  pull(n)
+
+rep_mes <- df |> 
+  count(subject) |> 
+  distinct(n) |> 
+  pull(n)
+
+total_n <- nrow(df)
+
+subject_totals <-  df |> 
+  summarise(subject_total = sum(score), .by = subject) |> 
+  pull(subject_total)
+
+grand_total <- sum(df$score)
+
+# ss_between <- sum(group_totals^2 / group_n) - (grand_total^2 / total_n)
+# ss_within <- sum(df$score^2) - sum(group_totals^2 / group_n)
+ss_subject <- sum(subject_totals^2 / rep_mes) - (grand_total^2 / total_n)
+# ss_error <- ss_within - ss_subject
+# ss_total <- sum(df$score^2) - (grand_total^2 / total_n)
+# ss_total == ss_between + ss_subject + ss_error
+
+ss_between <- 154.12
+ss_within <- 132.75 
+ss_subject <- 66.87
+ss_error <- ss_within - ss_subject  
+ss_total <- 286.87
+ss_total == ss_between + ss_subject + ss_error
+
+df_total <- total_n - 1
+df_between <- rep_mes - 1
+df_within <- total_n - rep_mes
+df_subject <- group_n - 1
+df_error <- df_within - df_subject
+df_total == df_between + df_subject + df_error
+
+ms_between <- ss_between / df_between
+ms_error <- ss_error / df_error
+
+f_ratio <- ms_between / ms_error
+
+eta_sq <- ss_between / (ss_between + ss_error)
+eta_sq
+
+f_crit <- qf(df1 = df_between, df2 = df_error, p = 0.05, lower.tail = FALSE)
+
+qf(df1 = 4, df2 = 20, p = 0.05, lower.tail = FALSE)
+
+HSD <- 3.96*(sqrt(ms_error / 8))
 
 df |> 
-  summarise(subject_mean = mean(score), .by = subject)
+  summarise(mean_group = mean(score), .by = group)
 
-df |> 
-  summarise(grand_mean = mean(score))
+3.12 - 1.62 > HSD
+5 - 1.62 > HSD  # two-zero
+7.5 - 1.62 > HSD  # three-zero
+
+5 - 3.12 > HSD
+7.5 - 3.12 > HSD  # three-one
+
+7.5 - 5 > HSD  # three-two
+
+d_val_2_0 <- (5 - 1.62) / sqrt(ms_error)
+d_val_3_0 <- (7.5 - 1.62) / sqrt(ms_error)
+d_val_3_1 <- (7.5 - 3.12) / sqrt(ms_error)
+d_val_3_2 <- (7.5 - 5) / sqrt(ms_error)
+
+# REVIEW QUESTION 17.7
+df <- tribble(
+  ~ subject, ~ zero, ~one, ~two, ~four, ~six,
+  "A",       1,      4,    6,    15,    20,
+  "B",       1,      3,    1,    6,     25,
+  "C",       3,      1,    2,    9,     10,
+  "D",       6,      7,    10,   17,    10,
+  "E",       4,      5,    7,    9,     9) |> 
+  pivot_longer(cols = -subject, names_to = "group", values_to = "score")
+
+group_totals <-  df |> 
+  summarise(group_total = sum(score), .by = group) |> 
+  pull(group_total)
+
+group_n <- df |> 
+  count(group) |>
+  distinct(n) |> 
+  pull(n)
+
+rep_mes <- df |> 
+  count(subject) |> 
+  distinct(n) |> 
+  pull(n)
+
+total_n <- nrow(df)
+
+subject_totals <-  df |> 
+  summarise(subject_total = sum(score), .by = subject) |> 
+  pull(subject_total)
+
+grand_total <- sum(df$score)
+
+ss_between <- sum(group_totals^2 / group_n) - (grand_total^2 / total_n)
+ss_within <- sum(df$score^2) - sum(group_totals^2 / group_n)
+ss_subject <- sum(subject_totals^2 / rep_mes) - (grand_total^2 / total_n)
+ss_error <- ss_within - ss_subject
+ss_total <- sum(df$score^2) - (grand_total^2 / total_n)
+ss_total == ss_between + ss_subject + ss_error
+
+df_total <- total_n - 1
+df_between <- rep_mes - 1
+df_within <- total_n - rep_mes
+df_subject <- group_n - 1
+df_error <- df_within - df_subject
+df_total == df_between + df_subject + df_error
+
+ms_between <- ss_between / df_between
+ms_error <- ss_error / df_error
+
+f_ratio <- ms_between / ms_error
+
+f_crit <- qf(df1 = df_between, df2 = df_error, p = 0.05, lower.tail = FALSE)
+
+eta_sq <- ss_between / (ss_between + ss_error)
+
+q_val <- qf(df1 = df_between, df2 = df_error, p = 0.05, lower.tail = FALSE)
+
+HSD <- q_val*(sqrt(ms_error / group_n))
+
+group_means <- df |> 
+  summarise(mean_group = mean(score), .by = group)
+
+group_means
+
+HSD_tbl <- tibble(
+  groupA = rep(group_means$group, each = 5),
+  groupB = rep(group_means$group, times = 5),
+  meanA = rep(group_means$mean_group, each = 5),
+  meanB = rep(group_means$mean_group, times = 5)
+)
+
+HSD_tbl |> 
+  mutate(mean_diff = abs(meanA - meanB)) |> 
+  filter(mean_diff > HSD) |> 
+  slice(1:6) |> 
+  mutate(d_val = mean_diff / sqrt(ms_error))
+
+fit <- rstatix::anova_test(data = df, dv = score,
+                           wid = subject, within = group, effect.size = "pes")
+
+rstatix::get_anova_table(fit)
+
+TukeyHSD(x = aov(score ~ subject + group, df), which = "group")
+
+tukey_hsd(x = aov(score ~ subject + group, df)) |>
+  filter(term == "group") |> 
+  filter(p.adj.signif != "ns")
+
+# ANALYSIS OF VARIANCE (TWO FACTORS) --------------------------------------
+
+
