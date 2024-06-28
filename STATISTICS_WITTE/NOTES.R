@@ -1684,4 +1684,95 @@ tukey_hsd(x = aov(score ~ subject + group, df)) |>
 
 # ANALYSIS OF VARIANCE (TWO FACTORS) --------------------------------------
 
+# PROGRESS CHECK 18.1
 
+df <- tribble(
+  ~CRUST,  ~PLAIN, ~VEGETARIAN, ~SALAMI, ~EVERYTHING,
+  "Thick", 7.2,    5.7,         4.8,     6.1,
+  "Thin",  8.9,    4.8,         8.4,     1.3
+  )|> 
+  pivot_longer(cols = -CRUST,
+               names_to = "TOPPING",
+               values_to = "SCORE")
+
+df
+
+df |> 
+  summarise(MEAN = mean(SCORE), .by = CRUST) |> 
+  ggplot(aes(x = CRUST, y = MEAN)) +
+  geom_point() +
+  ylim(0, 10)
+
+df |> 
+  summarise(MEAN = mean(SCORE), .by = TOPPING) |> 
+  ggplot(aes(x = fct_inorder(TOPPING), y = MEAN)) +
+  geom_point() +
+  ylim(0, 10)
+
+df |>
+  summarise(MEAN = mean(SCORE), 
+            .by = c(CRUST, TOPPING)) |> 
+  ggplot(aes(x = fct_inorder(TOPPING), y = MEAN)) +
+  geom_point(aes(col = CRUST)) +
+  ylim(0, 10)
+
+
+
+df <- tribble(
+  ~DEGREE,         ~ZERO, ~TWO, ~FOUR,
+  "Dangerous",     8,     8,    10,   
+  "Dangerous",     8,     6,    8,
+  "Non dangerous", 9,     15,   24,
+  "Non dangerous", 11,    19,   18
+  )|> 
+  pivot_longer(cols = -DEGREE,
+               names_to = "CROWD SIZE",
+               values_to = "SCORE")
+
+df
+
+cell_totals <- df |> 
+  summarise(total = sum(SCORE), 
+            .by = c(DEGREE, `CROWD SIZE`)) |> 
+  pull(total)
+
+column_totals <- df |> 
+  summarise(total = sum(SCORE),
+            .by = `CROWD SIZE`) |> 
+  pull(total)
+
+row_totals <- df |> 
+  summarise(total = sum(SCORE),
+            .by = DEGREE) |> 
+  pull(total)
+
+grand_total <- sum(df$SCORE)
+
+ss_total <- sum(df$SCORE^2) - (grand_total^2 / nrow(df))
+
+ss_between <- sum((cell_totals^2)/2) - (grand_total^2 / nrow(df)) 
+
+ss_within <- sum(df$SCORE^2) - sum((cell_totals^2)/2)
+
+ss_column <- sum(column_totals^2 / 4) - (grand_total^2 / nrow(df))
+
+ss_row <- sum(row_totals^2 / 6) - (grand_total^2 / nrow(df))
+
+ss_interaction <- ss_between - (ss_row + ss_column)
+
+df_total <- nrow(df) - 1
+df_column <- 3 - 1
+df_row <- 2 - 1
+df_interaction <- df_column * df_row
+df_within <- nrow(df) - (3 * 2)
+
+df_total == df_column + df_row + df_interaction + df_within
+
+ms_column <- ss_column / df_column
+ms_row <- ss_row / df_row
+ms_interaction <- ss_interaction / df_interaction
+ms_within <- ss_within / df_within
+
+f_column <- ms_column / ms_within
+f_row <- ms_row / ms_within
+f_interaction <- ms_interaction / ms_within
