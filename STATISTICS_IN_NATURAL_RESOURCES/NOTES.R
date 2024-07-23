@@ -270,3 +270,90 @@ wolves |>
 summary(wolves$age)
 
 z_score(x_i = 6, pop_mean = 4.5, pop_sd = 3.03)
+
+c(6.3 - 1 * 0.8, 6.3 + 1 * 0.8)
+c(6.3 - 2 * 0.8, 6.3 + 2 * 0.8)
+c(6.3 - 3 * 0.8, 6.3 + 3 * 0.8)
+
+z_score(x_i = 8, pop_mean = 6.3, pop_sd = 0.8)
+
+# 3. PROBABILITY ----------------------------------------------------------
+
+# angiosperm 5/12
+# Quercus 2/12
+# not deciduous 5/12
+
+# Pinus 3/12 * 2/11 * 1/10
+# gymnno 7/12 * 6/11 * 5/10
+# gymno, gymno, angio 7/12 * 6/11 * 5/10
+# angio | Pinus (5/12 * 4/11 * 3/10) + (3/12 * 2/11 * 1/10)
+
+# 0.3 damage & disease
+# 0.65 of those trees damage only
+# 0.3 / 0.65
+
+birthday <- function(n) {
+  q <- 1 - (1:(n-1)) / 365
+  print(p <- 1 - prod(q))
+}
+
+birthday(5)
+birthday(20)
+birthday(40)
+
+(1/12) * (1/11)
+1 / prod(12:11)
+
+choose(12, 2)
+prod(12:1) / (prod(2:1) * prod(10:1))
+
+sample(1:20, 5)
+sample(1:20, 5, replace = TRUE)
+choose(20, 4)
+choose(20, 4)
+1 / (choose(20, 1) * choose(19, 1) * choose(18, 1) * choose(17, 1))
+1 / prod(20:17)
+
+p.binomial <- function(n, p, title, ymax, xmax) {
+  x <- dbinom(0:n, size = n, prob = p)
+  barplot(x, ylim = c(0, ymax), xlim = c(0, xmax),
+          names.arg = 0:n,
+          xlab = "Number of grouse with West Nile",
+          ylab = "Probability",
+          main = sprintf(paste(title)))
+}
+
+p.binomial(n = 6, p = 0.13, 
+           title = "Binomial distribution (n = 6, p = 0.13)",
+           ymax = 0.5, xmax = 7)
+
+p.binomial(n = 50, p = 0.29, 
+           title = "Binomial distribution (n = 50, p = 0.29)",
+           ymax = 0.15, xmax = 51)
+
+dbinom(x = 0, size = 6, prob = 0.13)
+
+dbinom(x = 0, size = 6, prob = 0.13) + dbinom(x = 1, size = 6, prob = 0.13) + dbinom(x = 2, size = 6, prob = 0.13)
+pbinom(q = 2, size = 6, prob = 0.13)
+
+p.binomial(n = 25, p = 0.13, 
+           title = "Binomial distribution (n = 25, p = 0.13)",
+           ymax = 0.3, xmax = 26)
+
+dbinom(x = 5, size = 25, prob = 0.13)
+pbinom(q = 5, size = 25, prob = 0.13)
+1 - pbinom(q = 5, size = 25, prob = 0.13)
+
+dnorm(x = 38, mean = 42, sd = 3)
+pnorm(q = 38, mean = 42, sd = 3)
+
+z_score(x_i = 8, pop_mean = 6.3, pop_sd = 0.8)
+x <- tibble(x = rnorm(n = 100, mean = 6.3, sd = 0.8))
+ggplot(data = x, aes(x)) + geom_histogram()
+
+dnorm(x = 2, mean = 4.8, sd = 1.5)
+pnorm(q = 7, mean = 4.8, sd = 1.5) - pnorm(q = 4, mean = 4.8, sd = 1.5)
+
+# 4. HYPOTHESIS TESTS FOR MEANS AND VARIANCES -----------------------------
+
+
