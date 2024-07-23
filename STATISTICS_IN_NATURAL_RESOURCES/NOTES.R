@@ -356,4 +356,91 @@ pnorm(q = 7, mean = 4.8, sd = 1.5) - pnorm(q = 4, mean = 4.8, sd = 1.5)
 
 # 4. HYPOTHESIS TESTS FOR MEANS AND VARIANCES -----------------------------
 
+qt(p = 0.95, df = 9)
 
+head(chirps)
+
+mean_cps <- mean(chirps$cps)
+sd_cps <- sd(chirps$cps)
+n_cps <- length(chirps$cps)
+
+low_bound <- mean_cps + (qt(0.025, df = n_cps - 1) * (sd_cps / sqrt(n_cps)))
+high_bound <- mean_cps + (qt(0.975, df = n_cps - 1) * (sd_cps / sqrt(n_cps)))
+
+low_bound; high_bound
+
+low_bound_90 <- mean_cps + (qt(0.05, df = n_cps - 1) * (sd_cps / sqrt(n_cps)))
+high_bound_90 <- mean_cps + (qt(0.95, df = n_cps - 1) * (sd_cps / sqrt(n_cps)))
+
+low_bound_90; high_bound_90
+
+qt(p = 0.1, df = 8)
+qt(p = 0.1, df = 16)
+qt(p = 0.75, df = 10)
+qt(p = 0.9, df = 22)
+
+mean_hg <- 0.540
+sd_hg <- 0.399
+n_hg <- 60
+
+low_bound_95 <- mean_hg + (qt(0.025, df = n_hg - 1) * (sd_hg / sqrt(n_hg)))
+high_bound_95 <- mean_hg + (qt(0.975, df = n_hg - 1) * (sd_hg / sqrt(n_hg)))
+low_bound_95; high_bound_95
+
+low_bound_80 <- mean_hg + (qt(0.1, df = n_hg - 1) * (sd_hg / sqrt(n_hg)))
+high_bound_80 <- mean_hg + (qt(0.9, df = n_hg - 1) * (sd_hg / sqrt(n_hg)))
+low_bound_80; high_bound_80
+
+mean_perch <- 260
+sd_perch <- sqrt(10.2)
+n_perch <- 18
+
+low_bound_90 <- mean_perch + (qt(0.05, df = n_perch - 1) * (sd_perch / sqrt(n_perch)))
+high_bound_90 <- mean_perch + (qt(0.95, df = n_perch - 1) * (sd_perch / sqrt(n_perch)))
+low_bound_90; high_bound_90
+
+t.test(x = chirps$cps, mu = 18)
+qt(p = 0.025, df = 14)
+
+t.test(x = chirps$cps, mu = 18, conf.level = 0.90)
+
+t.test(x = chirps$cps, mu = 18, alternative = "greater")
+t.test(x = chirps$cps, mu = 18, alternative = "less")
+
+wilcox.test(chirps$cps, mu = 18)
+
+chirps <- chirps |> 
+  mutate(cps_2 = c(20.5, 16.3, 20.9, 18.6, 17.5, 15.7, 
+                   14.9, 17.5, 15.9, 16.5, 15.3, 17.7, 
+                   16.2, 17.6, 14.6))
+
+chirps|> 
+  pivot_longer(cols = !temp_F, names_to = "dataset", values_to = "cps") |> 
+  ggplot(aes(dataset, cps)) +
+  geom_boxplot() +
+  labs(x = "Data set", y = "Chirps per second")
+
+t.test(chirps$cps, chirps$cps_2, conf.level = 0.95, var.equal = TRUE)
+
+t.test(chirps$cps, chirps$cps_2, conf.level = 0.95, var.equal = FALSE)
+
+hunt <- tibble(
+  hunter_id = rep(1:8, 2),
+  time = rep(c("Pre", "Post"), each = 8),
+  days = c(5, 7, 3, 9, 4, 1, 6, 2, 8, 7, 4, 11, 9, 3, 10, 5)
+)
+
+hunt |> 
+  ggplot(aes(time, days)) +
+  geom_boxplot() +
+  geom_point() +
+  labs(x = "Time period",
+       y = "Estimated days to hunt")
+
+pre <- hunt |> 
+  filter(time == "Pre")
+
+post <- hunt |> 
+  filter(time == "Post")
+
+t.test(pre$days, post$days, paired = TRUE)
