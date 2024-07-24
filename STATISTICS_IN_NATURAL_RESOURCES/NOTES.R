@@ -9,6 +9,7 @@ library(stats4nr)
 library(tidyverse)
 library(hexbin)
 library(modeest)
+library(plotrix)
 
 # 1. VISUALIZING DATA -----------------------------------------------------
 
@@ -444,3 +445,69 @@ post <- hunt |>
   filter(time == "Post")
 
 t.test(pre$days, post$days, paired = TRUE)
+
+mean_ht <- mean(elm$HT)
+sd_ht <- sd(elm$HT)
+n_ht <- length(elm$HT)
+se_ht <- sd(elm$HT) / sqrt(length(elm$HT))
+plotrix::std.error(elm$HT)
+
+low_bound_95 <- mean_ht + (qt(0.025, df = n_ht - 1) * se_ht)
+high_bound_95 <- mean_ht + (qt(0.975, df = n_ht - 1) * se_ht)
+
+res <- t.test(elm$HT, conf.level = 0.95)
+res$conf.int
+
+t.test(elm$HT, mu = 30)
+t.test(elm$HT, mu = 30, alternative = "less", conf.level = 0.9)
+
+elm_intermediate <- elm |> 
+  filter(CROWN_CLASS_CD == 4)
+
+elm_suppressed <- elm |> 
+  filter(CROWN_CLASS_CD == 5)
+
+t.test(elm_intermediate$HT, elm_suppressed$HT, 
+       conf.level = 0.95, var.equal = FALSE)
+
+t.test(elm_intermediate$DIA, elm_suppressed$DIA, 
+       conf.level = 0.9, var.equal = TRUE)
+
+hunt <- tibble(
+  hunter_id = rep(1:8, 2),
+  time = rep(c("Pre", "Post"), each = 8),
+  days = c(5, 7, 3, 9, 4, 1, 6, 2, 8, 7, 4, 11, 9, 3, 10, 5)
+)
+
+pre <- hunt |> 
+  filter(time == "Pre")
+
+post <- hunt |> 
+  filter(time == "Post")
+
+t.test(pre$days, post$days, paired = TRUE)
+t.test(pre$days, post$days, var.equal = TRUE)
+
+qf(p = 0.90, df1 = 4, df2 = 9)
+
+chirps <- chirps |> 
+  mutate(cps_2 = c(20.5, 16.3, 20.9, 18.6, 17.5, 15.7, 
+                   14.9, 17.5, 15.9, 16.5, 15.3, 17.7, 
+                   16.2, 17.6, 14.6))
+
+var.test(chirps$cps, chirps$cps_2, conf.level = 0.90)
+
+qf(p = 0.90, df1 = 14, df2 = 14)
+
+qf(p = 0.80, df1 = 4, df2 = 6)
+qf(p = 0.95, df1 = 4, df2 = 6)
+
+qf(p = 0.90, df1 = 5, df2 = 10)
+qf(p = 0.90, df1 = 10, df2 = 20)
+
+var.test(elm_intermediate$HT, elm_suppressed$HT, conf.level = 0.95)
+var.test(elm_intermediate$DIA, elm_suppressed$DIA, conf.level = 0.90)
+
+# 5. INFERENCE FOR COUNTS AND PROPORTIONS ---------------------------------
+
+
