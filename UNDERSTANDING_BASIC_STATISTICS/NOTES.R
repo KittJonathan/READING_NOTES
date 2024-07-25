@@ -68,3 +68,67 @@ waiting <- c(1, 5, 5, 6, 7, 4, 8, 7, 6, 5,
              5, 6, 7, 6, 6, 5, 8, 9, 9, 10,
              7, 8, 11, 2, 4, 6, 5, 12, 13, 6,
              3, 7, 8, 8, 9, 9, 10, 9, 8, 9)
+
+class_width <- plyr::round_any(
+  x = (max(waiting) - min(waiting)) / 5, 
+  accuracy = 1,
+  f = ceiling
+)
+
+class_limits <- tibble(
+  lower_cl = seq(from = 1, by = class_width, length.out = 5),
+  upper_cl = seq(from = class_width, by = class_width, length.out = 5)
+)
+
+counts <- list()
+
+for (i in 1:nrow(class_limits)) {
+  
+  counts[[i]] <- waiting |>
+    as_tibble() |> 
+    filter(between(value, class_limits$lower_cl[i],
+                   class_limits$upper_cl[i])) |> 
+    nrow()
+  }
+
+waiting_freq <- class_limits |> 
+  mutate(frequency = unlist(counts),
+         class_midpoint = (lower_cl + upper_cl) / 2,
+         lower_cb = lower_cl - 0.5,
+         upper_cb = upper_cl + 0.5) |> 
+  select(lower_cl, upper_cl, lower_cb, upper_cb,
+         frequency, class_midpoint)
+
+waiting_freq |> 
+  ggplot() +
+  geom_rect(aes(xmin = lower_cb, xmax = upper_cb,
+                ymin = 0, ymax = frequency),
+            col = "black", fill = "white") +
+  labs(x = "Miles", y = "Frequency")
+
+waiting_rel_freq <- waiting_freq |> 
+  mutate(relative_frequency = round(frequency / sum(frequency), 3))
+
+waiting_rel_freq |> 
+  ggplot() +
+  geom_rect(aes(xmin = lower_cb, xmax = upper_cb,
+                ymin = 0, ymax = relative_frequency),
+            col = "black", fill = "white") +
+  labs(x = "Miles", y = "Relative frequency")
+
+temp_freq <- tibble(
+  lower_cb = c(10.5, 20.5, 30.5, 40.5, 50.5),
+  upper_cb = c(20.5, 30.5, 40.5, 50.5, 60.5),
+  frequency = c(23, 43, 51, 27, 7))
+
+temp_freq |> 
+  mutate(cumulative_frequency = cumsum(frequency)) |> 
+  mutate(x = upper_cb) |> 
+  select(x, cumulative_frequency) |> 
+  add_row(x = 10.5, cumulative_frequency = 0) |> 
+  arrange(x) |> 
+  ggplot(aes(x, cumulative_frequency)) +
+  geom_point() +
+  geom_line() +
+  geom_text(aes(x, cumulative_frequency + 5, label = cumulative_frequency))
+
