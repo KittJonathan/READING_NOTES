@@ -868,4 +868,188 @@ tibble(
 
 # 3. AVERAGES AND VARIATION -----------------------------------------------
 
+## 3.1. MEASURES OF CENTRAL TENDENCY: MODE, MEDIAN, AND MEAN --------------
+
+hours <- c(17, 12, 14, 17, 13, 16, 18, 20, 13, 12,
+           12, 17, 16, 15, 14, 12, 12, 13, 17, 14,
+           15, 12, 15, 16, 12, 18, 20, 19, 12, 15,
+           18, 14, 16, 17, 15, 19, 12, 13, 12, 15)
+
+median(hours)
+modeest::mfv(hours)
+
+mean(c(58, 67, 60, 84, 93, 98, 100))
+
+class <- c(14, 20, 20, 20, 20, 23, 25, 30, 30, 30,
+           35, 35, 35, 40, 40, 42, 50, 50, 80, 80)
+mean(class)
+mean(class, trim = 1/20)
+median(class)
+
+scores <- tibble(
+  exam = c("midterm", "final"),
+  score = c(83, 95),
+  weights = c(0.4, 0.6)
+)
+
+((83 * 0.4) + (95 * 0.6)) / (0.4 + 0.6)
+
+weighted.mean(x = scores$score, w = scores$weights)
+
+x <- c(8, 2, 7, 2, 6)
+x <- c(10, 12, 20, 15, 20)
+x <- c(8, 2, 7, 2, 6, 5)
+
+mean(x)
+median(x)
+modeest::mfv(x)
+
+mean(c(5, 2, 8, 10, 6, 6))
+mean(c(5, -3, 8, 20, 6, 6))
+
+median(c(5, 2, 8, 10, 6, 6))
+median(c(5, -3, 8, 20, 6, 6))
+
+modeest::mfv(c(5, 2, 8, 10, 6, 6))
+modeest::mfv(c(5, -3, 8, 20, 6, 6))
+
+modeest::mfv(c(5, 2, 2, 2, 8, 10, 6, 6))
+modeest::mfv(c(5, -3, -3, -3, 8, 10, 6, 6))
+
+
+mean(c(5, 2, 8, 10, 6, 6))
+mean(c(5, -8, 8, 20, 6, 6))
+
+median(c(5, 2, 8, 10, 6, 6))
+median(c(5, -8, 8, 20, 6, 6))
+
+modeest::mfv(c(5, 2, 8, 10, 6, 6))
+modeest::mfv(c(5, -8, 8, 20, 6, 6))
+
+modeest::mfv(c(5, 2, 2, 2, 8, 10, 6, 6))
+modeest::mfv(c(5, -8, -8, -8, 8, 10, 6, 6))
+
+median(c(1, 3, 3, 5))
+
+mean(c(2, 3, 4, 5, 5))
+median(c(2, 3, 4, 5, 5))
+modeest::mfv(c(2, 3, 4, 5, 5))
+
+mean_a <- 10
+nb_a <- 5
+sum_a <- mean_a * nb_a
+(sum_a + 20) / (nb_a + 1)
+
+mean_b <- 50
+nb_b <- 10
+sum_b <- mean_b * nb_b
+(sum_b + 20) / (nb_b + 1)
+mean_b
+
+x <- c(2, 2, 3, 6, 10)
+mean(x)
+median(x)
+modeest::mfv(x)
+
+mean(c(x, 5))
+median(c(x, 5))
+modeest::mfv(c(x, 5))
+
+mean(x * 5)
+median(x * 5)
+modeest::mfv(x * 5)
+
+70 * 2.54
+68 * 2.54
+71 * 2.54
+
+x1 <- sample(1:1000, 15)
+
+median(x1)
+mean(x1)
+
+x2 <- sort(x1)
+x2
+max(x1)
+x2[15] <- 1040
+
+median(x2)
+mean(x2)
+
+x3 <- sort(x1)
+x3[15] <- 520
+
+median(x3)
+mean(x3)
+
+x4 <- sort(x1)
+x4[15] <- 450
+
+median(x4)
+mean(x4)
+
+temp <- c(146, 152, 168, 174, 180, 178, 179,
+          180, 178, 178, 168, 165, 152, 144)
+mean(temp)
+median(temp)
+modeest::mfv(temp)
+
+wolf <- c(13, 10, 7, 5, 7, 7, 2, 4, 3,
+          2, 3, 15, 4, 4, 2, 8, 7, 8)
+mean(wolf)
+median(wolf)
+modeest::mfv(wolf)
+
+upper_canyon <- c(2, 3, 1, 1, 3, 4, 6, 9, 3, 1, 3)
+lower_canyon <- c(8, 1, 1, 0, 6, 7, 2, 14, 3, 0, 1, 13, 2, 1)
+
+mean(upper_canyon)
+mean(lower_canyon)
+
+median(upper_canyon)
+median(lower_canyon)
+
+modeest::mfv(upper_canyon)
+modeest::mfv(lower_canyon)
+
+mean(lower_canyon, trim = 0.05)
+
+age <- c(24, 23, 25, 23, 30, 29, 28, 26, 33, 29,
+         24, 37, 25, 23, 22, 27, 28, 25, 31, 29,
+         25, 22, 31, 29, 22, 28, 27, 26, 23, 21,
+         25, 21, 25, 24, 22, 26, 25, 32, 26, 29)
+mean(age)
+median(age)
+modeest::mfv(age)
+
+maui <- c(89, 50, 68, 60, 375, 55, 500, 71, 40, 350,
+          60, 50, 250, 45, 45, 125, 235, 65, 60, 130)
+
+mean(maui)
+median(maui)
+modeest::mfv(maui)
+
+mean(maui, trim = 0.05)
+
+weighted.mean(x = c(10, 20, 30), w = c(5, 3, 2))
+weighted.mean(x = c(10, 20, 30), w = c(2, 3, 5))
+
+weighted.mean(x = c(92, 81, 93, 85), w = c(0.25, 0.225, 0.225, 0.3))
+
+weighted.mean(x = c(9, 7, 6, 10), w = c(2, 3, 1, 4))
+
+weighted.mean(x = c(64.1, 75.8, 23.9, 68.2),
+              w = c(0.38, 0.47, 0.07, 0.08))
+
+hmean <- 2 / (1/60 + 1/75)
+DescTools::Hmean(x = c(60, 75)) == hmean
+
+sqrt(1.1 * 1.12 * 1.148 * 1.038 * 1.06)
+
+growth <- c(1.1, 1.12, 1.148, 1.038, 1.06)
+exp(mean(log(growth)))
+DescTools::Gmean(growth)
+
+# 3.2. MEASURES OF VARIATION ----------------------------------------------
+
 
