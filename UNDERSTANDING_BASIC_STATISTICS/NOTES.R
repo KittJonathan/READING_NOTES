@@ -62,16 +62,22 @@ miles <- c(13, 47, 10, 3, 16, 20, 17, 40, 4, 2,
            34, 13, 41, 28, 36, 17, 24, 27, 29, 9,
            14, 26, 10, 24, 37, 31, 8, 16, 12, 16)
 
+bin_nb <- 6
+
 class_width <- plyr::round_any(
-  x = (max(miles) - min(miles)) / 6, 
+  x = (max(miles) - min(miles)) / bin_nb, 
   accuracy = 1,
   f = ceiling
   )
 
 class_limits <- tibble(
   lower_cl = seq(from = 1, by = class_width, length.out = 6),
-  upper_cl = seq(from = class_width, by = class_width, length.out = 6)
-)
+  upper_cl = seq(from = class_width, by = class_width, length.out = 6)) |> 
+  mutate(ranges = paste(lower_cl, upper_cl, sep = "-"))
+
+class_limits |>
+  ggplot() +
+  geom_histogram(aes(x = tibble(miles)), breaks = class_limits$lower_cl)
 
 counts <- list()
 
@@ -577,4 +583,289 @@ tibble(
   ggplot(aes(x = "", y = number, fill = frequency)) +
   geom_bar(width = 1, stat = "identity") +
   coord_polar("y", start = 0, direction = -1)
+
+distances <- tibble(
+  week = 1:20,
+  distance = c(1.5, 1.4, 1.7, 1.6, 1.9, 2.0, 1.8, 2.0, 1.9, 2.0,
+               2.1, 2.1, 2.3, 2.3, 2.2, 2.4, 2.5, 2.6, 2.4, 2.7))
   
+distances |> 
+  ggplot() +
+  geom_line(aes(x = week, y = distance), col = "blue",
+            linewidth = 2) +
+  geom_point(aes(x = week, y = distance),
+             shape = 21, col = "blue", fill = "red",
+             size = 4, stroke = 2)
+
+salaries <- tibble(
+  degree = c("Ninth grade", "High school", "Associate", "Bachelor", "Master",
+             "Doctoral"),
+  salary = c(24.3, 41.4, 59.7, 82.7, 100.8, 121.6)
+)
+
+salaries |> 
+  ggplot() +
+  geom_col(aes(x = fct_inorder(degree), y = salary), position = "identity")
+
+tibble(age = c("18-34", "18-34", "45-54", "45-54"),
+       influence = c("Influential", "Not influential", "Influential", "Not influential"),
+       percentage = c(45, 44, 25, 60)) |> 
+  ggplot() +
+  geom_col(aes(x = age, y = percentage, fill = influence),
+           position = "dodge")
+
+tibble(
+  fish = c("flatfish", "Pacific cod", "sablefish", "walleye pollock", "rockfish"),
+  thd_metric_tons = c(36.3, 68.6, 16, 71.2, 18.9)) |> 
+  arrange(-thd_metric_tons) |> 
+  ggplot() +
+  geom_bar(aes(x = fct_inorder(fish), y = thd_metric_tons),
+           stat = "identity")
+
+tibble(
+  river = c("Bann", "Blackwater", "Erne", "Shannon", "Barrow"),
+  count = c(19, 8, 15, 33, 14)) |> 
+  arrange(-count) |> 
+  ggplot() +
+  geom_bar(aes(x = fct_inorder(river), y = count),
+           stat = "identity")
+
+tibble(
+  river = c("Bann", "Blackwater", "Erne", "Shannon", "Barrow"),
+  count = c(19, 8, 15, 33, 14)) |> 
+  arrange(-count) |> 
+  ggplot(aes(x = "", y = count, fill = river)) +
+  geom_bar(width = 1, stat = "identity") +
+  coord_polar("y", start = 0, direction = 1)
+
+tibble(
+  place = c("closet", "bed", "bathtub", "freezer"),
+  count = c(68, 23, 6, 3)) |> 
+  arrange(-count) |> 
+  ggplot(aes(x = "", y = count, fill = place)) +
+  geom_bar(width = 1, stat = "identity") +
+  coord_polar("y", start = 0, direction = 1)
+
+tibble(
+  object = c("teaching", "research", "growth", "community service",
+             "college service", "consulting"),
+  time = c(51, 16, 5, 11, 11, 6)) |> 
+  arrange(-time) |> 
+  ggplot(aes(x = "", y = time, fill = object)) +
+  geom_bar(width = 1, stat = "identity") +
+  coord_polar("y", start = 0, direction = 1)
+
+tibble(
+  crime = c("murder", "rape", "robbery", "house burglary",
+            "motor vehicle theft", "assault"),
+  rate = c(2.6, 33.4, 93.3, 911.6, 550.7, 125.3)) |> 
+  arrange(-rate) |> 
+  ggplot() +
+  geom_bar(aes(x = fct_inorder(crime), y = rate),
+           stat = "identity")
+
+tibble(
+  habit = c("tail-gating", "signals", "cut off", "slow", "inconsiderate"),
+  percentage = c(22, 19, 16, 11, 8)) |> 
+  arrange(-percentage) |> 
+  ggplot() +
+  geom_bar(aes(x = fct_inorder(habit), y = percentage),
+           stat = "identity") +
+  geom_text(aes(x = habit, y = percentage + 2,
+                label = percentage))
+
+tibble(
+  period = 1:15,
+  elevation = c(3817, 3815, 3810, 3812, 3808, 3803, 3798, 3797, 3795, 3797, 
+                3802, 3807, 3811, 3816, 3817)) |> 
+  ggplot(aes(x = period, y = elevation)) +
+  geom_line() +
+  geom_point()
+
+tibble(
+  age = c(0.5, 1:14),
+  height = c(26, 29, 33, 36, 39, 42, 45, 47, 50, 52, 54, 56, 58, 60, 62)) |> 
+  ggplot(aes(x = age, y = height)) +
+  geom_line() +
+  geom_point()
+
+
+## 2.3. STEM-AND-LEAF DISPLAYS --------------------------------------------
+
+weights <- c(30, 27, 12, 42, 35, 47, 38, 36, 27, 35,
+             22, 17, 29, 3, 21, 0, 38, 32, 41, 33,
+             26, 45, 18, 43, 18, 32, 31, 32, 19, 21,
+             33, 31, 28, 29, 51, 12, 32, 18, 21, 26)
+
+stem(weights)
+
+scores <- c(132, 118, 124, 109, 104, 101, 125, 83, 99,
+            131, 98, 125, 97, 106, 112, 92, 120, 103,
+            111, 117, 135, 143, 112, 112, 116, 106, 117,
+            119, 110, 105, 128, 112, 126, 105, 102)
+
+stem(scores)
+
+years <- c(58, 52, 68, 86, 72, 66, 97, 89, 84, 91, 91,
+           92, 66, 68, 87, 86, 73, 61, 70, 75, 72, 73,
+           85, 84, 90, 57, 77, 76, 84, 93, 58, 47)
+
+stem(years)
+
+loss <- c(46, 37, 36, 42, 81, 20, 73, 59, 35, 50,
+          87, 52, 24, 27, 38, 56, 39, 74, 56, 31,
+          27, 91, 46, 9, 54, 52, 30, 33, 28, 35,
+          35, 23, 90, 72, 85, 42, 59, 50, 49,
+          48, 38, 60, 46, 87, 50, 89, 49, 67)
+
+stem(loss)
+
+days <- c(7, 5.7, 5.5, 7, 6, 6.8, 7.4, 6.8, 7.5, 7, 7.2, 9.4, 7.1, 6.6, 7.3, 8.4, 7.8,
+          6.9, 6.7, 7.2, 6.8, 7, 7.3, 8.7, 7.2, 7.4, 10, 7.3, 11.1, 9.6, 6.4, 7, 9.9, 7.6,
+          5.5, 5.3, 6.6, 6.7, 7.5, 6.9, 7.1, 10.3, 6.8, 6.2, 5.2, 7.6, 7, 5.6, 7.1, 7.3, 8.5)
+stem(days)
+
+hospitals <- c(119, 16, 61, 88, 440, 71, 35, 8, 11, 227, 162, 19, 41, 113, 209, 123, 133,
+               107, 136, 38, 51, 101, 175, 148, 102, 133, 53, 117, 47, 90, 21, 27, 231, 96,
+               37, 66, 193, 113, 236, 12, 68, 52, 122, 421, 42, 15, 98, 92, 59, 129, 27)
+stem(hospitals)
+
+stem(c(23, 23, 18, 19, 16, 17, 15, 22, 13, 10,
+       18, 15, 16, 13, 9, 20, 14, 10, 9, 12), scale = 1)
+
+stem(c(9, 8, 9, 10, 14, 7, 11, 8, 9, 8,
+       11, 8, 9, 7, 9, 9, 10, 7, 9, 9))
+
+stem(c(71, 65, 67, 73, 74, 73, 71, 71, 74, 73, 71,
+       70, 75, 71, 72, 71, 75, 75, 71, 71, 74, 75,
+       66, 75, 75, 75, 71, 72, 72, 73, 71, 67), scale = 4)
+
+stem(c(69, 69, 73, 74, 72, 72, 70, 71, 71, 70, 72,
+       73, 73, 72, 71, 71, 71, 69, 70, 71, 72, 73,
+       74, 72, 71, 68, 69, 70, 69, 71, 73, 74), scale = 2)
+
+cigarettes <- tibble(
+  tar = c(14.1, 16, 29.8, 8, 4.1, 15, 8.8, 12.4, 16.6, 14.9, 13.7, 15.1, 7.8,
+          11.4, 9, 1, 17, 12.8, 15.8, 4.5, 14.5, 7.3, 8.6, 15.2, 12),
+  nicotine = c(0.86, 1.06, 2.03, 0.67, 0.4, 1.04, 0.76, 0.95, 1.12, 1.02, 1.01, 0.9, 0.57,
+               0.78, 0.74, 0.13, 1.26, 1.08, 0.96, 0.42, 1.01, 0.61, 0.69, 1.02, 0.82),
+  CO = c(13.6, 16.6, 23.5, 10.2, 5.4, 15, 9, 12.3, 16.3, 15.4, 13, 14.4, 10,
+         10.2, 9.5, 1.5, 18.5, 12.6, 17.5, 4.9, 15.9, 8.5, 10.6, 13.9, 14.9)
+)
+
+stem(cigarettes$tar)
+stem(cigarettes$CO)
+stem(cigarettes$nicotine)
+
+tibble(
+  aspect = c("jargon", "deductions", "form", "numbers", "other"),
+  percentage = c(43, 28, 10, 8, 10)) |> 
+  arrange(-percentage) |> 
+  ggplot(aes(x = "", y = percentage, fill = aspect)) +
+  geom_bar(width = 1, stat = "identity") +
+  coord_polar("y", start = 0, direction = 1)
+
+dui_age <- c(46, 16, 41, 26, 22, 33, 30, 22, 36, 34,
+             63, 21, 26, 18, 27, 24, 31, 38, 26, 55,
+             31, 47, 27, 43, 35, 22, 64, 40, 58, 20,
+             49, 37, 53, 25, 29, 32, 23, 49, 39, 40,
+             24, 56, 30, 51, 21, 45, 27, 34, 47, 35)
+
+stem(dui_age)
+
+scan_freq(dui_age, 7)
+
+
+
+class_width <- plyr::round_any((max(dui_age) - min(dui_age)) / 7,
+                               accuracy = 1, f = ceiling)
+
+breaks <- seq(from = min(dui_age), by = class_width, length.out = class_width + 1)
+
+dui_tbl <- dui_age |> 
+  as_tibble() |> 
+  mutate(bin = cut(value, breaks, include.lowest = T, right = F)) |>
+  count(bin) |> 
+  mutate(lower_cl = breaks[-8],
+         upper_cl = lower_cl + 6,
+         class_midpoint = (upper_cl + lower_cl) / 2,
+         lower_cb = lower_cl - 0.5,
+         upper_cb = upper_cl + 0.5) |> 
+  select(lower_cl, class_midpoint, upper_cl, lower_cb, upper_cb, freq = n) |> 
+  mutate(rel_freq = freq / sum(freq))
+
+dui_tbl |> 
+  ggplot() +
+  geom_rect(aes(xmin = lower_cb, xmax = upper_cb,
+                ymin = 0, ymax = freq),
+            col = "black", fill = "white") 
+
+dui_tbl |> 
+  ggplot() +
+  geom_rect(aes(xmin = lower_cb, xmax = upper_cb,
+                ymin = 0, ymax = rel_freq),
+            col = "black", fill = "white")
+
+dui_tbl |> 
+  mutate(cumul_freq = cumsum(freq)) |> 
+  select(x = upper_cb, cumul_freq) |> 
+  add_row(x = 15.5, cumul_freq = 0) |> 
+  arrange(x) |> 
+  ggplot(aes(x, cumul_freq)) +
+  geom_point() +
+  geom_line() +
+  geom_text(aes(x, cumul_freq + 5, label = cumul_freq))
+
+
+trees <- c(109, 99, 106, 102, 115, 120, 120, 117, 122, 142, 
+           106, 111, 119, 109, 125, 108, 116, 105, 117, 123, 
+           103, 114, 101, 99, 112, 120, 108, 91, 115, 109,
+           114, 105, 99, 122, 106, 113, 114, 75, 96, 124,
+           91, 102, 108, 110, 83, 90, 69, 117, 84, 142,
+           122, 113, 105, 112, 117, 122, 129, 100, 138, 117)
+
+stem(trees)
+
+trees_tbl <- scan_freq(trees, 7)
+
+trees_tbl |> 
+  ggplot() +
+  geom_rect(aes(xmin = lower_cb, xmax = upper_cb,
+                ymin = 0, ymax = frequency),
+            col = "black", fill = "white") 
+
+trees_tbl |> 
+  ggplot() +
+  geom_rect(aes(xmin = lower_cb, xmax = upper_cb,
+                ymin = 0, ymax = relative_frequency),
+            col = "black", fill = "white")
+
+trees_tbl |>
+  select(x = upper_cb, cumulative_frequency) |> 
+  add_row(x = 68.5, cumulative_frequency = 0) |> 
+  arrange(x) |> 
+  ggplot(aes(x, cumulative_frequency)) +
+  geom_point() +
+  geom_line() +
+  geom_text(aes(x, cumulative_frequency + 5, label = cumulative_frequency))
+
+tibble(
+  case = c("contracts", "torts", "absestos", "other product", "other"),
+  count = c(107, 191, 49, 38, 21)) |> 
+  arrange(-count) |> 
+  ggplot(aes(x = fct_inorder(case), y = count)) +
+  geom_bar(stat = "identity")
+
+tibble(
+  case = c("contracts", "torts", "absestos", "other product", "other"),
+  count = c(107, 191, 49, 38, 21)) |> 
+  mutate(pct = 100 * count / sum(count)) |> 
+  arrange(-pct) |> 
+  ggplot() +
+  geom_bar(aes(x = "", y = pct, fill = case),
+           stat = "identity") +
+  coord_polar("y")
+
+# 3. AVERAGES AND VARIATION -----------------------------------------------
+
+
