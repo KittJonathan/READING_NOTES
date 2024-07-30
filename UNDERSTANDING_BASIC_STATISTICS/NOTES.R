@@ -1050,7 +1050,7 @@ growth <- c(1.1, 1.12, 1.148, 1.038, 1.06)
 exp(mean(log(growth)))
 DescTools::Gmean(growth)
 
-# 3.2. MEASURES OF VARIATION ----------------------------------------------
+## 3.2. MEASURES OF VARIATION ----------------------------------------------
 
 range(c(17, 22, 22, 22, 27))
 diff(range(c(17, 22, 22, 22, 27)))
@@ -1225,3 +1225,260 @@ y_mean - 2 * y_sd ; y_mean + 2 * y_sd
 x_sd / x_mean * 100
 y_sd / y_mean * 100
 
+x <- c(56, 85, 52, 13, 39)
+y <- c(24, 53, 60, 69, 18)
+
+x_sum <- sum(x)
+x_sq_sum <- sum(x^2)
+
+y_sum <- sum(y)
+y_sq_sum <- sum(y^2)
+
+x_mean <- sum(x) / length(x)
+x_var <- (x_sq_sum - (x_sum^2 / length(x))) / (length(x) - 1)
+x_sd <- sqrt((x_sq_sum - (x_sum^2 / length(x))) / (length(x) - 1))
+
+y_mean <- sum(y) / length(y)
+y_var <- (y_sq_sum - (y_sum^2 / length(y))) / (length(y) - 1)
+y_sd <- sqrt((y_sq_sum - (y_sum^2 / length(y))) / (length(y) - 1))
+
+x_cv <- x_sd / x_mean * 100
+y_cv <- y_sd / y_mean * 100
+
+x_mean - 2 * x_sd ; x_mean + 2 * x_sd
+y_mean - 2 * y_sd ; y_mean + 2 * y_sd
+
+14.05 / 9.58 * 100
+12.5 / 9.02 * 100
+
+9.58 - 2 * 14.05 ; 9.58 + 2 * 14.05
+9.02 - 2 * 12.5 ; 9.02 + 2 * 12.5
+
+1.5 * 2.2 / 100
+
+tbl <- tibble(
+  x_midpoint = c(5.5, 15.5, 25.5, 35.5),
+  count = c(34, 18, 17, 11)) |> 
+  mutate(xf = x_midpoint * count,
+         x_sq = x_midpoint^2,
+         x_sq_f  = x_sq * count)
+
+(sum(tbl$x_midpoint * tbl$count)) / (sum(tbl$count))
+(sum(((tbl$x_midpoint - mean(tbl$x_midpoint))^2) * tbl$count)) / (sum(tbl$count) - 1)
+sqrt((sum(((tbl$x_midpoint - mean(tbl$x_midpoint))^2) * tbl$count)) / (sum(tbl$count) - 1))
+
+tbl <- tibble(
+  x_midpoint = c(25.5, 35.5, 45.5),
+  count = c(260, 348, 287)) |> 
+  mutate(xf = x_midpoint * count,
+         x_sq = x_midpoint^2,
+         x_sq_f  = x_sq * count)
+
+(sum(tbl$x_midpoint * tbl$count)) / (sum(tbl$count))
+(sum(((tbl$x_midpoint - mean(tbl$x_midpoint))^2) * tbl$count)) / (sum(tbl$count) - 1)
+sqrt((sum(((tbl$x_midpoint - mean(tbl$x_midpoint))^2) * tbl$count)) / (sum(tbl$count) - 1))
+
+tbl <- tibble(
+  x_midpoint = c(3.5, 4.5, 5.5, 6.5, 7.5, 8.5, 9.5, 10.5),
+  count = c(2, 2, 4, 22, 64, 90, 14, 2)) |> 
+  mutate(xf = x_midpoint * count,
+         x_sq = x_midpoint^2,
+         x_sq_f  = x_sq * count)
+
+(sum(tbl$x_midpoint * tbl$count)) / (sum(tbl$count))
+(sum(((tbl$x_midpoint - mean(tbl$x_midpoint))^2) * tbl$count)) / (sum(tbl$count) - 1)
+sqrt((sum(((tbl$x_midpoint - mean(tbl$x_midpoint))^2) * tbl$count)) / (sum(tbl$count) - 1))
+
+
+
+
+tbl <- tibble(
+  x_midpoint = c(10.55, 14.55, 18.55, 22.55, 26.55),
+  count = c(15, 20, 5, 7, 3)) |> 
+  mutate(xf = x_midpoint * count,
+         x_sq = x_midpoint^2,
+         x_sq_f  = x_sq * count)
+
+(sum(tbl$x_midpoint * tbl$count)) / (sum(tbl$count))
+(sum(((tbl$x_midpoint - mean(tbl$x_midpoint))^2) * tbl$count)) / (sum(tbl$count) - 1)
+sqrt((sum(((tbl$x_midpoint - mean(tbl$x_midpoint))^2) * tbl$count)) / (sum(tbl$count) - 1))
+
+tbl <- tibble(
+  year = 1:11,
+  return = c(1.78, 17.79, 7.46, 5.95, -4.74, 25.85, 9.03, 18.92, 17.49, 6.80, -2.38))
+
+mean(tbl$return)
+sd(tbl$return)
+
+zoo::rollmean(x = tbl$return, k = 3)
+mean(zoo::rollmean(x = tbl$return, k = 3))
+sd(zoo::rollmean(x = tbl$return, k = 3))
+
+N1 <- 310
+s1 <- 3
+N2 <- 420
+s2 <- 12
+N3 <- 516
+s3 <- 6
+
+n1 <- round(((N1 * s1) / (N1 * s1 + N2 * s2 + N3 * s3)) * 100)
+n2 <- round(((N2 * s2) / (N1 * s1 + N2 * s2 + N3 * s3)) * 100)
+n3 <- round(((N3 * s3) / (N1 * s1 + N2 * s2 + N3 * s3)) * 100)
+
+(n1 * 82 / 100) + (n2 * 115 / 100) + (n3 * 90 / 100)
+
+
+
+N1 <- 1525
+s1 <- 2.2
+N2 <- 917
+s2 <- 1.4
+N3 <- 2890
+s3 <- 3.3
+
+n1 <- round(((N1 * s1) / (N1 * s1 + N2 * s2 + N3 * s3)) * 250)
+n2 <- round(((N2 * s2) / (N1 * s1 + N2 * s2 + N3 * s3)) * 250)
+n3 <- round(((N3 * s3) / (N1 * s1 + N2 * s2 + N3 * s3)) * 250)
+
+(n1 * 6.2 / 250) + (n2 * 3.1 / 250) + (n3 * 8.5 / 250)
+
+
+N1 <- 183
+N2 <- 371
+N3 <- 255
+m <- 150
+
+n1 <- round((N1 / (N1 + N2 + N3)) * m)
+n2 <- round((N2 / (N1 + N2 + N3)) * m)
+n3 <- round((N3 / (N1 + N2 + N3)) * m)
+
+n1 + n2 + n3
+
+(n1 * 96 / m) + (n2 * 85 / m) + (n3 * 88 / m)
+
+## 3.3. PERCENTILES AND BOX-AND-WHISKER PLOTS -----------------------------
+
+# GUIDED EXERCISE 7
+
+x <- c(342, 377, 319, 353, 295, 234, 294, 286, 377, 182,
+       310, 439, 111, 201, 182, 197, 209, 147, 190, 151,
+       131, 151)
+
+x_sorted <- sort(x)
+
+x_q50 <- (x_sorted[11] + x_sorted[12]) / 2
+x_q25 <- x_sorted[6]
+x_q75 <- x_sorted[17]
+x_q75 - x_q25
+
+boxplot.stats(x)$stats
+quantile(x, type = 1)
+IQR(x, type = 1)
+
+boxplot(x)
+boxplot(x)$stats
+
+# EX.5
+x <- c(2, 5, 5, 6, 7, 7, 8, 9, 10)
+# Q3 = 7, Q1 = 5, Q2 = 8.5 
+quantile(x, type = 6)
+boxplot(x)
+
+# EX.6
+x <- c(2, 5, 5, 6, 7, 8, 8, 9, 10, 12)
+# Q1 = 5, Q3 = 7.5, Q2 = 9 
+quantile(x, type = 5)
+boxplot(x)
+
+# EX.7
+x <- c(23, 2, 5, 14, 25, 36, 27, 42, 12, 8,
+       7, 23, 29, 26, 28, 11, 20, 31, 8, 36)
+x <- sort(x)
+# Q3 = 29, Q1 = 8, Q = 9 
+quantile(x, type = 5)
+boxplot(x)
+IQR(x)
+
+# EX.8
+x <- c(25, 22, 7, 24, 26, 31, 18, 14, 17, 20,
+       31, 42, 6, 25, 22, 3, 29, 32, 15, 72)
+boxplot(x)
+IQR(x)
+boxplot.stats(x)$stats
+
+# EX.9
+x <- c(17, 18, 18, 18, 19, 20, 20, 20, 21, 21,
+       21, 21, 22, 22, 22, 22, 22, 22, 23, 23,
+       24, 24, 24, 24, 24, 24, 24, 24, 25, 26,
+       26, 26, 26, 26, 26, 27, 27, 27, 27, 27, 
+       28, 28, 29, 31, 31, 32, 32, 34, 35, 38)
+boxplot(x)
+IQR(x)
+quantile(x)
+
+# EX.10
+x <- c(5, 6, 7, 7, 7, 7, 8, 8, 8, 8,
+       8,  9,  9,  9,  9,  9,  9,  9,  10, 10,
+       10, 10, 10, 10, 10, 10, 11, 11, 11, 11,
+       11, 11, 11, 11, 12, 12, 12, 12, 13, 13,
+       13, 13, 13, 13, 14, 14, 14, 14, 14, 15)
+boxplot(x)
+IQR(x)
+quantile(x)
+
+# EX.12
+
+x <- c(65, 72, 68, 64, 60, 55, 73, 71, 52, 63, 61, 74,
+       69, 67, 74, 50, 4, 75, 67, 62, 66, 80, 64, 65)
+boxplot(x)
+IQR(x)
+quantile(x)
+61.75 - 1.5 * IQR(x)
+71.25 + 1.5 * IQR(x)
+boxplot.stats(x)$out
+
+# VIEWPOINT
+tbl <- tibble(
+  x_midpoint = c(76, 159.5, 262.5),
+  count = c(67, 29, 4)) |> 
+  mutate(xf = x_midpoint * count,
+         x_sq = x_midpoint^2,
+         x_sq_f  = x_sq * count)
+
+(sum(tbl$x_midpoint * tbl$count)) / (sum(tbl$count))
+(sum(((tbl$x_midpoint - mean(tbl$x_midpoint))^2) * tbl$count)) / (sum(tbl$count) - 1)
+sqrt((sum(((tbl$x_midpoint - mean(tbl$x_midpoint))^2) * tbl$count)) / (sum(tbl$count) - 1))
+
+# REVIEW 10
+tbl <- tibble(
+  x_midpoint = c(4:10),
+  count = c(4, 3, 2, 5, 2, 3, 4)) |> 
+  mutate(xf = x_midpoint * count,
+         x_sq = x_midpoint^2,
+         x_sq_f  = x_sq * count)
+
+(sum(tbl$x_midpoint * tbl$count)) / (sum(tbl$count))
+(sum(((tbl$x_midpoint - mean(tbl$x_midpoint))^2) * tbl$count)) / (sum(tbl$count) - 1)
+sqrt((sum(((tbl$x_midpoint - mean(tbl$x_midpoint))^2) * tbl$count)) / (sum(tbl$count) - 1))
+
+tbl <- tibble(
+  x_midpoint = c(4:10),
+  count = c(2, 3, 4, 5, 4, 3, 2)) |> 
+  mutate(xf = x_midpoint * count,
+         x_sq = x_midpoint^2,
+         x_sq_f  = x_sq * count)
+
+(sum(tbl$x_midpoint * tbl$count)) / (sum(tbl$count))
+(sum(((tbl$x_midpoint - mean(tbl$x_midpoint))^2) * tbl$count)) / (sum(tbl$count) - 1)
+sqrt((sum(((tbl$x_midpoint - mean(tbl$x_midpoint))^2) * tbl$count)) / (sum(tbl$count) - 1))
+
+# REVIEW 12
+x <- c(1.9, 2.8, 5.7, 4.2, 1.9, 8.6, 3.9, 7.2)
+mean(x)
+median(x)
+modeest::mfv(x)
+sd(x)
+sd(x) / mean(x) * 100
+diff(range(x))
+
+# REVIEW 13
