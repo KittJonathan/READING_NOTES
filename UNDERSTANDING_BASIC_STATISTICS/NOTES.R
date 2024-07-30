@@ -1052,4 +1052,176 @@ DescTools::Gmean(growth)
 
 # 3.2. MEASURES OF VARIATION ----------------------------------------------
 
+range(c(17, 22, 22, 22, 27))
+diff(range(c(17, 22, 22, 22, 27)))
+
+range(c(17, 19, 20, 27, 27))
+diff(range(c(17, 19, 20, 27, 27)))
+
+mean(c(17, 22, 22, 22, 27))
+mean(c(17, 19, 20, 27, 27))
+
+x <- c(2, 3, 3, 8, 10, 10)
+
+tibble(x = x) |> 
+  mutate(dist_to_mean = x - mean(x),
+         dist_mean_sq = dist_to_mean^2) |> 
+  summarise(sum_dist_mean_sq = sum(dist_mean_sq)) |> 
+  mutate(x_var = sum_dist_mean_sq / (length(x) - 1),
+         x_sd = sqrt(x_var))
+
+var(x)
+sd(x)
+
+x <- c(5, 5, 5, 6, 7, 8)
+
+tibble(x = x) |> 
+  mutate(x_sq = x^2,
+         sum_x = sum(x),
+         sum_x_sq = sum(x_sq),
+         x_var = (sum_x_sq - (sum_x^2 / length(x))) / (length(x) - 1),
+         x_sd = sqrt(x_var)) |> 
+  slice(1) |> 
+  select(sum_x:x_sd)
+
+x <- c(2.1, 1.95, 2.6, 2, 1.85, 2.25, 2.15, 2.25)
+
+mean(x)
+sjstats::sd_pop(x)
+
+sjstats::sd_pop(x) / mean(x) * 100
+sjstats::cv(x)
+
+x <- c(1.69, 1.49, 3.09, 1.79, 1.39, 2.89, 1.49, 1.39, 1.49, 1.99)
+mean(x)
+sd(x)
+sd(x) / mean(x) * 100
+sjstats::cv(x) * 100
+
+# Chebyshev's theorem
+1 - 1 / 2^2
+1 - 1 / 3^2
+1 - 1 / 4^2
+
+525 - 3 * 30
+525 + 3 * 30
+
+x <- 2:6
+diff(range(x))
+sd(x)
+sjstats::sd_pop(x)
+
+x <- 1:5
+diff(range(x))
+sd(x)
+sjstats::sd_pop(x)
+
+x1 <- rnorm(n = 20, mean = 25, sd = 2)
+x2 <- rnorm(n = 50, mean = 25, sd = 2)
+
+sd(x1) - sjstats::sd_pop(x1)
+sd(x2) - sjstats::sd_pop(x2)
+
+sd(c(5, 9, 10, 11, 15))
+sd(c(10, 14, 15, 16, 20))
+
+sd(c(5, 9, 10, 11, 15))
+sd(c(25, 45, 50, 55, 75))
+
+3.1 * 1.6
+
+70 + 2.5 * 5
+70 + 2.5 * 3
+
+x <- c(23, 17, 15, 30, 25)
+diff(range(x))
+sum(x)
+sum(x^2)
+
+(sum(x^2) - (sum(x)^2 / length(x))) / (length(x) - 1)
+var(x)
+
+sqrt((sum(x^2) - (sum(x)^2 / length(x))) / (length(x) - 1))
+sd(x)
+
+sum((x - mean(x))^2) / (length(x) - 1)
+sqrt(sum((x - mean(x))^2) / (length(x) - 1))
+
+sum((x - mean(x))^2) / length(x)
+sqrt(sum((x - mean(x))^2) / length(x))
+
+sjstats::var_pop(x)
+sjstats::sd_pop(x)
+
+3 / 15 * 100
+15 - 2 * 3 ; 15 + 2 * 3
+
+2 / 20 * 100
+20 - 3 * 2 ; 20 + 3 * 2
+
+x <- c(11, 0, 36, 21, 31, 23, 24, -11, -11, -21)
+y <- c(10, -2, 29, 14, 22, 18, 14, -2, -3, -10)
+
+x_sum <- sum(x)
+x_sq_sum <- sum(x^2)
+y_sum <- sum(y)
+y_sq_sum <- sum(y^2)
+
+x_mean <- x_sum / length(x)
+x_var <- (x_sq_sum - (x_sum^2 / length(x))) / (length(x) - 1)
+x_sd <- sqrt((x_sq_sum - (x_sum^2 / length(x))) / (length(x) - 1))
+
+y_mean <- y_sum / length(y)
+y_var <- (y_sq_sum - (y_sum^2 / length(y))) / (length(y) - 1)
+y_sd <- sqrt((y_sq_sum - (y_sum^2 / length(y))) / (length(y) - 1))
+
+x_mean - 2 * x_sd ; x_mean + 2 * x_sd
+y_mean - 2 * y_sd ; y_mean + 2 * y_sd
+
+x_sd / x_mean * 100
+y_sd / y_mean * 100
+
+x <- c(0.54, 1.80, 1.52, 2.05, 1.03, 1.18, 0.80, 1.33, 1.29, 1.11,
+       3.34, 1.54, 0.08, 0.12, 0.60, 0.72, 0.92, 1.05, 1.43, 3.03,
+       1.81, 2.17, 0.63, 0.56, 0.03, 0.09, 0.18, 0.34, 1.51, 1.45,
+       1.52, 0.19, 1.55, 0.02, 0.07, 0.65, 0.40, 0.24, 1.51, 1.45,
+       1.60, 1.80, 4.69, 0.08, 7.89, 1.58, 1.64, 0.03, 0.23, 0.72)
+
+diff(range(x))
+x_sum <- sum(x)
+x_sq_sum <- sum(x^2)
+
+x_mean <- x_sum / length(x)
+x_var <- (x_sq_sum - (x_sum^2 / length(x))) / (length(x) - 1)
+x_sd <- sqrt((x_sq_sum - (x_sum^2 / length(x))) / (length(x) - 1))
+
+x_cv <- x_sd / x_mean * 100
+x_cv
+
+x <- c(13.20, 5.60, 19.80, 15.05, 21.40, 17.25, 27.45,
+       16.95, 23.90, 32.40, 40.75, 5.10, 17.75, 28.35)
+
+y <- c(11.85, 15.25, 21.30, 17.30, 27.50, 10.35, 14.90,
+       48.70, 25.40, 25.95, 57.60, 34.35, 38.80, 41.00,
+       31.25)
+
+x_sum <- sum(x)
+x_sq_sum <- sum(x^2)
+
+y_sum <- sum(y)
+y_sq_sum <- sum(y^2)
+
+x_mean <- sum(x) / length(x)
+x_var <- (x_sq_sum - (x_sum^2 / length(x))) / (length(x) - 1)
+x_sd <- sqrt((x_sq_sum - (x_sum^2 / length(x))) / (length(x) - 1))
+
+y_mean <- sum(y) / length(y)
+y_var <- (y_sq_sum - (y_sum^2 / length(y))) / (length(y) - 1)
+y_sd <- sqrt((y_sq_sum - (y_sum^2 / length(y))) / (length(y) - 1))
+
+x_mean - 2 * x_sd ; x_mean + 2 * x_sd
+y_mean - 2 * y_sd ; y_mean + 2 * y_sd
+
+x_sd / x_mean * 100
+y_sd / y_mean * 100
 
