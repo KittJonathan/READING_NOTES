@@ -1482,3 +1482,185 @@ sd(x) / mean(x) * 100
 diff(range(x))
 
 # REVIEW 13
+x <- c(31, 33, 34, 34, 35, 35, 35, 36, 38, 38, 38, 39, 40, 40, 40, 40,
+       41, 41, 41, 41, 41, 41, 41, 42, 42, 43, 44, 44, 44, 45, 45, 46,
+       46, 46, 46, 47, 48, 49, 49, 49, 49, 50, 51, 52, 52, 53, 53, 53,
+       53, 53, 55, 56, 56, 57, 57, 59, 62, 66, 66, 68)
+
+boxplot(x)
+IQR(x)
+
+scan_freq(x, 5)
+
+tbl <- tibble(
+  mid = c(34.5, 42.5, 50.5, 58.5, 66.5),
+  count = c(11, 24, 15, 7, 3)) |> 
+  mutate(xf = mid * count,
+         x_sq = mid^2,
+         x_sq_f  = x_sq * count)
+
+x_mean <- (sum(tbl$mid * tbl$count)) / (sum(tbl$count))
+x_var <- (sum(((tbl$mid - mean(tbl$mid))^2) * tbl$count)) / (sum(tbl$count) - 1)
+x_sd <- sqrt(x_var)
+
+x_mean - 2 * x_sd ; x_mean + 2 * x_sd
+
+sum(tbl$x_sq_f)
+
+# REVIEW 14
+weighted.mean(x = c(92, 73, 81, 85, 87, 83, 90),
+              w = c(5, 8, 8, 15, 15, 15, 34))
+weighted.mean(x = c(20, 73, 81, 85, 87, 83, 90),
+              w = c(5, 8, 8, 15, 15, 15, 34))
+
+# REVIEW 15
+2500 / 16
+
+# REVIEW 16
+x <- c(7.8,  9.1,  9.5,  10.0, 10.2, 10.5, 11.1, 11.5, 11.7, 11.8,
+       12.2, 12.2, 12.5, 13.1, 13.5, 13.7, 13.7, 14.0, 14.4, 14.5,
+       14.6, 15.2, 15.5, 16.0, 16.0, 16.1, 16.5, 17.2, 17.8, 18.2,
+       19.0, 19.1, 19.3, 19.8, 20.0, 20.2, 20.3, 20.5, 20.9, 21.1,
+       21.4, 21.8, 22.0, 22.0, 22.4, 22.5, 22.5, 22.8, 22.8, 23.1,
+       23.1, 23.2, 23.7, 23.8, 23.8, 23.8, 23.8, 24.0, 24.1, 24.1,
+       24.5, 24.5, 24.9, 25.1, 25.2, 25.5, 26.1, 26.4, 26.5, 26.7,
+       27.1, 29.5)
+
+summary(x)
+quantile(x)
+
+IQR(x)
+
+boxplot(x)
+hist(x)
+
+# REVIEW 18
+x <- c(15, 14, 14, 14, 13, 12, 11, 11, 11, 11, 10, 11, 13, 16, 10,
+       9, 15, 12, 9, 10, 7, 14, 13, 14, 8, 9, 8, 11, 13, 13,
+       15, 12, 9, 10, 9, 9, 16, 16, 12, 10, 11, 11, 12, 15, 6,
+       10, 10, 10, 11, 9)
+boxplot(x)
+IQR(x)
+
+tbl <- scan_freq(x, 4) |> 
+  select(mid = class_midpoint, frequency) |> 
+  mutate(xf = mid * frequency,
+         x_sq = mid^2,
+         x_sq_f = x_sq * frequency)
+
+x_mean <- (sum(tbl$mid * tbl$frequency)) / (sum(tbl$frequency))
+x_var <- (sum(((tbl$mid - mean(tbl$mid))^2) * tbl$frequency)) / (sum(tbl$frequency) - 1)
+x_sd <- sqrt(x_var)
+
+weighted.mean(x = c(5, 8, 7, 9, 7),
+              w = c(2, 3, 3, 5, 3))
+
+x <- c(rep(7.0, 8), rep(7.1, 10), rep(7.2, 10), rep(7.3, 11),
+       rep(7.4, 9), rep(7.5, 8), rep(7.6, 9), rep(7.7, 6),
+       rep(7.8, 5), rep(7.9, 5), 8.0, rep(8.1, 7), rep(8.2, 7),
+       8.4, 8.5, 8.6, 8.7, 8.8, 8.8)
+
+# CUMULATIVE REVIEW 7
+stem(x)
+
+# CUMULATIVE REVIEW 8
+tbl <- scan_freq(x * 10, 5)
+
+tbl |> 
+  ggplot() +
+  geom_rect(aes(xmin = lower_cb / 10, xmax = upper_cb / 10,
+                ymin = 0, ymax = frequency),
+            col = "black", fill = "white")
+
+tbl |> 
+  ggplot() +
+  geom_rect(aes(xmin = lower_cb / 10, xmax = upper_cb / 10,
+                ymin = 0, ymax = relative_frequency),
+            col = "black", fill = "white")
+
+# CUMULATIVE REVIEW 9
+tbl |> 
+  select(x = upper_cb, cumulative_frequency) |> 
+  add_row(x = 69.5, cumulative_frequency = 0) |> 
+  arrange(x) |> 
+  ggplot(aes(x = x / 10, y = cumulative_frequency)) +
+  geom_line() +
+  geom_point()
+
+# CUMULATIVE REVIEW 10
+diff(range(x))
+mean(x)
+median(x)
+modeest::mfv(x)
+
+# CUMULATIVE REVIEW 11
+sum(x)
+sum(x^2)
+var(x)
+sd(x)
+sd(x) / mean(x) * 100
+
+# CUMULATIVE REVIEW 12
+mean(x) - 2 * sd(x) ; mean(x) + 2 * sd(x)
+
+# CUMULATIVE REVIEW 13
+boxplot(x)
+IQR(x)
+
+# CUMULATIVE REVIEW 14
+tbl |> 
+  ggplot() +
+  geom_rect(aes(xmin = lower_cb / 10, xmax = upper_cb / 10,
+                ymin = 0, ymax = frequency),
+            col = "black", fill = "white")
+
+# CUMULATIVE REVIEW 15
+tbl |> 
+  select(x = upper_cb, cumulative_frequency) |> 
+  add_row(x = 69.5, cumulative_frequency = 0) |> 
+  arrange(x) |> 
+  ggplot(aes(x = x / 10, y = cumulative_frequency)) +
+  geom_line() +
+  geom_point()
+
+# CUMULATIVE REVIEW 16
+stem(x)
+
+# CUMULATIVE REVIEW 17
+boxplot(x)
+
+# 4. CORRELATION AND REGRESSION -------------------------------------------
+
+# GUIDED EXERCISE 1
+tibble(x = c(10, 19, 30, 45, 50, 65, 80),
+       y = c(80, 65, 68, 55, 35, 10, 12)) |> 
+  ggplot(aes(x, y)) +
+  geom_point()
+
+# EXAMPLE 2
+
+d <- tibble(
+  wind = c(70, 115, 105, 82, 93, 125, 88),
+  drift = c(3, 45, 21, 7, 16, 62, 12))
+
+d |> 
+  ggplot(aes(wind, drift)) +
+  geom_point()
+
+x_sum <- sum(d$wind)
+y_sum <- sum(d$drift)
+x_sq_sum <- sum(d$wind^2)
+y_sq_sum <- sum(d$drift^2)
+xy_sum <- sum(d$wind * d$drift)
+
+nominator <- (nrow(d) * xy_sum) - (x_sum * y_sum) 
+denominator_1 <- sqrt((nrow(d) * x_sq_sum) - (x_sum^2))
+denominator_2 <- sqrt((nrow(d) * y_sq_sum) - (y_sum^2))
+r <- nominator / (denominator_1 * denominator_2)
+
+x_mean <- mean(d$wind)
+x_sd <- sd(d$wind)
+y_mean <- mean(d$drift)
+y_sd <- sd(d$drift)
+
+(1 / 6) * sum(((d$wind - x_mean) / x_sd) * ((d$drift - y_mean) / y_sd))
