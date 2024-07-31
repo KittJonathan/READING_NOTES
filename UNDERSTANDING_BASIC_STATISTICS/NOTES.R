@@ -1630,6 +1630,8 @@ stem(x)
 boxplot(x)
 
 # 4. CORRELATION AND REGRESSION -------------------------------------------
+## 4.1. SCATTER DIAGRAMS AND LINEAR CORRELATION ---------------------------
+
 
 # GUIDED EXERCISE 1
 tibble(x = c(10, 19, 30, 45, 50, 65, 80),
@@ -1664,3 +1666,293 @@ y_mean <- mean(d$drift)
 y_sd <- sd(d$drift)
 
 (1 / 6) * sum(((d$wind - x_mean) / x_sd) * ((d$drift - y_mean) / y_sd))
+
+cor(d$wind, d$drift) 
+
+# GUIDED EXERCISE 3
+
+d <- tibble(
+  officers = c(10, 15, 16, 1, 4, 6, 18, 12, 14, 7),
+  muggings = c(5, 2, 1, 9, 7, 8, 1, 5, 3, 6))
+
+d |> 
+  ggplot(aes(x = officers, y = muggings)) +
+  geom_point()
+
+x_sum <- sum(d$officers)
+y_sum <- sum(d$muggings)
+x_sq_sum <- sum(d$officers^2)
+y_sq_sum <- sum(d$muggings^2)
+xy_sum <- sum(d$officers * d$muggings)
+
+nominator <- (nrow(d) * xy_sum) - (x_sum * y_sum) 
+denominator_1 <- sqrt((nrow(d) * x_sq_sum) - (x_sum^2))
+denominator_2 <- sqrt((nrow(d) * y_sq_sum) - (y_sum^2))
+r <- nominator / (denominator_1 * denominator_2)
+
+cor(d$officers, d$muggings)
+
+# PROBLEM 13
+d <- tibble(
+  age = c(3, 6, 12, 18, 24),
+  weight = c(60, 95, 140, 170, 185))
+
+d |> 
+  ggplot(aes(x = age, y = weight)) +
+  geom_point()
+
+x_sum <- sum(d$age)
+y_sum <- sum(d$weight)
+x_sq_sum <- sum(d$age^2)
+y_sq_sum <- sum(d$weight^2)
+xy_sum <- sum(d$age * d$weight)
+
+nominator <- (nrow(d) * xy_sum) - (x_sum * y_sum) 
+denominator_1 <- sqrt((nrow(d) * x_sq_sum) - (x_sum^2))
+denominator_2 <- sqrt((nrow(d) * y_sq_sum) - (y_sum^2))
+r <- nominator / (denominator_1 * denominator_2)
+
+cor(d$age, d$weight)
+
+# PROBLEM 14
+d <- tibble(
+  x = c(3, 7, 15, 35, 75),
+  y = c(40, 35, 30, 25, 18))
+
+d |> 
+  ggplot(aes(x, y)) +
+  geom_point()
+
+x_sum <- sum(d$x)
+y_sum <- sum(d$y)
+x_sq_sum <- sum(d$x^2)
+y_sq_sum <- sum(d$y^2)
+xy_sum <- sum(d$x * d$y)
+
+nominator <- (nrow(d) * xy_sum) - (x_sum * y_sum) 
+denominator_1 <- sqrt((nrow(d) * x_sq_sum) - (x_sum^2))
+denominator_2 <- sqrt((nrow(d) * y_sq_sum) - (y_sum^2))
+r <- nominator / (denominator_1 * denominator_2)
+
+cor(d$x, d$y)
+
+# PROBLEM 15
+d <- tibble(
+  x = c(1004, 975, 992, 935, 985, 932),
+  y = c(40, 100, 65, 145, 80, 150))
+
+d |> 
+  ggplot(aes(x, y)) +
+  geom_point()
+
+x_sum <- sum(d$x)
+y_sum <- sum(d$y)
+x_sq_sum <- sum(d$x^2)
+y_sq_sum <- sum(d$y^2)
+xy_sum <- sum(d$x * d$y)
+
+nominator <- (nrow(d) * xy_sum) - (x_sum * y_sum) 
+denominator_1 <- sqrt((nrow(d) * x_sq_sum) - (x_sum^2))
+denominator_2 <- sqrt((nrow(d) * y_sq_sum) - (y_sum^2))
+r <- nominator / (denominator_1 * denominator_2)
+
+cor(d$x, d$y)
+
+# PROBLEM 16
+d <- tibble(
+  x = c(2.9, 4.2, 3.3, 4.5, 2.6, 3.2, 3.4),
+  y = c(5, 10, 11.2, 10, 7.9, 3.9, 5.5))
+
+d |> 
+  ggplot(aes(x, y)) +
+  geom_point()
+
+x_sum <- sum(d$x)
+y_sum <- sum(d$y)
+x_sq_sum <- sum(d$x^2)
+y_sq_sum <- sum(d$y^2)
+xy_sum <- sum(d$x * d$y)
+
+nominator <- (nrow(d) * xy_sum) - (x_sum * y_sum) 
+denominator_1 <- sqrt((nrow(d) * x_sq_sum) - (x_sum^2))
+denominator_2 <- sqrt((nrow(d) * y_sq_sum) - (y_sum^2))
+r <- nominator / (denominator_1 * denominator_2)
+
+cor(d$x, d$y)
+
+# PROBLEM 17
+d <- tibble(
+  x = c(0.243, 0.259, 0.286, 0.263, 0.268, 0.339, 0.299),
+  y = c(1.4, 3.6, 5.5, 3.8, 3.5, 7.3, 5.0))
+
+d |> 
+  ggplot(aes(x, y)) +
+  geom_point()
+
+x_sum <- sum(d$x)
+y_sum <- sum(d$y)
+x_sq_sum <- sum(d$x^2)
+y_sq_sum <- sum(d$y^2)
+xy_sum <- sum(d$x * d$y)
+
+nominator <- (nrow(d) * xy_sum) - (x_sum * y_sum) 
+denominator_1 <- sqrt((nrow(d) * x_sq_sum) - (x_sum^2))
+denominator_2 <- sqrt((nrow(d) * y_sq_sum) - (y_sum^2))
+r <- nominator / (denominator_1 * denominator_2)
+
+cor(d$x, d$y)
+
+# PROBLEM 18
+d <- tibble(
+  x = c(12.5, 30, 24.5, 14.3, 7.5, 27.7, 16.2, 20.1),
+  y = c(26, 73, 39, 23, 15, 30, 15, 25))
+
+d |> 
+  ggplot(aes(x, y)) +
+  geom_point()
+
+x_sum <- sum(d$x)
+y_sum <- sum(d$y)
+x_sq_sum <- sum(d$x^2)
+y_sq_sum <- sum(d$y^2)
+xy_sum <- sum(d$x * d$y)
+
+nominator <- (nrow(d) * xy_sum) - (x_sum * y_sum) 
+denominator_1 <- sqrt((nrow(d) * x_sq_sum) - (x_sum^2))
+denominator_2 <- sqrt((nrow(d) * y_sq_sum) - (y_sum^2))
+r <- nominator / (denominator_1 * denominator_2)
+
+cor(d$x, d$y)
+
+# PROBLEM 19
+d <- tibble(
+  x = 1:6,
+  y = c(1, 4, 6, 3, 6, 7))
+
+d |> 
+  ggplot(aes(x, y)) +
+  geom_point() +
+  scale_x_continuous(limits = c(0, 8)) +
+  scale_y_continuous(limits = c(0, 8))
+
+d |> 
+  ggplot(aes(x, y)) +
+  geom_point() +
+  scale_x_continuous(limits = c(0, 8)) +
+  scale_y_continuous(limits = c(0, 16))
+
+d |> 
+  ggplot(aes(x, y)) +
+  geom_point() +
+  scale_x_continuous(limits = c(0, 16)) +
+  scale_y_continuous(limits = c(0, 8))
+
+# PROBLEM 20
+cor(x = c(1, 3, 4), y = c(2, 1, 6))
+cor(x = c(2, 1, 6), y = c(1, 3, 4))
+
+# PROBLEM 23
+d1 <- tibble(
+  x = c(28, 5, 20, 35, 20, 23, 18, 5),
+  y = c(48, 3, 34, 55, 34, 38, 28, 9))
+
+d1 |> 
+  ggplot(aes(x, y)) +
+  geom_point()
+
+x1_sum <- sum(d1$x)
+y1_sum <- sum(d1$y)
+x1_sq_sum <- sum(d1$x^2)
+y1_sq_sum <- sum(d1$y^2)
+x1y1_sum <- sum(d1$x * d1$y)
+
+nominator <- (nrow(d1) * x1y1_sum) - (x1_sum * y1_sum) 
+denominator_1 <- sqrt((nrow(d1) * x1_sq_sum) - (x1_sum^2))
+denominator_2 <- sqrt((nrow(d1) * y1_sq_sum) - (y1_sum^2))
+r1 <- nominator / (denominator_1 * denominator_2)
+
+cor(d1$x, d1$y)
+
+x <- c(20, 4, 18, 42, 15, 25, 2, 35)
+y <- c(60, 8, 12, 50, 21, 30, 4, 70)
+
+d2 <- tibble(
+  x = c(20, 4, 18, 42, 15, 25, 2, 35),
+  y = c(60, 8, 12, 50, 21, 30, 4, 70))
+
+d2 |> 
+  ggplot(aes(x, y)) +
+  geom_point()
+
+x2_sum <- sum(d2$x)
+y2_sum <- sum(d2$y)
+x2_sq_sum <- sum(d2$x^2)
+y2_sq_sum <- sum(d2$y^2)
+x2y2_sum <- sum(d2$x * d2$y)
+
+nominator <- (nrow(d2) * x2y2_sum) - (x2_sum * y2_sum) 
+denominator_1 <- sqrt((nrow(d2) * x2_sq_sum) - (x2_sum^2))
+denominator_2 <- sqrt((nrow(d2) * y2_sq_sum) - (y2_sum^2))
+r2 <- nominator / (denominator_1 * denominator_2)
+
+cor(d2$x, d2$y)
+
+mean(d1$x) ; mean(d2$x)
+mean(d1$y) ; mean(d2$y)
+
+sd(d1$x) ; sd(d2$x)
+sd(d1$y) ; sd(d2$y)
+
+## 4.2. LINEAR REGRESSION AND THE COEFFICIENT OF DETERMINATION ------------
+
+# EXAMPLE 
+
+d <- tibble(
+  x = c(30, 34, 27, 25, 17, 23, 20),
+  y = c(66, 79, 70, 60, 48, 55, 60))
+
+d |> 
+  ggplot(aes(x, y)) +
+  geom_point()
+
+x_mean <- mean(d$x)
+y_mean <- mean(d$y)
+
+x_sum <- sum(d$x)
+y_sum <- sum(d$y)
+xy_sum <- sum(d$x * d$y)
+x_sq_sum <- sum(d$x^2)
+
+b <- ((nrow(d) * xy_sum) - (x_sum * y_sum)) / ((nrow(d) * x_sq_sum) - (x_sum^2))
+
+a <- y_mean - (b * x_mean)
+
+p1 <- a + 17 * b
+p2 <- a + 34 * b
+
+ggplot() +
+  geom_point(data = d, aes(x, y)) +
+  geom_segment(aes(x = 17, y = p1, xend = 34, yend = p2))
+
+d
+
+lm(y ~ x, d)
+
+# EXAMPLE 5
+d <- tibble(
+  x = c(30, 34, 27, 25, 17, 23, 20),
+  y = c(66, 79, 70, 60, 48, 55, 60))
+
+x_mean <- mean(d$x)
+y_mean <- mean(d$y)
+
+x_sum <- sum(d$x)
+y_sum <- sum(d$y)
+xy_sum <- sum(d$x * d$y)
+x_sq_sum <- sum(d$x^2)
+
+b <- ((nrow(d) * xy_sum) - (x_sum * y_sum)) / ((nrow(d) * x_sq_sum) - (x_sum^2))
+
+a <- y_mean - (b * x_mean)
+
+a + b * 21
