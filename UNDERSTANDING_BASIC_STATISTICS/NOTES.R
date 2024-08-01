@@ -50,6 +50,65 @@ scan_freq <- function(x, nb_classes) {
   
   return(x_freq)
   
+}
+
+linear_reg <- function(d) {
+  
+  d <- d |> 
+    mutate(x_sq = x^2,
+           y_sq = y^2,
+           xy = x * y,
+           y_sq = y^2)
+  
+  x_sum <- sum(d$x)
+  y_sum <- sum(d$y)
+  x_sq_sum <- sum(d$x_sq)
+  y_sq_sum <- sum(d$y_sq)
+  xy_sum <- sum(d$xy)
+  n <- nrow(d)
+  
+  x_mean <- x_sum / n
+  y_mean <- y_sum / n
+  
+  slope_b <- (n * xy_sum - x_sum * y_sum) / (n * x_sq_sum - x_sum^2)
+  
+  intercept_a <- y_mean - slope_b * x_mean
+  
+  coeff_cor <- (n * xy_sum - x_sum * y_sum) / ((sqrt(n * x_sq_sum - x_sum^2)) * sqrt(n * y_sq_sum - y_sum^2))
+  coeff_det <- coeff_cor^2
+  
+  res <- tibble(
+    x_sum = x_sum,
+    y_sum = y_sum,
+    x_sq_sum = x_sq_sum,
+    y_sq_sum = y_sq_sum,
+    xy_sum = xy_sum,
+    x_mean = x_mean,
+    y_mean = y_mean,
+    slope_b = slope_b,
+    intercept_a = intercept_a,
+    coeff_cor = coeff_cor,
+    coeff_det = coeff_det
+  )
+  
+  return(res)
+  
+  # p1x <- min(d$x)
+  # p1y <- slope_b * p1x + intercept_a
+  # 
+  # p2x <- x_mean
+  # p2y <- slope_b * p2x + intercept_a
+  # 
+  # p3x <- max(d$x)
+  # p3y <- slope_b * p3x + intercept_a
+  # 
+  # ggplot() +
+  #   geom_point(data = d, aes(x, y)) +
+  #   geom_segment(aes(x = p1x, xend = p2x,
+  #                    y = p1y, yend = p2y)) +
+  #   geom_segment(aes(x = p2x, xend = p3x,
+  #                    y = p2y, yend = p3y))
+  
   }
 
 # 2. ORGANIZING DATA ------------------------------------------------------
@@ -1956,3 +2015,381 @@ b <- ((nrow(d) * xy_sum) - (x_sum * y_sum)) / ((nrow(d) * x_sq_sum) - (x_sum^2))
 a <- y_mean - (b * x_mean)
 
 a + b * 21
+
+# GUIDED EXERCISE 4
+
+d <- tibble(
+  x = c(6, 20, 0, 14, 25, 16, 28, 18, 10, 8),
+  y = c(15, 31, 10, 16, 28, 20, 40, 25, 12, 15))
+
+d |> 
+  ggplot(aes(x, y)) +
+  geom_point()
+
+d <- d |> 
+  mutate(x_sq = x^2,
+         xy = x * y)
+
+x_sum <- sum(d$x)
+y_sum <- sum(d$y)
+x_sq_sum <- sum(d$x_sq)
+xy_sum <- sum(d$xy)
+n <- nrow(d)
+
+x_mean <- x_sum / n
+y_mean <- y_sum / n
+
+slope_b <- (n * xy_sum - x_sum * y_sum) / (n * x_sq_sum - x_sum^2)
+
+intercept_a <- y_mean - slope_b * x_mean
+
+lm(d$y ~ d$x)
+
+intercept_a + slope_b * 12
+cor(d$x, d$y)
+
+# GUIDED EXERCISE 5
+
+d <- tibble(
+  x = c(6, 20, 0, 14, 25, 16, 28, 18, 10, 8),
+  y = c(15, 31, 10, 16, 28, 20, 40, 25, 12, 15))
+
+d <- d |> 
+  mutate(x_sq = x^2,
+         xy = x * y,
+         y_sq = y^2)
+
+x_sum <- sum(d$x)
+y_sum <- sum(d$y)
+x_sq_sum <- sum(d$x_sq)
+y_sq_sum <- sum(d$y_sq)
+xy_sum <- sum(d$xy)
+n <- nrow(d)
+
+coeff_cor <- (n * xy_sum - x_sum * y_sum) / ((sqrt(n * x_sq_sum - x_sum^2)) * sqrt(n * y_sq_sum - y_sum^2))
+coeff_det <- coeff_cor^2
+
+# PROBLEM 7
+d <- tibble(x = c(16, 33, 50, 28, 50, 25),
+            y = c(2, 3, 6, 5, 9, 3))
+ggplot(data = d, aes(x, y)) + geom_point() + geom_smooth(se = F, method = "lm")
+linear_reg(d)
+0.161 * 40 - 0.748
+
+# PROBLEM 8
+d <- tibble(x = c(1, 3, 10, 16, 26, 36),
+            y = c(42, 50, 75, 100, 150, 200))
+ggplot(data = d, aes(x, y)) + geom_point() + geom_smooth(se = F, method = "lm")
+linear_reg(d)
+4.51 * 12 + 33.7
+
+# PROBLEM 9
+d <- tibble(x = c(27, 44, 32, 47, 23, 40, 34, 52),
+            y = c(30, 19, 24, 13, 29, 17, 21, 14))
+ggplot(data = d, aes(x, y)) + geom_point() + geom_smooth(se = F, method = "lm")
+linear_reg(d)
+-0.601 * 38 + 43.3
+
+# PROBLEM 10
+d <- tibble(x = c(0, 2, 5, 6),
+            y = c(50, 45, 33, 26))
+ggplot(data = d, aes(x, y)) + geom_point() + geom_smooth(se = F, method = "lm")
+linear_reg(d)
+-3.93 * 4 + 51.3
+
+# PROBLEM 11
+d <- tibble(x = c(17, 27, 37, 47, 57, 67, 77),
+            y = c(36, 25, 20, 12, 10, 7, 5))
+ggplot(data = d, aes(x, y)) + geom_point() + geom_smooth(se = F, method = "lm")
+linear_reg(d)
+-0.496 * 25 + 39.8
+
+# PROBLEM 12
+d <- tibble(x = c(37, 47, 57, 67, 77, 87),
+            y = c(5, 8, 10, 16, 30, 43))
+ggplot(data = d, aes(x, y)) + geom_point() + geom_smooth(se = F, method = "lm")
+linear_reg(d)
+0.749 * 70 -27.7
+
+# PROBLEM 13
+d <- tibble(x = c(8.6, 9.3, 10.1, 8.0, 8.3, 8.7),
+            y = c(9.6, 18.5, 20.9, 10.2, 11.4, 13.1))
+ggplot(data = d, aes(x, y)) + geom_point() + geom_smooth(se = F, method = "lm")
+linear_reg(d)
+5.76 * 10 -36.9
+
+# PROBLEM 14
+d <- tibble(x = c(6.1, 5.7, 3.9, 5.2, 6.2, 6.5, 11.1),
+            y = c(-1.4, -4.1, -7.0, -4.0, 3.6, -0.1, -4.4))
+ggplot(data = d, aes(x, y)) + geom_point() + geom_smooth(se = F, method = "lm")
+linear_reg(d)
+
+# PROBLEM 15
+d <- tibble(x = c(24.2, 19.0, 18.2, 14.9, 19.0, 17.5),
+            y = c(13.0, 4.4, 9.3, 1.3, 0.8, 3.6))
+ggplot(data = d, aes(x, y)) + geom_point() + geom_smooth(se = F, method = "lm")
+linear_reg(d)
+1.2 * 24 -17.2
+
+# PROBLEM 16
+d <- tibble(x = seq(10, 20, 2),
+            y = c(1.8, 1.7, 1.5, 1.4, 1.0, 0.7))
+ggplot(data = d, aes(x, y)) + geom_point() + geom_smooth(se = F, method = "lm")
+linear_reg(d)
+-0.110 * 15 + 3
+
+# PROBLEM 17
+d <- tibble(x = c(5.25, 5.75, 6.25, 6.75, 7.25),
+            y = c(19, 13, 33, 37, 62))
+ggplot(data = d, aes(x, y)) + geom_point() + geom_smooth(se = F, method = "lm")
+linear_reg(d)
+22 * 6.5 -105
+
+# PROBLEM 18
+d <- tibble(x = c(20, 16, 19.8, 18.4, 17.1, 15.5, 14.7, 17.1, 15.4, 16.2, 15, 17.2, 16, 17, 14.4),
+            y = c(88.6, 71.6, 93.3, 84.3, 80.6, 75.2, 69.7, 82, 69.4, 83.3, 79.6, 82.6, 80.6, 83.5, 76.3))
+ggplot(data = d, aes(x, y)) + geom_point() + geom_smooth(se = F, method = "lm")
+linear_reg(d)
+3.29 * 19 + 25.2
+
+# PROBLEM 19
+d <- tibble(
+  x = c(6, 20, 0, 14, 25, 16, 28, 18, 10, 8),
+  y = c(15, 31, 10, 16, 28, 20, 40, 25, 12, 15))
+ggplot(data = d, aes(x, y)) + geom_point() + geom_smooth(se = F, method = "lm")
+linear_reg(d)
+
+d |> 
+  mutate(y_hat = 6.54 + 1.01 * x,
+         residual = y - y_hat) |> 
+  ggplot(aes(x, residual)) +
+  geom_point() +
+  geom_hline(yintercept = 0, linetype = "dashed")
+
+fit <- lm(y ~ x, data = d)
+fit$coefficients
+fit$residuals
+
+# PROBLEM 20
+d <- tibble(x = c(27, 44, 32, 47, 23, 40, 34, 52),
+            y = c(30, 19, 24, 13, 29, 17, 21, 14))
+ggplot(data = d, aes(x, y)) + geom_point() + geom_smooth(se = F, method = "lm")
+linear_reg(d)
+
+d |> 
+  mutate(residual = y - (-0.601 * x + 43.3)) |> 
+  ggplot(aes(x, residual)) +
+  geom_point() +
+  geom_hline(yintercept = 0, linetype = "dashed")
+
+# PROBLEM 21
+d <- tibble(x = c(1, 3, 4),
+            y = c(2, 1, 6))
+ggplot(data = d, aes(x, y)) + geom_point() + geom_smooth(se = F, method = "lm")
+linear_reg(d)
+
+lm(y ~ x, d)$coeff
+
+d <- tibble(x = c(2, 1, 6),
+            y = c(1, 3, 4))
+ggplot(data = d, aes(x, y)) + geom_point() + geom_smooth(se = F, method = "lm")
+linear_reg(d)
+
+lm(y ~ x, d)$coeff
+
+# PROBLEM 22
+d <- tibble(x = 1:5,
+            y = c(3, 12, 22, 51, 145))
+ggplot(data = d, aes(x, y)) + geom_point() + geom_smooth(se = F, method = "lm")
+linear_reg(d)
+
+d |> 
+  mutate(log_y = log10(y)) |> 
+  ggplot(aes(x, log_y)) +
+  geom_point()
+
+d <- d |> 
+  mutate(y = log10(y))
+
+ggplot(data = d, aes(x, y)) + geom_point() + geom_smooth(se = F, method = "lm")
+linear_reg(d)
+
+alpha <- 10^0.154
+beta <- 10^0.4
+
+d <- tibble(x = 1:5,
+            y = c(3, 12, 22, 51, 145)) |> 
+  mutate(y_hat = alpha * (beta^x))
+d
+
+# PROBLEM 23
+d <- tibble(x = c(2, 3, 5, 8, 10),
+            y = c(2, 3, 12, 125, 630))
+
+d |> ggplot(aes(x, y)) + geom_point()
+
+d |> 
+  mutate(y_prime = log10(y)) |> 
+  ggplot(aes(x, y_prime)) +
+  geom_point()
+
+d2 <- d |> 
+  mutate(y = log10(y))
+linear_reg(d2)
+
+lm(log10(y) ~ x, d)
+
+alpha <- 10^-0.43
+beta <- 10^0.32
+
+d |> 
+  mutate(y_hat = alpha * (beta^x))
+
+# PROBLEM 24
+d <- tibble(x = seq(2, 10, 2),
+            y = c(1.81, 2.9, 3.2, 3.68, 4.11))
+d |> ggplot(aes(x, y)) + geom_point()
+
+d |> 
+  mutate(x_prime = log10(x),
+         y_prime = log10(y)) |> 
+  ggplot(aes(x_prime, y_prime)) +
+  geom_point()
+
+d2 <- d |> 
+  mutate(x = log10(x),
+         y = log10(y))
+linear_reg(d2)
+lm(log10(y) ~ log10(x), d)
+
+alpha <- 10^0.128
+beta <- slope_b
+
+# PROBLEM 25
+d <- tibble(x = c(4, 5, 6, 8, 10),
+            y = c(3.4, 4.2, 6.3, 10.9, 13.3))
+d |> ggplot(aes(x, y)) + geom_point()
+
+d |> 
+  mutate(x_prime = log10(x),
+         y_prime = log10(y)) |> 
+  ggplot(aes(x_prime, y_prime)) +
+  geom_point()
+
+lm(log10(y) ~ log10(x), d)
+
+# REVIEW PROBLEM 9
+d <- tibble(x = 1:5,
+            y = c(14, 18.9, 14.4, 19.6, 20))
+ggplot(data = d, aes(x, y)) + geom_point() + geom_smooth(se = F, method = "lm")
+linear_reg(d)
+lm(y~x, d)$coeff
+
+# REVIEW PROBLEM 10
+d <- tibble(x = c(4, 7, 5, 6, 1, 5, 9, 10, 10, 3),
+            y = c(33, 37, 34, 32, 32, 38, 43, 37, 40, 33))
+ggplot(data = d, aes(x, y)) + geom_point() + geom_smooth(se = F, method = "lm")
+linear_reg(d)
+lm(y~x, d)$coeff
+0.939 * 2 + 30.3 
+
+# REVIEW PROBLEM 11
+d <- tibble(x = c(21, 25, 23, 24, 20, 15, 25, 21, 17, 24, 26, 22, 18, 19),
+            y = c(125, 125, 120, 125, 130, 120, 145, 130, 130, 130, 130, 140, 110, 115))
+ggplot(data = d, aes(x, y)) + geom_point() + geom_smooth(se = F, method = "lm")
+linear_reg(d)
+lm(y~x, d)$coeff
+1.28 * 20 + 99.3 
+
+# REVIEW PROBLEM 12
+d <- tibble(x = c(11, 19, 16, 13, 28, 5, 20, 14, 22, 7, 15, 29, 8, 25, 16),
+            y = c(3, 11, 8, 5, 8, 2, 5, 6, 8, 3, 5, 10, 6, 10, 7))
+ggplot(data = d, aes(x, y)) + geom_point() + geom_smooth(se = F, method = "lm")
+linear_reg(d)
+lm(y~x, d)$coeff
+0.293 * 18 + 1.63 
+
+# REVIEW PROBLEM 13
+d <- tibble(x = c(11, 20, 16, 6, 12, 18, 23, 25),
+            y = c(6, 10, 9, 5, 8, 14, 13, 16))
+ggplot(data = d, aes(x, y)) + geom_point() + geom_smooth(se = F, method = "lm")
+linear_reg(d)
+lm(y~x, d)$coeff
+0.554 * 15 + 1.05 
+
+# REVIEW PROBLEM 14
+d <- tibble(x = c(29, 2, 11, 17, 7, 6),
+            y = c(173, 35, 132, 127, 69, 53))
+ggplot(data = d, aes(x, y)) + geom_point() + geom_smooth(se = F, method = "lm")
+linear_reg(d)
+lm(y~x, d)$coeff
+5.11 * 12 + 36.9 
+
+# GROUP PROJECT
+d <- tibble(x = c(1, 4, 5, 9, 10, 15),
+            y = c(3, 7, 6, 10, 12, 4))
+ggplot(data = d, aes(x, y)) + geom_point() + geom_smooth(se = F, method = "lm")
+linear_reg(d)
+lm(y~x, d)$coeff
+
+d2 <- d |> 
+  slice(1:5)
+ggplot(data = d2, aes(x, y)) + geom_point() + geom_smooth(se = F, method = "lm")
+linear_reg(d2)
+lm(y~x, d)$coeff
+
+# 5. ELEMENTARY PROBABILITY THEORY ----------------------------------------
+
+## 5.1. WHAT IS PROBABILITY? ----------------------------------------------
+
+# GUIDED EXERCISE 1
+375/500
+1/4
+
+# GUIDED EXERCISE 2
+1/8
+3/8
+
+# GUIDED EXERCISE 3
+1
+1 - 0.25
+
+# PROBLEM 6
+49/200
+27/100
+22/100
+
+# PROBLEM 7
+round(627/1010, 2)
+
+# PROBLEM 8
+1/7
+
+# PROBLEM 11
+0.5 * 0.5 * 0.5
+1 - 0.125
+
+# PROBLEM 12
+0.5 * 0.5 * 0.5
+1 - 0.125
+
+# PROBLEM 17
+15/375 + 71/375 + 124/375 + 131/375 + 34/375
+
+# PROBLEM 18
+1/6 + 1/6 + 1/6 + 1/6 + 1/6 + 1/6
+4/6
+2/6
+
+# PROBLEM 19
+290/966
+135/966
+319/966
+222/966
+290/966 + 135/966 + 319/966 + 222/966
+
+# PROBLEM 20
+2430/3000
+1 - (2430/3000)
+
+# PROBLEM 21
