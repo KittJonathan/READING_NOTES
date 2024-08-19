@@ -6,6 +6,7 @@
 
 library(plyr)
 library(tidyverse)
+library(DescTools)
 
 # HELPER FUNCTIONS --------------------------------------------------------
 
@@ -2579,4 +2580,50 @@ c <- tibble(
 
 ## 5.3 TREES AND COUNTING TECHNIQUES --------------------------------------
 
+# GUIDED EXERCISE 12
+factorial(12) / factorial(9)
+factorial(12) / (factorial(3) * factorial(9))
+choose(n = 12, k = 3)
+DescTools::CombN(n = 12, m = 3, ord = FALSE)
+DescTools::CombN(n = 12, m = 3, ord = TRUE)
 
+# PROBLEMS 13-20
+DescTools::CombN(n = 5, m = 2, ord = TRUE)
+DescTools::CombN(n = 5, m = 2, ord = FALSE)
+DescTools::CombN(n = 8, m = 3, ord = TRUE)
+DescTools::CombN(n = 8, m = 3, ord = FALSE)
+DescTools::CombN(n = 7, m = 7, ord = TRUE)
+DescTools::CombN(n = 7, m = 7, ord = FALSE)
+DescTools::CombN(n = 9, m = 9, ord = TRUE)
+DescTools::CombN(n = 8, m = 8, ord = FALSE)
+
+# PROBLEM 21
+DescTools::CombN(n = 15, m = 3, ord = TRUE)
+
+# PROBLEM 22
+DescTools::CombN(n = 10, m = 3, ord = TRUE)
+
+# PROBLEM 23
+DescTools::CombN(n = 5, m = 3, ord = TRUE)
+
+# PROBLEM 24
+DescTools::CombN(n = 10, m = 3, ord = FALSE)
+
+# PROBLEM 25
+DescTools::CombN(n = 15, m = 5, ord = FALSE)
+
+# PROBLEM 26
+DescTools::CombN(n = 12, m = 5, ord = FALSE)
+DescTools::CombN(n = 7, m = 5, ord = FALSE)
+21/792
+
+# PROBLEM 27
+DescTools::CombN(n = 12, m = 6, ord = FALSE)
+DescTools::CombN(n = 7, m = 6, ord = FALSE)
+7/924
+
+# PROBLEM 28
+DescTools::CombN(n = 69, m = 5, ord = FALSE)
+DescTools::CombN(n = 69, m = 5, ord = FALSE) * 26
+
+# CHAPTER REVIEW PROBLEM 1
