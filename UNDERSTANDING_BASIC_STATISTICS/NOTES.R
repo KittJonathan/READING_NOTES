@@ -2460,3 +2460,123 @@ round(627/1010, 2)
 0.6 + 0.7 - 0.07
 
 # PROBLEM 16
+nb_trees <- 111 + 96 + 30 + 33 + 18
+111 / nb_trees
+(30 + 33 + 18) / nb_trees
+(111 + 96 + 20) / nb_trees
+(96 + 30 + 33) / nb_trees
+18 / nb_trees
+
+# PROBLEM 17
+1/6 * 1/6
+1/6 * 1/6
+2/6 * 2/6
+
+d <- tibble(
+  d1 = rep(1:6, each = 6),
+  d2 = rep(1:6, times = 6))
+
+# PROBLEM 19
+d |> 
+  mutate(result = d1 + d2) |> 
+  filter(result == 6)
+
+d |> 
+  mutate(result = d1 + d2) |> 
+  filter(result == 4)
+
+d |> 
+  mutate(result = d1 + d2) |> 
+  filter(result %in% c(4, 6))
+
+# PROBLEM 20
+d |> 
+  mutate(result = d1 + d2) |> 
+  filter(result == 7)
+
+d |> 
+  mutate(result = d1 + d2) |> 
+  filter(result == 11)
+
+d |> 
+  mutate(result = d1 + d2) |> 
+  filter(result %in% c(7, 11))
+
+c <- tibble(
+  suit = rep(c("hearts", "diamonds", "clubs", "spades"), each = 13),
+  color = rep(c("red", "black"), each = 26),
+  card = rep(c(2:10, "Jack", "Queen", "King", "Ace"), times = 4))
+
+# PROBLEM 21
+4/52 * 4/51
+
+# PROBLEM 22
+4/52 * 4/51
+
+# PROBLEM 23
+4/52 * 4/52
+
+# PROBLEM 24
+4/52 * 4/52
+
+# PROBLEM 25
+(27 + 14 + 22) / 100
+(15 + 22 + 27 + 14) / 100
+(27 + 14) / 100
+(22 + 27) / 100
+
+# PROBLEM 26
+0.125 * 0.14
+(1 - 0.125) * 0.24
+0.95 * 0.14
+(1 - 0.95) * 0.24
+0.5 * 0.14
+0.5 * 0.24
+
+# PROBLEM 27
+0.9 * 0.07
+0.1 * 0.72
+0.5 * 0.07
+0.5 * 0.72
+0.15 * 0.07
+0.85 * 0.72
+
+# PROBLEM 28
+110 / 130
+20 / 130
+50 / 70
+20 / 70
+110 / 200
+20 / 100
+
+# PROBLEM 29
+72 / 154
+82 / 154
+79 / 116
+37 / 116
+72 / 270
+79 / 270
+
+# PROBLEM 30
+291 / 2008
+77 / 452
+(291 + 535) / 2008
+(45 + 86) / 373
+41 / 157
+53 / 157
+(452 - 32) / 452
+(373 - 41) / 373
+
+# PROBLEM 31
+686 / 1160
+270 / 580
+416 / 580
+270 / 1160
+416 / 1160
+474 / 1160
+310 / 580
+(580 / 1160) + (686 / 1160) - (270 / 1160)
+
+## 5.3 TREES AND COUNTING TECHNIQUES --------------------------------------
+
+
