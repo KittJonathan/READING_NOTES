@@ -2626,4 +2626,210 @@ DescTools::CombN(n = 7, m = 6, ord = FALSE)
 DescTools::CombN(n = 69, m = 5, ord = FALSE)
 DescTools::CombN(n = 69, m = 5, ord = FALSE) * 26
 
-# CHAPTER REVIEW PROBLEM 1
+# CHAPTER REVIEW PROBLEM 9
+0.7 * 0.8
+0.7 + 0.8 - 0.56
+
+# CHAPTER REVIEW PROBLEM 13
+0.24
+0.45
+0.24 * 0.45
+
+# CHAPTER REVIEW PROBLEM 14
+0.2
+0.59
+0.2 * 0.59
+
+# CHAPTER REVIEW PROBLEM 16
+470 / 1000
+390 / 1000
+140 / 1000
+420 / 500
+20 / 500
+50 / 500
+120 / 500
+0.420 * 0.5
+0.06 * 0.5
+(470 + 390) / 1000
+
+# CHAPTER REVIEW PROBLEM 17
+d <- tibble(
+  d1 = rep(1:6, each = 6),
+  d2 = rep(1:6, times = 6))
+
+d |> 
+  mutate(x = d1 + d2) |> 
+  distinct(x)
+
+d |> 
+  mutate(x = d1 + d2) |> 
+  count(x)
+
+# CHAPTER REVIEW PROBLEM 18
+0.77 * 0.9
+
+# CHAPTER REVIEW PROBLEM 19
+DescTools::CombN(n = 8, m = 2, ord = FALSE)
+
+# CHAPTER REVIEW PROBLEM 20
+DescTools::CombN(n = 7, m = 2, ord = TRUE)
+DescTools::CombN(n = 7, m = 2, ord = FALSE)
+DescTools::CombN(n = 3, m = 3, ord = TRUE)
+DescTools::CombN(n = 4, m = 4, ord = FALSE)
+
+# CHAPTER REVIEW PROBLEM 21
+4^5
+1 / 1024
+
+# CHAPTER REVIEW PROBLEM 22
+tibble(
+  litt =  rep(1:4, each = 6),
+  soc_sc = rep(c(1, 1, 2, 2, 3, 3), times = 4),
+  phil = rep(1:2, times = 12)
+)
+
+# CHAPTER REVIEW PROBLEM 23
+10^3
+
+# CHAPTER REVIEW PROBLEM 24
+DescTools::CombN(n = 3, m = 3, ord = TRUE)
+
+# 6. THE BINOMIAL PROBABILITY DISTRIBUTION AND RELATED TOPICS -------------
+
+## 6.1. INTRODUCTION TO RANDOM VARIABLES AND PROBABILITY DISTRIBUTIONS ----
+
+
+
+# EXAMPLE 2
+x <- 1:5
+w <- c(0.27, 0.31, 0.18, 0.09, 0.15)
+
+weighted.mean(x, w)
+
+# PROBLEM 7
+x <- c(0, 1, 2)
+w <- c(0.25, 0.6, 0.15)
+
+weighted.mean(x, w)
+sqrt(sum(w * (x - 0.9)^2))
+
+# PROBLEM 8
+1 / 1000
+500 / 1000
+
+# PROBLEM 10
+x <- seq(23, 67, 11)
+w <- c(0.07, 0.44, 0.24, 0.14, 0.11)
+
+weighted.mean(x, w)
+sqrt(sum(w * (x - 42.58)^2))
+
+# PROBLEM 11
+x <- seq(10, 60, 10)
+w <- c(0.21, 0.14, 0.22, 0.15, 0.20, 0.08)
+
+weighted.mean(x, w)
+sqrt(sum(w * (x - 32.3)^2))
+
+# PROBLEM 12
+x <- seq(24.5, 84.5, 10)
+w <- c(0.057, 0.097, 0.195, 0.292, 0.25, 0.091, 0.018)
+
+0.25 + 0.091 + 0.018
+
+weighted.mean(x, w)
+sqrt(sum(w * (x - 32.3)^2))
+
+# PROBLEM 13
+x <- 0:4
+w <- c(0.44, 0.36, 0.15, 0.04, 0.01)
+
+0.36 + 0.15 + 0.04 + 0.01
+0.15 + 0.04 + 0.01
+
+weighted.mean(x, w)
+sqrt(sum(w * (x - 0.82)^2))
+
+# PROBLEM 14
+x <- 0:5
+w <- c(0.237, 0.396, 0.264, 0.088, 0.015, 0.001)
+
+1 - 0.237
+0.264 + 0.088 + 0.015 + 0.001
+0.015 + 0.001
+
+weighted.mean(x, w)
+sqrt(sum(w * (x - weighted.mean(x, w))^2))
+
+# PROBLEM 15
+15 / 719
+704 / 719 
+(15 / 719) * 35
+
+# PROBLEM 16
+6 / 2852
+(2852 - 6) / 2852
+(6 / 2852) * 2000
+6 * 5
+
+# PROBLEM 17
+0.01191 * 50000
+
+x <- 60:64
+w <- c(0.01191, 0.01292, 0.01396, 0.01503, 0.01613)
+sum(w * 50000)
+sum(w * 50000) + 700
+5000 - sum(w * 50000)
+
+# PROBLEM 18
+0.00756 * 50000
+
+x <- 60:64
+w <- c(0.00756, 0.00825, 0.00896, 0.00965, 0.01035)
+sum(w * 50000)
+sum(w * 50000) + 700
+5000 - sum(w * 50000)
+
+# PROBLEM 19
+115 - 100
+12^2 - 8^2
+sqrt(80)
+
+0.5 * 115 + 0.5 * 100
+0.5^2 * 12^2 + 0.5^2 * 8^2
+sqrt(52)
+
+0.8 * 115 - 2
+0.8^2 * 12^2
+sqrt(92.16)
+
+0.95 * 110 - 5
+0.95^2 * 8^2
+sqrt(57.76)
+
+# PROBLEM 20
+mu_1 <- 28.1
+sd_1 <- 8.2
+mu_2 <- 90.5
+sd_2 <- 15.2
+
+(mu_1 + mu_2)
+(sd_1^2 + sd_2^2)
+sqrt(sd_1^2 + sd_2^2)
+
+1.5 * mu_1 + 2.75 * mu_2
+1.5^2 * sd_1^2 + 2.75^2 * mu_2^2
+sqrt(1.5^2 * sd_1^2 + 2.75^2 * mu_2^2)
+
+50 + 1.5 * mu_1
+50 + 1.5^2 * sd_1^2
+sqrt(201.29)
+
+# PROBLEM 21
+0.5*50.2 + 0.5*50.2
+0.5^2*11.5^2 + 0.5^2*11.5^2
+sqrt(66.125)
+
+## 6.2. BINOMIAL PROBABILITIES --------------------------------------------
+
+
