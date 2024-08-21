@@ -2802,10 +2802,12 @@ sqrt(52)
 0.8 * 115 - 2
 0.8^2 * 12^2
 sqrt(92.16)
+0.8*12
 
-0.95 * 110 - 5
+0.95 * 100 - 5
 0.95^2 * 8^2
 sqrt(57.76)
+0.95 * 8
 
 # PROBLEM 20
 mu_1 <- 28.1
@@ -2822,14 +2824,47 @@ sqrt(sd_1^2 + sd_2^2)
 sqrt(1.5^2 * sd_1^2 + 2.75^2 * mu_2^2)
 
 50 + 1.5 * mu_1
-50 + 1.5^2 * sd_1^2
-sqrt(201.29)
+1.5^2 * sd_1^2
+sqrt(1.5^2 * sd_1^2)
 
 # PROBLEM 21
 0.5*50.2 + 0.5*50.2
 0.5^2*11.5^2 + 0.5^2*11.5^2
-sqrt(66.125)
+sqrt(0.5^2*11.5^2 + 0.5^2*11.5^2)
+
+11.5 > sqrt(0.5^2*11.5^2 + 0.5^2*11.5^2)
 
 ## 6.2. BINOMIAL PROBABILITIES --------------------------------------------
 
+dbinom(x = 0, size = 3, prob = 0.25)
+dbinom(x = 1, size = 3, prob = 0.25)
+dbinom(x = 2, size = 3, prob = 0.25)
+dbinom(x = 3, size = 3, prob = 0.25)
 
+# EXAMPLE 4
+dbinom(x = 6, size = 10, prob = 0.59)
+
+p4 <- dbinom(x = 4, size = 6, prob = 0.50)
+p3 <- dbinom(x = 3, size = 6, prob = 0.50)
+p2 <- dbinom(x = 2, size = 6, prob = 0.50)
+p1 <- dbinom(x = 1, size = 6, prob = 0.50)
+p0 <- dbinom(x = 0, size = 6, prob = 0.50)
+
+p0 + p1 + p2 + p3 + p4
+
+pbinom(q = 4, size = 6, prob = 0.5)
+
+# EXAMPLE 5
+dbinom(x = 4, size = 6, prob = 0.7)
+
+pbinom(q = 3, size = 6, prob = 0.7, lower.tail = F)
+1 - pbinom(q = 3, size = 6, prob = 0.7)
+
+# GUIDED EXERCISE 5
+dbinom(x = 4, size = 6, prob = 0.3)
+pbinom(q = 3, size = 6, prob = 0.3, lower.tail = F)
+1 - pbinom(q = 3, size = 6, prob = 0.3)
+
+# PROBLEM 5
+dbinom(x = 1, size = 20, prob = 0.01)
+pbinom(q = 0, size = 20, prob = 0.01, lower.tail = F)
