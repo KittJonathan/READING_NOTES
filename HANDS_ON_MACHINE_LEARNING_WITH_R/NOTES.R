@@ -9,6 +9,8 @@ library(rsample)
 library(caret)
 library(h2o)
 library(splines)
+library(visdat)
+library(recipes)
 
 # 1. INTRODUCTION TO MACHINE LEARNING -------------------------------------
 
@@ -37,7 +39,7 @@ my_basket
 
 # 2. MODELING PROCESS -----------------------------------------------------
 
-## 2.1. PREREQUISITIES ----------------------------------------------------
+## 2.1. PREREQUISITES -----------------------------------------------------
 
 # h2o setup
 h2o.no_progress()
@@ -205,5 +207,92 @@ knn_fit
 ggplot(knn_fit)
 
 # 3. FEATURE & TARGET ENGINEERING -----------------------------------------
+
+## 3.1. PREREQUISITES -----------------------------------------------------
+
+library(dplyr)
+library(ggplot2)
+library(visdat)
+
+library(caret)
+library(recipes)
+
+## 3.2. TARGET ENGINEERING ------------------------------------------------
+
+# Help correct for positively skewed target variables
+
+# Log transformation :
+
+transformed_response <- log(ames_train$Sale_Price)
+
+ames_recipe <- recipe(Sale_Price ~ ., data = ames_train) |> 
+  step_log(all_outcomes())
+ames_recipe
+
+log(-0.5)
+log1p(-0.5)
+
+# Box-Cox transformation
+
+# Log transform a value
+y <- log(10)
+
+# Undo log-transformation
+exp(y)
+
+# Box Cox transform a value
+y <- forecast::BoxCox(10, lambda = 1)
+
+# Inverse Box Cox function
+inv_box_cox <- function(x, lambda) {
+  
+  if (lambda == 0) exp(x) else (lambda*x + 1)^(1/lambda)
+  
+  }
+
+inv_box_cox(y, lambda = 1)
+
+## 3.3. DEALING WITH MISSINGNESS ------------------------------------------
+
+### 3.3.1. VISUALIZING MISSING VALUES -------------------------------------
+
+sum(is.na(AmesHousing::ames_raw))
+
+AmesHousing::ames_raw |> 
+  is.na() |> 
+  reshape2::melt() |> 
+  ggplot(aes(Var2, Var1, fill = value)) +
+  geom_raster() +
+  coord_flip() +
+  scale_y_continuous(NULL, expand = c(0, 0)) +
+  scale_fill_grey(name = "",
+                  labels = c("Present", "Missing")) +
+  xlab("Observation") +
+  theme(axis.text.y = element_text(size = 4))
+
+AmesHousing::ames_raw |> 
+  filter(is.na(`Garage Type`)) |> 
+  select(`Garage Type`, `Garage Cars`, `Garage Area`)
+
+vis_miss(AmesHousing::ames_raw, cluster = TRUE)
+
+### 3.3.2. IMPUTATION -----------------------------------------------------
+
+#### 3.3.2.1. ESTIMATED STATISTIC -----------------------------------------
+
+ames_recipe |> 
+  step_impute_median(Gr_Liv_Area)
+
+#### 3.3.2.2. K-NEAREST NEIGHBOR ------------------------------------------
+
+ames_recipe |> 
+  step_impute_knn(all_predictors(), neighbors = 6)
+
+#### 3.3.2.3. TREE-BASED --------------------------------------------------
+
+ames_recipe |> 
+  step_impute_bag(all_predictors())
+
+## 3.4. FEATURE FILTERING -------------------------------------------------
 
 
