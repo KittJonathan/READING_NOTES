@@ -148,4 +148,62 @@ bootstraps(ames, times = 10)
 
 ## 2.6. MODEL EVALUATION --------------------------------------------------
 
+### 2.6.1. REGRESSION MODELS ----------------------------------------------
+
+# MSE : Mean Squared Error
+# RMSE : Root Mean Squared Error
+# Deviance
+# MAE : Mean Absolute Error
+# RMSLE : Root Mean Squared Logarithmic Error
+
+### 2.6.2. CLASSIFICATION MODELS ------------------------------------------
+
+# Misclassification
+# Mean per class error
+# Mean Squared Error
+# Cross-entropy (aka Log Loss or Deviance)
+# Gini index
+
+# Confusion matrix : 
+# Accuracy = (TP + TN) / total
+# Precision = TP / (TP + FP)
+# Sensitivity = TP / (TP + FN)
+# Specificity = TN / (TN + FP)
+
+# AUC : Area Under the Curve
+
+## 2.7. PUTTING THE PROCESSES TOGETHER ------------------------------------
+
+# Stratified sampling with the rsample package
+set.seed(123)
+split <- initial_split(ames, prop = 0.7, strata = "Sale_Price")
+ames_train <- training(split)
+ames_test <- testing(split)
+
+# Specify resampling strategy
+cv <- trainControl(
+  method = "repeatedcv",
+  number = 10,
+  repeats = 5
+)
+
+# Create grid of hyperparameter values
+hyper_grid <- expand.grid(k = seq(2, 25, by = 1))
+
+# Tune a knn model using grid search
+knn_fit <- train(
+  Sale_Price ~ .,
+  data = ames_train,
+  method = "knn",
+  trControl = cv,
+  tuneGrid = hyper_grid,
+  metroc = "RMSE"
+)
+
+# Print and plot the CV results
+knn_fit
+ggplot(knn_fit)
+
+# 3. FEATURE & TARGET ENGINEERING -----------------------------------------
+
 
