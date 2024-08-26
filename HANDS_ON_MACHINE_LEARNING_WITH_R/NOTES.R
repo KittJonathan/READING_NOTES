@@ -295,4 +295,49 @@ ames_recipe |>
 
 ## 3.4. FEATURE FILTERING -------------------------------------------------
 
+caret::nearZeroVar(ames_train, saveMetrics = TRUE) |> 
+  tibble::rowid_to_column() |> 
+  filter(nzv)
+
+## 3.5. NUMERIC FEATURE ENGINEERING ---------------------------------------
+
+### 3.5.1. SKEWNESS -------------------------------------------------------
+
+# Normalize all numerical columns
+recipe(Sale_Price ~ ., data = ames_train) |> 
+  step_YeoJohnson(all_numeric())
+
+### 3.5.2. STANDARDIZATION ------------------------------------------------
+
+ames_recipe |> 
+  step_center(all_numeric(), -all_outcomes()) |> 
+  step_scale(all_numeric(), -all_outcomes())
+
+## 3.6. CATEGORICAL FEATURE ENGINEERING -----------------------------------
+
+### 3.6.1. LUMPING --------------------------------------------------------
+
+count(ames_train, Neighborhood) |> 
+  arrange(n)
+
+count(ames_train, Screen_Porch) |> 
+  arrange(n)
+
+# Lump levels for two features
+lumping <- recipe(Sale_Price ~ ., data = ames_train) |> 
+  step_other(Neighborhood, threshold = 0.01, other = "other") |> 
+  step_other(Screen_Porch, threshold = 0.1, other = ">0")
+
+# Apply this blueprint
+apply_2_training <- prep(lumping, training = ames_train) |> 
+  bake(ames_train)
+
+# New distribution of Neighborhood
+count(apply_2_training, Neighborhood) |> arrange(n)
+
+# New distribution of Screen_Porch
+count(apply_2_training, Screen_Porch) |> arrange(n)
+
+# 3.6.2. ONE-HOT AND DUMMY ENCODING ---------------------------------------
+
 
