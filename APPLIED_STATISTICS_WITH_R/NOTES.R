@@ -196,4 +196,92 @@ all.equal(x, y)
 
 ### 3.2.5. MATRICES -------------------------------------------------------
 
+x <- 1:9
+x
+
+X <- matrix(x, nrow = 3, ncol = 3)
+X
+
+Y <- matrix(x, nrow = 3, ncol = 3, byrow = TRUE)
+Y
+
+Z <- matrix(0, 2, 4)
+Z
+
+X
+X[1, 2]
+X[1, ]
+X[, 2]
+
+X[2, c(1, 3)]
+
+x <- 1:9
+rev(x)
+rep(1, 9)
+rbind(x, rev(x), rep(1, 9))
+cbind(col_1 = x, col_2 = rev(x), col_3 = rep(1, 9))
+
+x <- 1:9
+y <- 9:1
+X <- matrix(x, 3, 3)
+Y <- matrix(y, 3, 3)
+X
+Y
+X + Y
+X - Y
+X * Y
+X / Y
+
+X %*% Y  # matrix multiplication
+t(X)  # transpose matrix
+
+Z <- matrix(c(9, 2, -3, 2, 4, -2, -3, -2, 16), 3, byrow = TRUE)
+Z
+solve(Z)  # inverse of a square matrix (if it is invertible)
+solve(Z) %*% Z
+diag(3)
+all.equal(solve(Z) %*% Z, diag(3))
+
+X <- matrix(1:6, 2, 3)
+X
+dim(X)
+rowSums(X)
+colSums(X)
+rowMeans(X)
+colMeans(X)
+
+diag(Z)  # extract the diagonal of a matrix
+diag(1:5)  # create a matrix with specified elements on the diagonal
+diag(5)
+
+a_vec <- c(1, 2, 3)
+b_vec <- c(2, 2, 2)
+c(is.vector(a_vec), is.vector(b_vec))
+c(is.matrix(a_vec), is.matrix(b_vec))
+
+a_vec %*% b_vec  # inner product
+a_vec %o% b_vec  # outer product
+
+as.matrix(a_vec)
+as.matrix(a_vec) %*% b_vec
+as.matrix(a_vec) %*% as.matrix(b_vec)
+
+crossprod(a_vec, b_vec)
+tcrossprod(a_vec, b_vec)
+
+C_mat <- matrix(c(1, 2, 3, 4, 5, 6), 2, 3)
+D_mat <- matrix(c(2, 2, 2, 2, 2, 2), 2, 3)
+C_mat
+D_mat
+
+crossprod(C_mat, D_mat)
+t(C_mat) %*% D_mat
+all.equal(crossprod(C_mat, D_mat), t(C_mat) %*% D_mat)
+
+crossprod(C_mat, C_mat)
+t(C_mat) %*% C_mat
+all.equal(crossprod(C_mat, C_mat), t(C_mat) %*% C_mat)
+
+### 3.2.6. LISTS ----------------------------------------------------------
+
 
