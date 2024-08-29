@@ -284,4 +284,205 @@ all.equal(crossprod(C_mat, C_mat), t(C_mat) %*% C_mat)
 
 ### 3.2.6. LISTS ----------------------------------------------------------
 
+list(42, "Hello", TRUE)
+
+ex_list <- list(
+  a = c(1, 2, 3, 4),
+  b = TRUE,
+  c = "Hello!",
+  d = function(arg = 42) {print("Hello World!")},
+  e = diag(5)
+)
+
+ex_list$e
+ex_list[1:2]
+ex_list[1]
+ex_list[[1]]
+ex_list[c("e", "a")]
+ex_list["e"]
+ex_list[["e"]]
+ex_list$d
+ex_list$d(arg = 1)
+
+### 3.2.7. DATA FRAMES ----------------------------------------------------
+
+example_data <- data.frame(x = c(1, 3, 5, 7, 9, 1, 3, 5, 7, 9),
+                           y = c(rep("Hello", 9), "Goodbye"),
+                           z = rep(c(TRUE, FALSE), 5))
+example_data
+
+example_data$x
+
+all.equal(length(example_data$x),
+          length(example_data$y),
+          length(example_data$z))
+
+str(example_data)
+nrow(example_data)
+ncol(example_data)
+dim(example_data)
+
+example_data_from_csv <- readr::read_csv("APPLIED_STATISTICS_WITH_R/example-data.csv")
+example_data_from_csv
+
+example_data <- tibble::as_tibble(example_data)
+example_data
+
+library(ggplot2)
+
+head(mpg, n = 10)
+mpg
+str(mpg)
+?mpg
+names(mpg)
+mpg$year
+mpg$hwy
+dim(mpg)
+nrow(mpg)
+ncol(mpg)
+
+mpg[mpg$hwy > 35, c("manufacturer", "model", "year")]
+subset(mpg, subset = hwy > 35, select = c("manufacturer", "model", "year"))
+
+library(dplyr)
+mpg |> filter(hwy > 35) |> select(manufacturer, model, year)
+
+## 3.3. PROGRAMMING BASICS ------------------------------------------------
+
+### 3.3.1. CONTROL FLOW ---------------------------------------------------
+
+x <- 1
+y <- 3
+
+if (x > y) {
+  z = x * y
+  print("x is larger than y")
+} else {
+  z = x + 5 * y
+  print("x is less than or equal to y")
+}
+
+z
+
+ifelse(4 > 3, 1, 0)
+
+fib <- c(1, 1, 2, 3, 5, 8, 13, 21)
+ifelse(fib > 6, "Foo", "Bar")
+
+x <- 11:15
+for (i in 1:5) {
+  x[i] = x[i] * 2
+}
+x
+
+### 3.3.2. FUNCTIONS ------------------------------------------------------
+
+standardize <- function(x) {
+  m = mean(x)
+  std = sd(x)
+  result = (x - m) / std
+  result
+}
+
+(test_sample <- rnorm(n = 10, mean = 2, sd = 5))
+standardize(x = test_sample)
+
+standardize <- function(x) {
+  (x - mean(x)) / sd(x)
+}
+standardize(test_sample)
+
+power_of_sum <- function(num, power = 2) {
+  num ^ power
+}
+
+power_of_sum(10)
+power_of_sum(10, 2)
+power_of_sum(num = 10, power = 2)
+power_of_sum(2, 10)
+power_of_sum(power = 5)
+
+get_var <- function(x, biased = FALSE) {
+  n = length(x) - 1 * !biased
+  (1 / n) * sum((x - mean(x))^2)
+}
+
+get_var(test_sample)
+get_var(test_sample, biased = FALSE)
+var(test_sample)
+get_var(test_sample, biased = TRUE)
+
+# 4. SUMMARIZING DATA -----------------------------------------------------
+
+## 4.1. SUMMARY STATISTICS ------------------------------------------------
+
+library(ggplot2)
+
+# Central tendency
+mean(mpg$cty)
+median(mpg$cty)
+
+# Spread
+var(mpg$cty)
+sd(mpg$cty)
+IQR(mpg$cty)
+min(mpg$cty)
+max(mpg$cty)
+range(mpg$cty)
+
+# Categorical
+table(mpg$drv)
+table(mpg$drv) / nrow(mpg)
+
+## 4.2. PLOTTING ----------------------------------------------------------
+
+### 4.2.1. HISTOGRAMS -----------------------------------------------------
+
+hist(mpg$cty)
+hist(mpg$cty,
+     xlab = "Miles Per Gallon (City)",
+     main = "Histogram of MPG (City)",
+     breaks = 12,
+     col = "dodgerblue",
+     border = "darkorange")
+
+### 4.2.2. BARPLOTS -------------------------------------------------------
+
+barplot(table(mpg$drv))
+barplot(table(mpg$drv),
+        xlab = "Drivetrain (f = FWD, r = RWD, 4 = 4WD)",
+        ylab = "Frequency",
+        main = "Drivetrains",
+        col = "dodgerblue",
+        border = "darkorange")
+
+### 4.2.3. BOXPLOTS -------------------------------------------------------
+
+unique(mpg$drv)
+boxplot(mpg$hwy)
+boxplot(hwy ~ drv, data = mpg)
+boxplot(hwy ~ drv, data = mpg,
+        xlab = "Drivetrain (f = FWD, r = RWD, 4 = 4WD)",
+        ylab = "Miles Per Gallon (Highway)",
+        main = "MPG (Highway) vs Drivetrain",
+        pch = 20,
+        cex = 2,
+        col = "darkorange",
+        border = "dodgerblue")
+
+### 4.2.4. SCATTERPLOTS ---------------------------------------------------
+
+plot(hwy ~ displ, data = mpg)
+plot(hwy ~ displ, data = mpg,
+     xlab = "Engine Displacement (in Liters)",
+     ylab = "Miles Per Gallon (Highway)",
+     main = "MPG (Highway) vs Engine Displacement",
+     pch = 20,
+     cex = 2,
+     col = "dodgerblue")
+
+# 5. PROBABILITY AND STATISTICS IN R --------------------------------------
+
+## 5.1. PROBABILITY IN R --------------------------------------------------
+
 
