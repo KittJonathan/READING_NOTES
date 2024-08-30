@@ -485,4 +485,49 @@ plot(hwy ~ displ, data = mpg,
 
 ## 5.1. PROBABILITY IN R --------------------------------------------------
 
+# dname calculates density (pdf = probability density function) at input x
+# pname calculates density (cdf = cumulative density function) at input x
+# qname calculates the quantile at an input probability
+# rname generates a random draw from a particular distribution
+
+# name = "norm", "binom", "t", "pois", "f", "chisq"
+
+dnorm(x = 3, mean = 2, sd = 5)
+pnorm(q = 3, mean = 2, sd = 5)
+qnorm(p = 0.975, mean = 2, sd = 5)
+rnorm(n = 10, mean = 2, sd = 5)
+
+dbinom(x = 6, size = 10, prob = 0.75)
+
+## 5.2. HYPOTHESIS TESTS IN R ---------------------------------------------
+
+### 5.2.1. ONE SAMPLE T-TEST ----------------------------------------------
+
+capt_crisp <- data.frame(weight = c(15.5, 16.2, 16.1, 15.8, 15.6,
+                                    16.0, 15.8, 15.9, 16.2))
+
+x_bar <- mean(capt_crisp$weight)                         
+s <- sd(capt_crisp$weight)
+mu_0 <- 16
+n <- 9
+
+t <- (x_bar - mu_0) / (s / sqrt(n))
+t
+pt(t, df = n - 1)
+
+t.test(x = capt_crisp$weight, mu = 16, alternative = "less",
+       conf.level = 0.95)
+
+capt_test_results <- t.test(capt_crisp$weight, mu = 16,
+                            alternative = "two.sided", conf.level = 0.95)
+names(capt_test_results)
+
+capt_test_results$conf.int
+qt(0.975, df = 8)
+
+c(mean(capt_crisp$weight) - qt(0.975, df = 8) * sd(capt_crisp$weight) / sqrt(9),
+  mean(capt_crisp$weight) + qt(0.975, df = 8) * sd(capt_crisp$weight) / sqrt(9))
+
+# 5.2.2. TWO SAMPLE T-TEST ------------------------------------------------
+
 
