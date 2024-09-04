@@ -181,4 +181,31 @@ log7(5)
 
 # 5. R PACKAGES -----------------------------------------------------------
 
+## 5.1. WHAT ARE R PACKAGES? ----------------------------------------------
+
+# Standard (base) R packages
+# Add-on packages (CRAN, Github, Bioconductor)
+
+## 5.2. PACKAGE INSTALLATION ----------------------------------------------
+
+# install.packages("rstatix")
+# install.packages(c("rstatix", "dplyr", "ggplot2"))
+
+# 5.3. PACKAGE LOADING ----------------------------------------------------
+
+library(rstatix)
+
+rstatix::t_test
+
+## 5.4. THE {TIDYVERSE} PACKAGE -------------------------------------------
+
+library(tidyverse)
+
+## 5.5. THE {HERE} PACKAGE ------------------------------------------------
+
+# library(readxl)
+# dat <- read_excel(here("data", "covid19.xlsx"))
+
+# 6. R OBJECTS ------------------------------------------------------------
+
 
