@@ -215,6 +215,39 @@ attributes(iris)
 
 ## 6.2. NAMED STORAGE OF OBJECTS ------------------------------------------
 
+x <- 1/40
+x
+(x <- 1/40)
+log(x)
 
+x = 1/40
+x
 
+1/40 -> x
+x
+
+## 6.3. REASSIGNING AN OBJECT ---------------------------------------------
+
+x
+x <- 100
+x
+x <- x + 1
+x
+
+## 6.4. LEGAL OBJECT NAMES ------------------------------------------------
+
+??make.names
+??clean_names
+
+Y <- 50
+Y
+y
+
+## 6.5. WE ARE NOT LIMITED TO STORE NUMBERS IN OBJECTS --------------------
+
+sentence <- "the cat sat on the mat"
+sentence
+sentence + 1
+
+# 7. ATOMIC VECTORS -------------------------------------------------------
 
