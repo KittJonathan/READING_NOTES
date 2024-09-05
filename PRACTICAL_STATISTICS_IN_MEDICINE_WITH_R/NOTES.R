@@ -210,5 +210,11 @@ library(tidyverse)
 
 ## 6.1. WHAT ARE THE OBJECTS IN R -----------------------------------------
 
+class(iris); dim(iris)
+attributes(iris)
+
+## 6.2. NAMED STORAGE OF OBJECTS ------------------------------------------
+
+
 
 
