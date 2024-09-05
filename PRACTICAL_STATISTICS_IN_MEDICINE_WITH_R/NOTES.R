@@ -251,3 +251,84 @@ sentence + 1
 
 # 7. ATOMIC VECTORS -------------------------------------------------------
 
+## 7.1. INTRODUCTION TO VECTORS IN R --------------------------------------
+
+## 7.2. ATOMIC VECTORS ----------------------------------------------------
+
+### 7.2.1. ONE-ELEMENT VECTORS --------------------------------------------
+
+oev_a <- TRUE
+oev_a
+
+oev_b <- FALSE
+oev_b
+
+oev_c <- T
+oev_c
+
+oev_d <- F
+oev_d
+
+oev_e <- 3L
+oev_e
+
+oev_f <- 100L
+oev_f
+
+oev_g <- 0.000017
+oev_g
+
+oev_scientific <- 1.7e-05
+oev_scientific
+
+oev_h <- "hello"
+oev_h
+
+oev_i <- 'Covid-19'
+oev_i
+
+oev_j <- "I love data analysis"
+oev_j
+
+h <- "1"
+k <- "2"
+h + k
+
+# 7.2.2. LONGER ATOMIC VECTORS --------------------------------------------
+
+1:5
+x_seq <- 1:5
+x_seq
+typeof(x_seq)
+length(x_seq)
+
+5:1
+2.5:8.5
+-3:4
+
+seq(1, 5)
+
+c(2, 4.5, -1)
+c(TRUE, FALSE, TRUE, FALSE)
+c(T, F, T, F)
+c("male", "female", "male", "female")
+
+y_seq <- 3:7
+c(y_seq, 2, 4.5, -1)
+
+rep(1:4, times = 5)
+rep(c(0, 4, 7), times = 3)
+rep(c("a", "b", "c"), times = 2)
+
+rep(1:4, each = 5)
+rep(c(0, 4, 7), each = 3)
+rep(c("a", "b", "c"), each = 2)
+
+LETTERS
+letters
+month.name
+month.abb
+
+## 7.3. MIXING THINGS IN A VECTOR - COERCION ------------------------------
+
+
