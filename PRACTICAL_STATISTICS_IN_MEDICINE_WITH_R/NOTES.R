@@ -331,4 +331,104 @@ month.abb
 
 ## 7.3. MIXING THINGS IN A VECTOR - COERCION ------------------------------
 
+### 7.3.1. IMPLICIT COERCION ----------------------------------------------
+
+my_vector <- c(1, 4, "hello", TRUE)
+my_vector
+
+# The hierarchy for coercion is: logical < integer < numeric < character
+
+a <- c(10.5, 3.2, "I am a character string")
+a
+typeof(a)
+
+b <- c(TRUE, FALSE, "Hello")
+b
+typeof(b)
+
+d <- c(FALSE, TRUE, 2)
+d
+typeof(d)
+
+num_TF <- c(4, FALSE, TRUE, 2, -1, TRUE, FALSE, 0)
+num_TF
+sum(num_TF)
+mean(num_TF)
+
+### 7.3.2. EXPLICIT COERCION ----------------------------------------------
+
+f <- 1:5
+g <- as.character(f)
+g
+as.numeric(g)
+
+q <- c("1", "2", "3", "d", "5")
+as.numeric(q)
+
+x_abcde <- c("a", "b", "c", "d", "e")
+as.numeric(x_abcde)
+
+## 7.4. OPERATORS APPLIED BETWEEN TWO VECTORS -----------------------------
+
+### 7.4.1. ARITHMETIC OPERATORS -------------------------------------------
+
+v <- c(1, 2, 3)
+v + 3
+v * 3
+
+v <- c(1, 2, 3)
+t <- c(8, 3, 2)
+t + v
+t * v
+t^v
+t + 3 * v / 2
+
+(1:5) * 2
+2^(1:5)
+
+z_seq <- 3:9
+sqrt(z_seq)
+round(sqrt(z_seq), digits = 2)
+
+### 7.4.2. DOT (INNER) PRODUCT OPERATOR -----------------------------------
+
+v %*% t
+
+### 7.4.3. RELATIONAL OPERATORS -------------------------------------------
+
+m <- c(4, 2, 3, 8)
+m > 3
+m >= 3
+m == 3
+m != 3
+
+w <- c(2, 5.5, 6, 9)
+z <- c(8, 2.5, 14, 9)
+
+w > z
+w == z
+w >= z
+w != z
+
+### 7.4.4. LOGICAL OPERATORS APPLIED TO VECTORS ---------------------------
+
+s <- c(1, 0, -1, 0, TRUE, TRUE, FALSE)
+s
+
+u <- c(2, 0, -2, 2, TRUE, FALSE, FALSE)
+u
+
+s & u
+s[1] && u[1]
+s && u
+
+s | u
+s[1] || u[1]
+s || u
+
+!s
+!u
+
+## 7.5. STATISTICAL FUNCTIONS APPLIED TO VECTORS --------------------------
+
 
