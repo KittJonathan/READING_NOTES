@@ -431,4 +431,71 @@ s || u
 
 ## 7.5. STATISTICAL FUNCTIONS APPLIED TO VECTORS --------------------------
 
+v_seq <- 5:10
+v_seq
+
+sum(v_seq)
+mean(v_seq)
+median(v_seq)
+sd(v_seq)
+range(v_seq)
+
+v_seq2 <- c(v_seq, NA)
+typeof(v_seq2)
+mean(v_seq2)
+mean(v_seq2, na.rm = TRUE)
+
+## 7.6. SUBSETTING VECTORS ------------------------------------------------
+
+month.name
+
+### 7.6.1. SELECTING ELEMENTS BY INDEXING POSITION -------------------------
+
+month.name[3]
+month.name[3:5]
+month.name[c(3, 4, 5)]
+month.name[5:3]
+month.name[c(1, 2, 3, 3, 4)]
+month.name[10:15]
+
+month.name[-3]
+month.name[c(-3, -7)]
+month.name[-c(3, 7)]
+
+month.name[-1:5]
+-(1:5)
+month.name[-(1:5)]
+
+### 7.6.2. SELECTING ELEMENTS USING BOOLEAN INDICES (T/F) -----------------
+
+fourmonths <- month.name[c(TRUE, TRUE, TRUE, TRUE, FALSE, FALSE,
+                           FALSE, FALSE, FALSE, FALSE, FALSE, FALSE)]
+fourmonths
+
+fourmonths[c(TRUE, TRUE, FALSE, TRUE)]
+
+### 7.6.3. SELECTING ELEMENTS BY INDEXING NAMES ---------------------------
+
+# Define a vector of month names
+nm <- c("month_1", "month_2", "month_3", "month_4")
+
+# Assign names to the elements of the 'fourmonths' vector using setNames()
+fourmonths2 <- setNames(fourmonths, nm)
+
+# Select elements with names "month_1", "month_2", and "month_4"
+fourmonths2[c("month_1", "month_2", "month_4")]
+
+## 7.7. VECTOR RECYCLING --------------------------------------------------
+
+fourmonths
+fourmonths[c(TRUE, FALSE)]
+fourmonths[c(TRUE, FALSE, TRUE, FALSE)]
+
+c(3, 2, 7) + c(6, 4, 0, 5, 8, 6)
+c(3, 2, 7, 3, 2, 7) + c(6, 4, 0, 5, 8, 6)
+
+c(3, 2, 7) + c(6, 4, 0, 5, 8)
+
+# 8. MATRICES AND ARRAYS --------------------------------------------------
+
 
