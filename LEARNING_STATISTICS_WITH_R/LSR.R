@@ -8,44 +8,38 @@
 # LOAD PACKAGES -----------------------------------------------------------
 
 library(tidyverse)
+library(lsr)
 
-# INTRODUCTION TO DATA ----------------------------------------------------
+# WORKING WITH DATA -------------------------------------------------------
 
-## 1. HELLO DATA ----------------------------------------------------------
+## 5 DESCRIPTIVE STATISTICS -----------------------------------------------
 
-### 1.1 CASE STUDY: USING STENTS TO PREVENT STROKES -----------------------
+load("LEARNING_STATISTICS_WITH_R/DATA/aflsmall.Rdata")
+who()
 
-stent30_count <- stent30 |> 
-  mutate(time = "30 days", .before = group) |> 
-  count(time, group, outcome)
+print(afl.margins)
+hist(afl.margins)
 
-stent365_count <- stent365 |> 
-  mutate(time = "365 days", .before = group) |> 
-  count(time, group, outcome)
+### 5.1 MEASURES OF CENTRAL TENDENCY --------------------------------------
 
-stent30_count |> 
-  bind_rows(stent365_count) |> 
-  pivot_wider(id_cols = c(time, group),
-              names_from = outcome,
-              values_from = n)
+# MEAN
 
-45/224
-28/(199+28)
+(56 + 31 + 56 + 8 + 32) / 5
 
-### 1.2 DATA BASICS -------------------------------------------------------
+sum(afl.margins)
 
-head(loan50)
+sum(afl.margins[1:5])
 
-loan50 |> 
-  select(loan_amount, interest_rate, term, grade,
-         state, total_income, homeownership) |> 
-  head()
+sum(afl.margins[1:5]) / 5
 
-head(county)
+mean(x = afl.margins)
 
-county |> 
-  select(unemployment_rate, pop2017, state, median_edu) |> 
-  glimpse()
+mean(afl.margins[1:5])
 
-county |> 
-  distinct(state)
+# MEDIAN
+
+sort(x = afl.margins)
+
+(sort(x = afl.margins)[88] + sort(x = afl.margins)[89]) / 2
+
+median(x = afl.margins)
