@@ -1,12 +1,13 @@
-# INTRODUCTION TO MODERN STATISTICS
-# MINE CETINKAYA-RUNDEL & JOHANNA HARDIN
-# https://openintro-ims.netlify.app/
+# LEARNING STATISTICS WITH R
+# A TUTORIAL FOR PSYCHOLOGY STUDENTS AND OTHER BEGINNERS
+# VERSION 0.6
+# DANIELLE NAVARRO
+# https://learningstatisticswithr.com/lsr-0.6.pdf
 # STARTED READING : 2024-10-03
 
 # LOAD PACKAGES -----------------------------------------------------------
 
 library(tidyverse)
-library(openintro)
 
 # INTRODUCTION TO DATA ----------------------------------------------------
 
